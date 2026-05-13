@@ -1,10 +1,11 @@
-import { useState } from 'react'
+// App.jsx
+import { BrowserRouter } from 'react-router-dom';
+import AppRouter from '@/app/router';
 
-function App() {
+export default function App() {
   return (
-    <>
-    </>
-  )
+    <BrowserRouter>
+      <AppRouter />
+    </BrowserRouter>
+  );
 }
-
-export default App
