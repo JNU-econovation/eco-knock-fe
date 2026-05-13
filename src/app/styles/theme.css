@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  /* -- 색상 -- */
+  --color-primary:       #2A71F4;   /* 메인 블루 */
+  --color-primary-light: #E1EBFF;   /* 연한 블루 */
+  --color-primary-dark:  #2254B0;   /* 어두운 블루 */
+  --color-bg:            #F5F6F7;   /* 앱 전체 배경 (연한 블루그레이) */
+  --color-surface:       #FAFAFB;   /* 카드 배경 (흰색 대체) */
+  --color-border:        #D1D5DB;   /* 보더 */
+  --color-normal:        #222427;   /* 검정 대체 */
+  --color-subtle-1:      #61646B;   /* 보조텍스트1 */
+  --color-text-sub:      #AFB1B6;   /* 보조 텍스트2, 더 밝게 */
+
+  /* -- 타이포 -- */
+  --font-sans: "Work Sans", sans-serif;
+
+  /* Display */
+  /* 굵기 폰트크기/line height*/
+  --display-medium: 400 48px/56px var(--font-sans);
+  --display-medium-spacing: 0px;
+
+  --display-small: 400 40px/48px var(--font-sans);
+  --display-small-spacing: 0px;
+
+  /* Headline */
+  --headline-large: 400 32px/40px var(--font-sans);
+  --headline-large-spacing: 0px;
+
+  --headline-medium: 400 28px/36px var(--font-sans);
+  --headline-medium-spacing: 0px;
+
+  --headline-small: 400 24px/32px var(--font-sans);
+  --headline-small-spacing: 0px;
+
+  /* Body */
+  --body-large: 400 16px/24px var(--font-sans);
+  --body-large-spacing: 0px;
+
+  --body-medium: 400 14px/20px var(--font-sans);
+  --body-medium-spacing: 0.08px;
+
+  --body-small: 400 12px/16px var(--font-sans);
+  --body-small-spacing: 0.2px;
+
+  --body-smallsmall: 400 10px/16px var(--font-sans);
+  --body-smallsmall-spacing: 0px;
+
+  /* Label */
+  --label-large: 500 16px/24px var(--font-sans);
+  --label-large-spacing: 0.2px;
+
+  --label-medium: 500 14px/20px var(--font-sans);
+  --label-medium-spacing: 0.4px;
+
+
+  /* -- 반응형 최대 너비 -- */
+  --max-width: 430px;
+}
+
+/* 전역 리셋 */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: #FFFF; /* 앱 바깥 배경 */
+  display: flex;
+  justify-content: center;
+}
+
+#root {
+  width: 100%;
+  max-width: var(--max-width);
+  background: var(--color-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+button {
+  font-family: inherit;
+}
