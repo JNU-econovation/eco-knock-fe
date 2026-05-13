@@ -1,0 +1,19 @@
+/* pages/CollectionPage.css */
+
+.collection-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100%;
+  background-color: var(--color-bg);
+}
+
+/* 로고 */
+.collection-page__logo {
+  align-self: flex-start;
+  font: var(--display-small); 
+  color: var(--color-primary-dark);
+  font-weight: bold; 
+  letter-spacing: var(--display-small-spacing);
+  margin: 99px 0px 33px 63px;
+}
