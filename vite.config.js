@@ -32,7 +32,7 @@ export default defineConfig({
   ],
   resolve: {                    // 절대경로 alias 설정
     alias: {
-      '@': path.resolve(__dirname, './src'),
-    }
+      '@': '/src',
+    },
   },
 })
