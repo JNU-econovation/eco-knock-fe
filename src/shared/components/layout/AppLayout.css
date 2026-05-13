@@ -1,0 +1,13 @@
+/* shared/components/layout/AppLayout.css */
+
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background-color: var(--color-bg);
+}
+
+.app-layout__main {
+  flex: 1;
+  overflow-y: auto;
+}
