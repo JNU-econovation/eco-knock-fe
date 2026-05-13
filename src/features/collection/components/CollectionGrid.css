@@ -1,0 +1,110 @@
+/* ── 모아두기 래퍼 (default) ── */
+.collection-grid__wrapper {
+  width: 329px;
+  background: var(--color-surface);
+  border-radius: 20px;
+  margin: 0px 32px;
+  padding: 20px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25), 1px 1px 5px 2px rgba(34, 84, 176, 0.10);
+}
+
+/* ── 헤더 ── */
+.collection-grid__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.collection-grid__title {
+  font: var(--body-medium); 
+  color: var(--color-primary-dark);
+  font-weight: bold; 
+  letter-spacing: var(--body-medium-spacing);
+}
+
+.collection-grid__header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.collection-grid__icon-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: var(--color-primary-dark);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.collection-grid__icon-btn:hover,
+.collection-grid__icon-btn.active {
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+/* ── 그리드 ── */
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+/* ── 셀 ── */
+.collection-grid__cell {
+  position: relative;
+}
+
+/* 흔들흔들 */
+.collection-grid__cell.edit-mode {
+  animation: wiggle 0.4s ease infinite alternate;
+}
+
+@keyframes wiggle {
+  from { transform: rotate(-1deg); }
+  to   { transform: rotate(1deg); }
+}
+
+/* ── 편집 모드 삭제 버튼 ── */
+.collection-grid__remove-btn {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ff4d4f;
+  color: #fff;
+  border: none;
+  font-size: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+/* ── 추가 버튼 ── */
+.collection-grid__add-btn {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  background: var(--color-bg);
+  border: 2px dashed var(--color-border);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-sub);
+  font-size: 22px;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.collection-grid__add-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}

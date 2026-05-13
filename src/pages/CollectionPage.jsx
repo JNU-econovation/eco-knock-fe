@@ -1,4 +1,5 @@
 // pages/CollectionPage.jsx
+import CollectionGrid from '@/features/collection/components/CollectionGrid';
 import './CollectionPage.css';
 
 const CollectionPage = () => {
@@ -7,7 +8,8 @@ const CollectionPage = () => {
       {/* 로고 */}
       <h1 className="collection-page__logo">ECO-KNOCK</h1>
 
-      {/* 바로가기 컬렉션 그리드 넣기!! */}
+      {/* 바로가기 컬렉션 그리드 */}
+      <CollectionGrid />
     </div>
   );
 };
