@@ -15,6 +15,11 @@ export default function AppRouter() {
       <Route element={<AppLayout />}>
         <Route path={ROUTES.HOME}         element={<CollectionPage />} />
         <Route path={ROUTES.COLLECTION}   element={<CollectionPage />} />
+        <Route path={ROUTES.ROOM}   element={<CollectionPage />} />
+        <Route path={ROUTES.RECRUIT}   element={<CollectionPage />} />
+        <Route path={ROUTES.MYPAGE}   element={<CollectionPage />} />
+        <Route path={ROUTES.CHAT}   element={<CollectionPage />} />
+        <Route path={ROUTES.COIN}   element={<CollectionPage />} />
       </Route>
     </Routes>
   );
