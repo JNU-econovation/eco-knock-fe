@@ -1,4 +1,4 @@
-// shared/config/routes.js
+// shared/constants/routes.js
 
 export const ROUTES = {
   HOME:       '/',
