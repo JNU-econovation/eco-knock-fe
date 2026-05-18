@@ -1,6 +1,6 @@
 // app/router/index.jsx
 import { Routes, Route } from 'react-router-dom';
-import { ROUTES } from '@/shared/config/routes';
+import { ROUTES } from '@/shared/constants/routes';
 
 // pages에서 각 페이지 컴포넌트 import
 import CollectionPage  from '@/pages/CollectionPage';
