@@ -1,15 +1,38 @@
 // features/collection/components/CollectionItem.jsx
+import { CollectionRemoveIcon } from '@/assets/icons/CollectionPageIcons';
 import './CollectionItem.css';
 
-const CollectionItem = ({ item }) => {
+const CollectionItem = ({
+  item,
+  isEditMode = false,
+  onDragStart,
+  onDrop,
+  onRemove,
+}) => {
   const handleClick = () => {
     // TODO: 각 링크의 URL 연결
     // 예시: window.open(item.url, '_blank')
     window.open(item.url, '_blank', 'noopener,noreferrer');
   };
 
+  const handleDragOver = (event) => {
+    event.preventDefault();
+  };
+
+  const handleRemove = (event) => {
+    event.stopPropagation();
+    onRemove?.();
+  };
+
   return (
-    <div className="collection-item" onClick={handleClick}>
+    <div
+      className={`collection-item ${isEditMode ? 'edit-mode' : ''}`}
+      draggable={isEditMode}
+      onClick={handleClick}
+      onDragStart={onDragStart}
+      onDragOver={handleDragOver}
+      onDrop={onDrop}
+    >
       <div className="collection-item__icon-wrap">
         {item.icon ? (
           <img
@@ -20,14 +43,21 @@ const CollectionItem = ({ item }) => {
         ) : (
           <span >{item.name}</span>
         )}
-        {/* TODO: 바로가기 이미지 없을 때 Chrome이나 Notion처럼 생성되게 할 순 없을까... */}
-        {/* TODO: 3개 열 맞춰서 없는 부분은 비어있는 empty 이용하기 */}
       </div>
       <span className="collection-item__name">{item.name}</span>
+
+      {isEditMode && (
+        <button
+          className="collection-item__remove-btn"
+          type="button"
+          onClick={handleRemove}
+          aria-label={`${item.name} 삭제`}
+        >
+          <CollectionRemoveIcon />
+        </button>
+      )}
     </div>
   );
 };
 
 export default CollectionItem;
-
-// 아이콘 없을 때 빈 상태 -> <div className="collection-item__icon-empty" />

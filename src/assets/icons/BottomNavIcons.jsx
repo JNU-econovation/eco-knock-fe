@@ -1,4 +1,4 @@
-// assets/icons/BottomNavIcons.js
+// assets/icons/BottomNavIcons.jsx
 
 // -- 모아두기 페이지용 그리드 아이콘
 export const CollectionOutlineIcon = () => (
