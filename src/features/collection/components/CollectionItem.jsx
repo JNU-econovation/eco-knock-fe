@@ -52,12 +52,12 @@ const CollectionItem = ({
       onDragOver={handleDragOver}
       onDrop={onDrop}
     >
-      <div className="collection-item__icon-wrap">
-        {item.icon ? (
+      <div className="collection-item__logo-wrap">
+        {item.logo ? (
           <img
-            src={item.icon}
+            src={item.logo}
             alt={item.name}
-            className="collection-item__icon"
+            className="collection-item__logo"
           />
         ) : (
           <span >{item.name}</span>
