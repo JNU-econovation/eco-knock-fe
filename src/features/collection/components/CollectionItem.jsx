@@ -1,5 +1,6 @@
 // features/collection/components/CollectionItem.jsx
 import { CollectionRemoveIcon } from '@/assets/icons/CollectionPageIcons';
+import { useCollectionItemPress } from '../hooks/useCollectionItemPress';
 import './CollectionItem.css';
 
 const CollectionItem = ({
@@ -8,8 +9,22 @@ const CollectionItem = ({
   onDragStart,
   onDrop,
   onRemove,
+  onEnterEditMode,
 }) => {
+  const {
+    isPressing,
+    startPress,
+    endPress,
+    shouldIgnoreClick,
+  } = useCollectionItemPress({
+    isEditMode,
+    onEnterEditMode,
+  });
+
   const handleClick = () => {
+    if (isEditMode) return;
+    if (shouldIgnoreClick()) return;
+
     // TODO: 각 링크의 URL 연결
     // 예시: window.open(item.url, '_blank')
     window.open(item.url, '_blank', 'noopener,noreferrer');
@@ -26,9 +41,13 @@ const CollectionItem = ({
 
   return (
     <div
-      className={`collection-item ${isEditMode ? 'edit-mode' : ''}`}
+      className={`collection-item ${isEditMode ? 'edit-mode' : ''} ${isPressing ? 'pressing' : ''}`}
       draggable={isEditMode}
       onClick={handleClick}
+      onPointerDown={startPress}
+      onPointerUp={endPress}
+      onPointerLeave={endPress}
+      onPointerCancel={endPress}
       onDragStart={onDragStart}
       onDragOver={handleDragOver}
       onDrop={onDrop}

@@ -13,6 +13,7 @@ const CollectionGrid = () => {
     items,
     isEditMode,
     toggleEditMode,
+    enterEditMode,
     startDrag,
     dropItem,
     removeItem,
@@ -54,6 +55,7 @@ const CollectionGrid = () => {
             onDragStart={() => startDrag(item.id)}
             onDrop={() => dropItem(item.id)}
             onRemove={() => removeItem(item.id)}
+            onEnterEditMode={enterEditMode}
           />
         ))}
 
