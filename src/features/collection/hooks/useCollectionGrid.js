@@ -1,5 +1,5 @@
 // features/collection/hooks/useCollectionGrid.js
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { DEFAULT_COLLECTION_ITEMS } from '../constants/collectionItems';
 import { removeItemById, reorderItemsById } from '../utils/collectionGrid';
 
@@ -12,7 +12,9 @@ const EDIT_MODE_CONTROL_SELECTOR = [
 export const useCollectionGrid = (initialItems = DEFAULT_COLLECTION_ITEMS) => {
   const [items, setItems] = useState(initialItems);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [dragId, setDragId] = useState(null);
+  
+  const dragIdRef = useRef(null);
+
 
   const toggleEditMode = () => {
     setIsEditMode((prev) => !prev);
@@ -27,17 +29,18 @@ export const useCollectionGrid = (initialItems = DEFAULT_COLLECTION_ITEMS) => {
   };
 
   const startDrag = (itemId) => {
-    setDragId(itemId);
+    dragIdRef.current = itemId;
   };
 
   const dropItem = (targetId) => {
-    setItems((prev) => reorderItemsById(prev, dragId, targetId));
-    setDragId(null);
+    setItems((prev) => reorderItemsById(prev, dragIdRef.current, targetId));
+    dragIdRef.current = null;
   };
 
   const removeItem = (itemId) => {
     setItems((prev) => removeItemById(prev, itemId));
   };
+
 
   const changeGridLayout = () => {
     // TODO: 그리드 모양 변경 로직 추가
