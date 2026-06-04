@@ -81,7 +81,6 @@ body {
   max-width: var(--max-width);
   background: var(--color-bg);
   position: relative;
-  overflow: hidden;
 }
 
 button {
