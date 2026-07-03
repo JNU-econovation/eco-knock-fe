@@ -12,6 +12,7 @@ const EDIT_MODE_CONTROL_SELECTOR = [
 export const useCollectionGrid = (initialItems = DEFAULT_COLLECTION_ITEMS) => {
   const [items, setItems] = useState(initialItems);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [pendingRemoveItem, setPendingRemoveItem] = useState(null);
   
   const dragIdRef = useRef(null);
 
@@ -37,8 +38,21 @@ export const useCollectionGrid = (initialItems = DEFAULT_COLLECTION_ITEMS) => {
     dragIdRef.current = null;
   };
 
-  const removeItem = (itemId) => {
-    setItems((prev) => removeItemById(prev, itemId));
+  const requestRemoveItem = (item) => {
+    setPendingRemoveItem(item);
+  };
+
+  const cancelRemoveItem = () => {
+    setPendingRemoveItem(null);
+  };
+
+  const confirmRemoveItem = () => {
+    if (!pendingRemoveItem) return;
+
+    // TODO - 백엔드 연동 필요: 삭제 API 호출 및 성공 응답 후에만 확정 삭제
+    // TODO - 삭제 API 오류 발생 시 에러 안내 모달 필요
+    setItems((prev) => removeItemById(prev, pendingRemoveItem.id));
+    setPendingRemoveItem(null);
   };
 
 
@@ -72,11 +86,14 @@ export const useCollectionGrid = (initialItems = DEFAULT_COLLECTION_ITEMS) => {
   return {
     items,
     isEditMode,
+    pendingRemoveItem,
     toggleEditMode,
     enterEditMode,
     startDrag,
     dropItem,
-    removeItem,
+    requestRemoveItem,
+    cancelRemoveItem,
+    confirmRemoveItem,
     changeGridLayout,
     addItem,
   };

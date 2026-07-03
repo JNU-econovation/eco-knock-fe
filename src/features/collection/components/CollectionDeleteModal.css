@@ -1,0 +1,59 @@
+.collection-delete-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.collection-delete-modal {
+  display: flex;
+  width: 261px;
+  height: 190px;
+  padding: 20px 18px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  border-radius: 20px;
+  background: var(--color-surface);
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25), 1px 1px 5px 2px rgba(34, 84, 176, 0.10);
+  opacity: 0.87;
+}
+
+.collection-delete-modal__message {
+  color: #000;
+  font: var(--body-medium);
+  letter-spacing: var(--body-medium-spacing);
+  text-align: center;
+}
+
+.collection-delete-modal__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.collection-delete-modal__button {
+  width: 224px;
+  height: 38px;
+  border: 1px solid var(--color-text-sub);
+  border-radius: 20px;
+  background: var(--color-surface);
+  color: #000;
+  font: var(--body-medium);
+  letter-spacing: var(--body-medium-spacing);
+  text-align: center;
+  cursor: pointer;
+}
+
+.collection-delete-modal__button--delete {
+  color: #ff4d4f;
+}
+
+.collection-delete-modal__button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}

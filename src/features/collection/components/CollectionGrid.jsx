@@ -5,6 +5,7 @@ import {
   CollectionGridIcon,
 } from '@/assets/icons/CollectionPageIcons';
 import { useCollectionGrid } from '../hooks/useCollectionGrid';
+import CollectionDeleteModal from './CollectionDeleteModal';
 import CollectionItem from './CollectionItem';
 import './CollectionGrid.css';
 
@@ -12,11 +13,14 @@ const CollectionGrid = () => {
   const {
     items,
     isEditMode,
+    pendingRemoveItem,
     toggleEditMode,
     enterEditMode,
     startDrag,
     dropItem,
-    removeItem,
+    requestRemoveItem,
+    cancelRemoveItem,
+    confirmRemoveItem,
     changeGridLayout,
     addItem,
   } = useCollectionGrid();
@@ -54,7 +58,7 @@ const CollectionGrid = () => {
             isEditMode={isEditMode}
             onDragStart={() => startDrag(item.id)}
             onDrop={() => dropItem(item.id)}
-            onRemove={() => removeItem(item.id)}
+            onRemove={() => requestRemoveItem(item)}
             onEnterEditMode={enterEditMode}
           />
         ))}
@@ -72,6 +76,14 @@ const CollectionGrid = () => {
           </div>
         )}
       </div>
+
+      {pendingRemoveItem && (
+        <CollectionDeleteModal
+          itemName={pendingRemoveItem.name}
+          onConfirm={confirmRemoveItem}
+          onCancel={cancelRemoveItem}
+        />
+      )}
     </div>
   );
 };
