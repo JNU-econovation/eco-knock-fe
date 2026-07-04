@@ -14,6 +14,7 @@ const CollectionGrid = () => {
     items,
     isEditMode,
     pendingRemoveItem,
+    isRemoving,
     toggleEditMode,
     enterEditMode,
     startDrag,
@@ -80,6 +81,7 @@ const CollectionGrid = () => {
       {pendingRemoveItem && (
         <CollectionDeleteModal
           itemName={pendingRemoveItem.name}
+          isRemoving={isRemoving}
           onConfirm={confirmRemoveItem}
           onCancel={cancelRemoveItem}
         />

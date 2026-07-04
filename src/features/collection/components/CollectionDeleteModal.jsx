@@ -3,6 +3,7 @@ import './CollectionDeleteModal.css';
 
 const CollectionDeleteModal = ({
   itemName,
+  isRemoving,
   onConfirm,
   onCancel,
 }) => {
@@ -12,7 +13,7 @@ const CollectionDeleteModal = ({
     cancelButtonRef.current?.focus();
 
     const handleKeyDown = (event) => {
-      if (event.key === 'Escape') {
+      if (event.key === 'Escape' && !isRemoving) {
         onCancel();
       }
     };
@@ -22,12 +23,18 @@ const CollectionDeleteModal = ({
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [onCancel]);
+  }, [isRemoving, onCancel]);
+
+  const handleBackdropClick = () => {
+    if (!isRemoving) {
+      onCancel();
+    }
+  };
 
   return (
     <div
       className="collection-delete-modal__backdrop"
-      onClick={onCancel}
+      onClick={handleBackdropClick}
     >
       <div
         className="collection-delete-modal"
@@ -50,14 +57,23 @@ const CollectionDeleteModal = ({
             className="collection-delete-modal__button collection-delete-modal__button--delete"
             type="button"
             onClick={onConfirm}
+            disabled={isRemoving}
+            aria-busy={isRemoving}
+            aria-label={isRemoving ? '삭제 중' : undefined}
           >
-            삭제
+            {isRemoving ? (
+              <span
+                className="collection-delete-modal__spinner"
+                aria-hidden="true"
+              />
+            ) : '삭제'}
           </button>
           <button
             ref={cancelButtonRef}
             className="collection-delete-modal__button"
             type="button"
             onClick={onCancel}
+            disabled={isRemoving}
           >
             취소
           </button>
