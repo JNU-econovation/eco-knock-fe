@@ -62,6 +62,17 @@ Typical choices:
 - Current dragged item ID and timeout handle: `useRef`
 - Document-level outside press listener and cleanup: `useEffect`
 
+## Prevent Duplicate Side Effects
+
+Protect asynchronous actions whose duplicate execution can cause side effects, including API requests, form submissions, deletion, and payment.
+
+- Lock the action immediately when the request starts.
+- Keep the visible pending state in rendering state and connect it to the trigger's `disabled` attribute and, when useful, `aria-busy`.
+- Guard inside the event handler as well as disabling the rendered control so repeated events cannot start another request.
+- Release the lock in `finally` when the flow supports retry after either success or failure.
+- Do not apply blanket debouncing or locking to repeat-safe interactions such as toggles, cancellation, navigation, or setting the same state again.
+- Treat client-side locking as protection against accidental repeated input, not as a replacement for server-side idempotency or a confirmed API contract.
+
 ## Structure Interactive Lists
 
 For grid, list, board, or collection-like interfaces:
