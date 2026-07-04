@@ -13,7 +13,9 @@
 - 컬렉션 항목 클릭 시 새 창 열기 동작
 - 길게 누르기 또는 편집 버튼을 통한 편집 모드 진입
 - 편집 모드에서 드래그 앤 드롭 순서 변경
-- 편집 모드에서 항목 삭제
+- 편집 모드에서 삭제 확인 모달을 거치는 UI 전용 항목 삭제
+- 삭제 처리 중 중복 입력 차단, 로딩 표시, 2초 프론트엔드 안전 타임아웃
+- 오류를 순서대로 표시하는 전역 오류 모달
 - 편집 모드 외부 클릭 시 편집 모드 종료
 - Vite PWA 기본 설정
 
@@ -50,7 +52,10 @@ src
 ├─ pages
 └─ shared
    ├─ components
+   │  ├─ error-modal
    │  └─ layout
+   ├─ contexts
+   ├─ hooks
    └─ constants
 
 public
@@ -63,6 +68,7 @@ public
 - `src/App.jsx`: `BrowserRouter`로 앱 라우터를 감쌉니다.
 - `src/app/router/index.jsx`: 현재 라우트와 페이지 연결을 정의합니다.
 - `src/shared/components/layout`: 앱 레이아웃과 하단 내비게이션 컴포넌트를 포함합니다.
+- `src/shared/components/error-modal`: 전역 오류 모달과 오류 큐 Provider를 포함합니다.
 - `src/features/collection`: 모아두기 그리드 UI, 상태 훅, 기본 항목, 순서 변경 유틸을 포함합니다.
 - `src/app/styles/theme.css`: 전역 스타일, 색상 변수, 타이포그래피 변수, 모바일 기준 최대 너비를 정의합니다.
 
@@ -112,3 +118,4 @@ npm run lint
 - 배포 방식은 아직 별도 스크립트나 문서로 확인되지 않았으며, 실제 배포 구성이 추가된 뒤 정리 예정입니다.
 - 부서모집, 마이페이지, ECNV 코인 로그, AI 채팅 페이지는 라우트와 하단 내비게이션 항목만 확인되며, 현재는 별도 페이지 구현 없이 `CollectionPage`로 연결되어 있습니다.
 - 모아두기 항목 추가, 그리드 모양 변경, 실제 URL 연결은 TODO 상태입니다.
+- 모아두기 항목 삭제는 현재 프론트엔드 상태에만 반영됩니다. 비동기 삭제 상태, 2초 안전 타임아웃, 전역 오류 모달은 준비되어 있으며 실제 삭제 API 함수와 `AbortSignal` 전달은 추후 백엔드 명세에 맞춰 연결해야 합니다.

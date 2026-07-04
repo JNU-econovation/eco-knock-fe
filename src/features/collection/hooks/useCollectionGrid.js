@@ -1,7 +1,10 @@
 // features/collection/hooks/useCollectionGrid.js
 import { useEffect, useState, useRef } from 'react';
+import { useErrorModal } from '@/shared/hooks/useErrorModal';
 import { DEFAULT_COLLECTION_ITEMS } from '../constants/collectionItems';
 import { removeItemById, reorderItemsById } from '../utils/collectionGrid';
+
+const REMOVE_REQUEST_TIMEOUT_MS = 2000;
 
 const EDIT_MODE_CONTROL_SELECTOR = [
   '.collection-item',
@@ -9,12 +12,23 @@ const EDIT_MODE_CONTROL_SELECTOR = [
   '.collection-grid__add-btn',
 ].join(', ');
 
-export const useCollectionGrid = (initialItems = DEFAULT_COLLECTION_ITEMS) => {
+const resolveRemoveItemRequest = () => Promise.resolve();
+
+export const useCollectionGrid = (
+  initialItems = DEFAULT_COLLECTION_ITEMS,
+  removeItemRequest = resolveRemoveItemRequest,
+) => {
   const [items, setItems] = useState(initialItems);
   const [isEditMode, setIsEditMode] = useState(false);
-  
-  const dragIdRef = useRef(null);
+  const [pendingRemoveItem, setPendingRemoveItem] = useState(null);
+  const [isRemoving, setIsRemoving] = useState(false);
 
+  const { showError } = useErrorModal();
+  const dragIdRef = useRef(null);
+  const removeRequestLockRef = useRef(false);
+  const removeAbortControllerRef = useRef(null);
+  const removeTimeoutRef = useRef(null);
+  const isMountedRef = useRef(true);
 
   const toggleEditMode = () => {
     setIsEditMode((prev) => !prev);
@@ -37,8 +51,57 @@ export const useCollectionGrid = (initialItems = DEFAULT_COLLECTION_ITEMS) => {
     dragIdRef.current = null;
   };
 
-  const removeItem = (itemId) => {
-    setItems((prev) => removeItemById(prev, itemId));
+  const requestRemoveItem = (item) => {
+    setPendingRemoveItem(item);
+  };
+
+  const cancelRemoveItem = () => {
+    if (removeRequestLockRef.current) return;
+
+    setPendingRemoveItem(null);
+  };
+
+  const confirmRemoveItem = async () => {
+    if (!pendingRemoveItem || removeRequestLockRef.current) return;
+
+    removeRequestLockRef.current = true;
+    setIsRemoving(true);
+
+    const abortController = new AbortController();
+    removeAbortControllerRef.current = abortController;
+
+    try {
+      // TODO - 백엔드 연동 필요: 실제 삭제 API 함수로 교체하고 AbortSignal 전달
+      const removeRequest = removeItemRequest(pendingRemoveItem, {
+        signal: abortController.signal,
+      });
+      const timeoutRequest = new Promise((_, reject) => {
+        removeTimeoutRef.current = window.setTimeout(() => {
+          abortController.abort();
+          reject(new Error('Remove request timed out'));
+        }, REMOVE_REQUEST_TIMEOUT_MS);
+      });
+
+      await Promise.race([removeRequest, timeoutRequest]);
+
+      if (!isMountedRef.current) return;
+
+      setItems((prev) => removeItemById(prev, pendingRemoveItem.id));
+      setPendingRemoveItem(null);
+    } catch {
+      if (isMountedRef.current) {
+        showError();
+      }
+    } finally {
+      window.clearTimeout(removeTimeoutRef.current);
+      removeTimeoutRef.current = null;
+      removeAbortControllerRef.current = null;
+      removeRequestLockRef.current = false;
+
+      if (isMountedRef.current) {
+        setIsRemoving(false);
+      }
+    }
   };
 
 
@@ -52,7 +115,7 @@ export const useCollectionGrid = (initialItems = DEFAULT_COLLECTION_ITEMS) => {
   };
 
   useEffect(() => {
-    if (!isEditMode) return;
+    if (!isEditMode || pendingRemoveItem) return;
 
     const handlePointerDown = (event) => {
       const isInsideEditControl = event.target.closest?.(EDIT_MODE_CONTROL_SELECTOR);
@@ -67,16 +130,30 @@ export const useCollectionGrid = (initialItems = DEFAULT_COLLECTION_ITEMS) => {
     return () => {
       document.removeEventListener('pointerdown', handlePointerDown);
     };
-  }, [isEditMode]);
+  }, [isEditMode, pendingRemoveItem]);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+
+    return () => {
+      isMountedRef.current = false;
+      window.clearTimeout(removeTimeoutRef.current);
+      removeAbortControllerRef.current?.abort();
+    };
+  }, []);
 
   return {
     items,
     isEditMode,
+    pendingRemoveItem,
+    isRemoving,
     toggleEditMode,
     enterEditMode,
     startDrag,
     dropItem,
-    removeItem,
+    requestRemoveItem,
+    cancelRemoveItem,
+    confirmRemoveItem,
     changeGridLayout,
     addItem,
   };

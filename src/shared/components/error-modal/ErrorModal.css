@@ -1,0 +1,48 @@
+.error-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.error-modal {
+  display: flex;
+  width: 261px;
+  min-height: 150px;
+  padding: 24px 18px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  border-radius: 20px;
+  background: var(--color-surface);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25),
+    1px 1px 5px 2px rgba(34, 84, 176, 0.1);
+}
+
+.error-modal__message {
+  color: var(--color-normal);
+  font: var(--body-medium);
+  letter-spacing: var(--body-medium-spacing);
+  text-align: center;
+}
+
+.error-modal__confirm-button {
+  width: 224px;
+  height: 38px;
+  border: 1px solid var(--color-text-sub);
+  border-radius: 20px;
+  background: var(--color-surface);
+  color: var(--color-normal);
+  font: var(--body-medium);
+  letter-spacing: var(--body-medium-spacing);
+  cursor: pointer;
+}
+
+.error-modal__confirm-button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}

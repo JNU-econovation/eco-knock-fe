@@ -20,6 +20,8 @@ Use this skill when creating or editing `README.md` for this frontend repository
 9. Split a not-yet-ready topic into its own README section only after related code, configuration, scripts, or documents are actually added.
 10. Create README table-of-contents items only for sections that contain real, explainable implementation details.
 11. Use the repository name as the first-level README title and as the subject of the opening sentence. For this frontend repository, prefer `# eco-knock-fe` and start the description with `eco-knock-fe`. Treat `ECO-KNOCK` as the app or UI display name only when that is what the code shows.
+12. Inspect actionable TODO comments in implemented user flows. Record unfinished backend integration, user-visible behavior, and error handling under `준비되지 않은 항목` or `추후 정리 예정`.
+13. Do not list minor internal cleanup, implementation notes, or TODO comments that do not materially affect user-visible behavior or integration readiness.
 
 ## Files To Inspect Before Writing
 
@@ -99,6 +101,7 @@ Before documenting a feature, inspect the relevant code in `src`.
 - If mentioning pages that still need implementation, limit them to pages already implied by this repository's route constants or navigation code, such as 부서모집, 마이페이지, ECNV 코인 로그, or AI/챗봇 채팅.
 - Static data or UI-only screens: label them as static, UI-only, mock, or partial as appropriate.
 - Work in progress: prefer `현재 구현 범위` and `준비되지 않은 항목` over confident product language.
+- TODO-backed partial flows: describe what currently works and separately state the backend, success-response, or user-facing error behavior that is still missing.
 
 ## Tests
 

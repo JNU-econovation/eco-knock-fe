@@ -1,6 +1,7 @@
 // shared/components/layout/BottomNavItem.jsx
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
+import { ROUTES } from '@/shared/constants/routes';
 
 export const CLASS_NAMES = {
   prefix: 'bottom-nav',
@@ -27,9 +28,13 @@ const BottomNavItem = ({
 
   isStandalone = false, // 기본으로 false, 채팅 버튼만 true로 적용되게
 }) => {
+  const location = useLocation();
   const typeClassNames = isStandalone
     ? CLASS_NAMES.chat
     : CLASS_NAMES.track;
+  const isCollectionHome =
+    route === ROUTES.COLLECTION &&
+    location.pathname === ROUTES.HOME;
 
   const itemClassName =
     `${CLASS_NAMES.prefix}__${typeClassNames.item}`;
@@ -47,7 +52,7 @@ const BottomNavItem = ({
       to={route}
       className={({ isActive }) =>
         `${itemClassName} ${
-          isActive ? 'active' : ''
+          isActive || isCollectionHome ? 'active' : ''
         }`
       }
     >
@@ -58,7 +63,7 @@ const BottomNavItem = ({
           )}
 
           <span className={iconClassName}>
-            {isActive
+            {isActive || isCollectionHome
               ? <FilledIcon />
               : <OutlineIcon />}
           </span>

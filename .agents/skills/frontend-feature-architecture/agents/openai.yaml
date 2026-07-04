@@ -1,0 +1,4 @@
+interface:
+  display_name: "Frontend Feature Architecture"
+  short_description: "Apply consistent React feature architecture"
+  default_prompt: "Implement or refactor this frontend feature using the repository architecture and responsibility boundaries."
