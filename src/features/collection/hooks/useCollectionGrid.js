@@ -4,7 +4,7 @@ import { useErrorModal } from '@/shared/hooks/useErrorModal';
 import { DEFAULT_COLLECTION_ITEMS } from '../constants/collectionItems';
 import { removeItemById, reorderItemsById } from '../utils/collectionGrid';
 
-const REMOVE_REQUEST_TIMEOUT_MS = 5000;
+const REMOVE_REQUEST_TIMEOUT_MS = 2000;
 
 const EDIT_MODE_CONTROL_SELECTOR = [
   '.collection-item',
