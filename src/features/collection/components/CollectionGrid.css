@@ -8,11 +8,25 @@
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25), 1px 1px 5px 2px rgba(34, 84, 176, 0.10);
 }
 
+.collection-grid__wrapper--2x2 {
+  width: 100%;
+  min-height: calc(100dvh - 176px);
+  margin: 0;
+  padding-bottom: 130px;
+  border-radius: 40px 40px 0 0;
+  padding-left: 40px; padding-right: 40px;
+}
+
 /* ── 헤더 ── */
 .collection-grid__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
+}
+
+.collection-grid__wrapper--2x2 .collection-grid__header {
+  margin-inline: 10px;
   margin-bottom: 20px;
 }
 
@@ -41,17 +55,47 @@
   justify-content: center;
 }
 
-.collection-grid__icon-btn:hover,
 .collection-grid__icon-btn.active {
   color: var(--color-primary);
   background: var(--color-primary-light);
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .collection-grid__icon-btn:hover {
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+  }
+}
+
+.collection-grid__icon-btn--edit svg {
+  transform: translateY(-2px);
+}
+
 /* ── 그리드 ── */
 .collection-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
+}
+
+.collection-grid--3x3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.collection-grid--2x2 {
+  grid-template-columns: repeat(2, 1fr);
+  justify-items: center;
+  gap: 20px;
+}
+
+.collection-grid--2x2 .collection-item__logo-wrap,
+.collection-grid--2x2 .collection-grid__add-btn {
+  width: 155px;
+  height: 155px;
+  border-radius: 30px;
+}
+
+.collection-grid--2x2 .collection-item__name {
+  display: none;
 }
 
 /* ── 추가 버튼 ── */
@@ -70,7 +114,9 @@
   transition: border-color 0.2s, color 0.2s;
 }
 
-.collection-grid__add-btn:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
+@media (hover: hover) and (pointer: fine) {
+  .collection-grid__add-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
 }

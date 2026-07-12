@@ -1,18 +1,30 @@
 // features/collection/utils/collectionGrid.js
 
-export const reorderItemsById = (items, draggedId, targetId) => {
-  if (!draggedId || draggedId === targetId) return items;
+export const reorderItemsByInsertion = (items, draggedId, targetId, position) => {
+  if (!draggedId || !targetId || draggedId === targetId) return items;
+  if (position !== 'before' && position !== 'after') return items;
 
-  const dragIndex = items.findIndex((item) => item.id === draggedId);
-  const dropIndex = items.findIndex((item) => item.id === targetId);
+  const draggedIndex = items.findIndex((item) => item.id === draggedId);
+  const targetIndex = items.findIndex((item) => item.id === targetId);
 
-  if (dragIndex < 0 || dropIndex < 0) return items;
+  if (draggedIndex < 0 || targetIndex < 0) return items;
 
-  const reordered = [...items];
-  const [dragged] = reordered.splice(dragIndex, 1);
+  const draggedItem = items[draggedIndex];
+  const remainingItems = items.filter((item) => item.id !== draggedId);
+  const targetIndexAfterRemoval = remainingItems.findIndex((item) => item.id === targetId);
 
-  reordered.splice(dropIndex, 0, dragged);
-  return reordered;
+  if (targetIndexAfterRemoval < 0) return items;
+
+  const insertIndex = position === 'after'
+    ? targetIndexAfterRemoval + 1
+    : targetIndexAfterRemoval;
+
+  const reordered = [...remainingItems];
+  reordered.splice(insertIndex, 0, draggedItem);
+
+  const isSameOrder = reordered.every((item, index) => item.id === items[index]?.id);
+
+  return isSameOrder ? items : reordered;
 };
 
 export const removeItemById = (items, itemId) => (

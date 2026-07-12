@@ -31,3 +31,6 @@ A skill is a set of local instructions to follow that is stored in a `SKILL.md` 
 - Inspect neighboring code before choosing a structure; preserve existing user changes and stay within the requested scope.
 - Separate rendering, stateful workflows, pure transformations, and static data only when those responsibilities actually exist.
 - Do not create speculative abstractions, API contracts, UI, assets, or empty feature folders.
+- Before implementing, consider whether the change will make the current file own too many responsibilities; prefer small, maintainable modules over piling new behavior into an already-large hook or component.
+- When a feature needs rendering, interaction workflow, DOM/event coordination, and pure calculations, keep those boundaries visible with feature components, hooks, and utils instead of hiding everything in one file.
+- Fast fixes are allowed, but they should still leave the code easier to read, test, and extend; if a quick patch adds noticeable complexity, note the follow-up refactor or make the small extraction immediately.

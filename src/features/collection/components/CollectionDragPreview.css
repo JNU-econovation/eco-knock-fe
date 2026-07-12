@@ -1,0 +1,38 @@
+.collection-drag-preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  pointer-events: none;
+  transform: translate3d(-9999px, -9999px, 0);
+  will-change: transform;
+}
+
+.collection-drag-preview__logo-wrap {
+  position: relative;
+  border-radius: 20px;
+  background: var(--color-surface);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 18px rgba(34, 84, 176, 0.28);
+}
+
+.collection-drag-preview__logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.collection-drag-preview__name {
+  font: var(--body-medium);
+  color: var(--color-primary-dark);
+  letter-spacing: var(--body-medium-spacing);
+  text-align: center;
+  font-weight: bold;
+}
