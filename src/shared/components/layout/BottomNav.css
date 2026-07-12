@@ -46,6 +46,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 0 0 40px;
+
+  width: 40px;
+  height: 54px;
 
   text-decoration: none;
 
@@ -98,6 +102,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 0 0 30px;
+
+  width: 30px;
+  height: 30px;
+}
+
+.bottom-nav__icon svg {
+  display: block;
+  flex-shrink: 0;
 }
 
 /* ───────── CHAT BUTTON ───────── */
@@ -159,7 +172,7 @@
 }
 
 .bottom-nav__chat-btn.active {
-  transform: scale(1.03);
+  transform: none;
 }
 
 .bottom-nav__chat-icon {
@@ -169,4 +182,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 0 0 30px;
+
+  width: 30px;
+  height: 30px;
+}
+
+.bottom-nav__chat-icon svg {
+  display: block;
+  flex-shrink: 0;
 }
