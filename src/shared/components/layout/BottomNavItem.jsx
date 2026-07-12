@@ -40,19 +40,30 @@ const BottomNavItem = ({
         }`
       }
     >
-      {({ isActive }) => (
-        <>
-          {isStandalone && (
-            <span className={activeBgClassName} />
-          )}
+      {({ isActive }) => {
+        const isActiveItem = isActive || isCollectionHome;
 
-          <span className={iconClassName}>
-            {isActive || isCollectionHome
-              ? <FilledIcon />
-              : <OutlineIcon />}
-          </span>
-        </>
-      )}
+        return (
+          <>
+            {isStandalone && (
+              <span className={activeBgClassName} />
+            )}
+
+            <span
+              className={iconClassName}
+              aria-hidden="true"
+              data-active={isActiveItem}
+            >
+              <span className="bottom-nav__icon-layer bottom-nav__icon-layer--outline">
+                <OutlineIcon />
+              </span>
+              <span className="bottom-nav__icon-layer bottom-nav__icon-layer--filled">
+                <FilledIcon />
+              </span>
+            </span>
+          </>
+        );
+      }}
     </NavLink>
   );
 };

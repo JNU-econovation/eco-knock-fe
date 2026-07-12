@@ -110,7 +110,32 @@
   height: 30px;
 }
 
-.bottom-nav__icon svg {
+.bottom-nav__icon-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.16s ease;
+}
+
+.bottom-nav__icon-layer--outline {
+  opacity: 1;
+}
+
+.bottom-nav__item.active .bottom-nav__icon-layer--outline,
+.bottom-nav__chat-btn.active .bottom-nav__icon-layer--outline {
+  opacity: 0;
+}
+
+.bottom-nav__item.active .bottom-nav__icon-layer--filled,
+.bottom-nav__chat-btn.active .bottom-nav__icon-layer--filled {
+  opacity: 1;
+}
+
+.bottom-nav__icon svg,
+.bottom-nav__chat-icon svg {
   display: block;
   flex-shrink: 0;
   width: 30px;
@@ -191,12 +216,4 @@
 
   width: 30px;
   height: 30px;
-}
-
-.bottom-nav__chat-icon svg {
-  display: block;
-  flex-shrink: 0;
-  width: 30px;
-  height: 30px;
-  transform-origin: center;
 }
