@@ -19,6 +19,7 @@ export const useCollectionGrid = (
   removeItemRequest = resolveRemoveItemRequest,
 ) => {
   const [items, setItems] = useState(initialItems);
+  const [gridLayout, setGridLayout] = useState('3x3');
   const [isEditMode, setIsEditMode] = useState(false);
   const [pendingRemoveItem, setPendingRemoveItem] = useState(null);
   const [isRemoving, setIsRemoving] = useState(false);
@@ -106,7 +107,7 @@ export const useCollectionGrid = (
 
 
   const changeGridLayout = () => {
-    // TODO: 그리드 모양 변경 로직 추가
+    setGridLayout((prev) => (prev === '3x3' ? '2x2' : '3x3'));
   };
 
   const addItem = () => {
@@ -144,6 +145,7 @@ export const useCollectionGrid = (
 
   return {
     items,
+    gridLayout,
     isEditMode,
     pendingRemoveItem,
     isRemoving,
