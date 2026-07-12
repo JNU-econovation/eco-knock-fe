@@ -2,23 +2,7 @@
 
 import { NavLink, useLocation } from 'react-router-dom';
 import { ROUTES } from '@/shared/constants/routes';
-
-export const CLASS_NAMES = {
-  prefix: 'bottom-nav',
-
-  track: {
-    wrapper: 'track',
-    item: 'item',
-    icon: 'icon',
-    activeBg: 'active-bg',
-  },
-
-  chat: {
-    item: 'chat-btn',
-    icon: 'chat-icon',
-    activeBg: 'chat-active-bg',
-  },
-};
+import { CLASS_NAMES } from '@/shared/constants/bottomNavItems';
 
 const BottomNavItem = ({
   route,

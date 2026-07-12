@@ -1,12 +1,30 @@
 // shared/constants/bottomNavItems.js
 import { ROUTES } from "./routes";
-import { 
-    CollectionOutlineIcon, CollectionFilledIcon,
-    RoomOutlineIcon, RoomFilledIcon,
-    RecruitOutlineIcon, RecruitFilledIcon,
-    MypageOutlineIcon, MypageFilledIcon,
-    ChatOutlineIcon, ChatFilledIcon,
+import {
+  CollectionOutlineIcon, CollectionFilledIcon,
+  RoomOutlineIcon, RoomFilledIcon,
+  RecruitOutlineIcon, RecruitFilledIcon,
+  MypageOutlineIcon, MypageFilledIcon,
+  ChatOutlineIcon, ChatFilledIcon,
 } from "@/assets/icons/BottomNavIcons";
+
+// 하단바 클래스명 정의
+export const CLASS_NAMES = {
+  prefix: 'bottom-nav',
+
+  track: {
+    wrapper: 'track',
+    item: 'item',
+    icon: 'icon',
+    activeBg: 'active-bg',
+  },
+
+  chat: {
+    item: 'chat-btn',
+    icon: 'chat-icon',
+    activeBg: 'chat-active-bg',
+  },
+};
 
 
 // -- 왼쪽 4개 아이콘 트랙 아이템(아이콘) 정보

@@ -6,8 +6,8 @@ import { useLocation } from 'react-router-dom';
 import './BottomNav.css';
 
 import { ROUTES } from '@/shared/constants/routes';
-import { NAV_ITEMS } from '@/shared/constants/bottomNavItems';
-import BottomNavItem, { CLASS_NAMES } from './BottomNavItem';
+import { CLASS_NAMES, NAV_ITEMS } from '@/shared/constants/bottomNavItems';
+import BottomNavItem from './BottomNavItem';
 
 
 const BG_WIDTH = 70; // 아이콘 4개있는 트랙의 활성화 배경 너비!
