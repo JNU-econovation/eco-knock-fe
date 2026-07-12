@@ -19,6 +19,60 @@ const COLLECTION_ITEM_SELECTOR = '[data-collection-item-id]';
 
 const resolveRemoveItemRequest = () => Promise.resolve();
 
+const getCollectionItemElements = () => (
+  [...document.querySelectorAll(COLLECTION_ITEM_SELECTOR)]
+);
+
+const getInsertionPosition = (
+  clientX,
+  clientY,
+  targetRect,
+  draggedIndex,
+  targetIndex,
+) => {
+  if (clientY < targetRect.top) return 'before';
+  if (clientY > targetRect.bottom) return 'after';
+
+  if (draggedIndex >= 0 && targetIndex >= 0 && draggedIndex !== targetIndex) {
+    return draggedIndex < targetIndex ? 'after' : 'before';
+  }
+
+  const targetMidX = targetRect.left + targetRect.width / 2;
+
+  return clientX < targetMidX ? 'before' : 'after';
+};
+
+const findNearestDropTargetElement = (clientX, clientY, draggedId) => {
+  const itemElements = getCollectionItemElements()
+    .filter((element) => element.dataset.collectionItemId !== draggedId);
+
+  if (itemElements.length === 0) return null;
+
+  return itemElements.reduce((nearestElement, currentElement) => {
+    const currentRect = currentElement.getBoundingClientRect();
+    const currentCenterX = currentRect.left + currentRect.width / 2;
+    const currentCenterY = currentRect.top + currentRect.height / 2;
+    const currentDistance = Math.hypot(
+      clientX - currentCenterX,
+      clientY - currentCenterY,
+    );
+
+    if (!nearestElement) {
+      return {
+        element: currentElement,
+        distance: currentDistance,
+      };
+    }
+
+    return currentDistance < nearestElement.distance
+      ? {
+        element: currentElement,
+        distance: currentDistance,
+      }
+      : nearestElement;
+  }, null)?.element;
+};
+
 export const useCollectionGrid = (
   initialItems = DEFAULT_COLLECTION_ITEMS,
   removeItemRequest = resolveRemoveItemRequest,
@@ -217,10 +271,12 @@ export const useCollectionGrid = (
   };
 
   const updateDropTargetFromPoint = useCallback((clientX, clientY, draggedId) => {
-    const targetElement = document
+    const directTargetElement = document
       .elementFromPoint(clientX, clientY)
       ?.closest?.(COLLECTION_ITEM_SELECTOR);
-
+    const targetElement = directTargetElement?.dataset?.collectionItemId === draggedId
+      ? findNearestDropTargetElement(clientX, clientY, draggedId)
+      : directTargetElement ?? findNearestDropTargetElement(clientX, clientY, draggedId);
     const targetId = targetElement?.dataset?.collectionItemId;
 
     if (!targetElement || !targetId || targetId === draggedId) {
@@ -229,11 +285,18 @@ export const useCollectionGrid = (
     }
 
     const targetRect = targetElement.getBoundingClientRect();
-    const targetMidX = targetRect.left + targetRect.width / 2;
-    const position = clientX < targetMidX ? 'before' : 'after';
+    const draggedIndex = items.findIndex((item) => item.id === draggedId);
+    const targetIndex = items.findIndex((item) => item.id === targetId);
+    const position = getInsertionPosition(
+      clientX,
+      clientY,
+      targetRect,
+      draggedIndex,
+      targetIndex,
+    );
 
     setDropTargetIfChanged({ targetId, position });
-  }, [setDropTargetIfChanged]);
+  }, [items, setDropTargetIfChanged]);
 
   const startActiveDrag = useCallback(() => {
     const pointer = dragPointerRef.current;
