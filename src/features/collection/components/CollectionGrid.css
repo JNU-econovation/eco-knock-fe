@@ -55,10 +55,16 @@
   justify-content: center;
 }
 
-.collection-grid__icon-btn:hover,
 .collection-grid__icon-btn.active {
   color: var(--color-primary);
   background: var(--color-primary-light);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .collection-grid__icon-btn:hover {
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+  }
 }
 
 .collection-grid__icon-btn--edit svg {
@@ -108,7 +114,9 @@
   transition: border-color 0.2s, color 0.2s;
 }
 
-.collection-grid__add-btn:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
+@media (hover: hover) and (pointer: fine) {
+  .collection-grid__add-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
 }

@@ -6,6 +6,7 @@ import {
   CollectionGrid3Icon,
 } from '@/assets/icons/CollectionPageIcons';
 import { useCollectionGrid } from '../hooks/useCollectionGrid';
+import CollectionDragPreview from './CollectionDragPreview';
 import CollectionDeleteModal from './CollectionDeleteModal';
 import CollectionItem from './CollectionItem';
 import './CollectionGrid.css';
@@ -17,10 +18,12 @@ const CollectionGrid = () => {
     isEditMode,
     pendingRemoveItem,
     isRemoving,
+    draggedItemId,
+    dragPreview,
     toggleEditMode,
     enterEditMode,
-    startDrag,
-    dropItem,
+    getItemPointerHandlers,
+    setDragPreviewElement,
     requestRemoveItem,
     cancelRemoveItem,
     confirmRemoveItem,
@@ -60,8 +63,8 @@ const CollectionGrid = () => {
             key={item.id}
             item={item}
             isEditMode={isEditMode}
-            onDragStart={() => startDrag(item.id)}
-            onDrop={() => dropItem(item.id)}
+            isDragging={draggedItemId === item.id}
+            dragPointerHandlers={getItemPointerHandlers(item.id)}
             onRemove={() => requestRemoveItem(item)}
             onEnterEditMode={enterEditMode}
           />
@@ -87,6 +90,13 @@ const CollectionGrid = () => {
           isRemoving={isRemoving}
           onConfirm={confirmRemoveItem}
           onCancel={cancelRemoveItem}
+        />
+      )}
+
+      {dragPreview && (
+        <CollectionDragPreview
+          preview={dragPreview}
+          previewRef={setDragPreviewElement}
         />
       )}
     </div>

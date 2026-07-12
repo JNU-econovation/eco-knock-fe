@@ -6,8 +6,8 @@ import './CollectionItem.css';
 const CollectionItem = ({
   item,
   isEditMode = false,
-  onDragStart,
-  onDrop,
+  isDragging = false,
+  dragPointerHandlers,
   onRemove,
   onEnterEditMode,
 }) => {
@@ -25,13 +25,8 @@ const CollectionItem = ({
     if (isEditMode) return;
     if (shouldIgnoreClick()) return;
 
-    // TODO: 각 링크의 URL 연결
-    // 예시: window.open(item.url, '_blank')
+    // TODO: connect shortcut URL.
     window.open(item.url, '_blank', 'noopener,noreferrer');
-  };
-
-  const handleDragOver = (event) => {
-    event.preventDefault();
   };
 
   const handleRemove = (event) => {
@@ -39,18 +34,38 @@ const CollectionItem = ({
     onRemove?.();
   };
 
+  const handlePointerDown = (event) => {
+    startPress();
+    dragPointerHandlers?.onDragPointerDown?.(event);
+  };
+
+  const handlePointerUp = (event) => {
+    endPress();
+    dragPointerHandlers?.onDragPointerUp?.(event);
+  };
+
+  const handlePointerCancel = (event) => {
+    endPress();
+    dragPointerHandlers?.onDragPointerCancel?.(event);
+  };
+
+  const itemClassName = [
+    'collection-item',
+    isEditMode ? 'edit-mode' : '',
+    isPressing ? 'pressing' : '',
+    isDragging ? 'is-dragging' : '',
+  ].filter(Boolean).join(' ');
+
   return (
     <div
-      className={`collection-item ${isEditMode ? 'edit-mode' : ''} ${isPressing ? 'pressing' : ''}`}
-      draggable={isEditMode}
+      className={itemClassName}
+      data-collection-item-id={item.id}
       onClick={handleClick}
-      onPointerDown={startPress}
-      onPointerUp={endPress}
+      onPointerDown={handlePointerDown}
+      onPointerMove={dragPointerHandlers?.onDragPointerMove}
+      onPointerUp={handlePointerUp}
       onPointerLeave={endPress}
-      onPointerCancel={endPress}
-      onDragStart={onDragStart}
-      onDragOver={handleDragOver}
-      onDrop={onDrop}
+      onPointerCancel={handlePointerCancel}
     >
       <div className="collection-item__logo-wrap">
         {item.logo ? (
@@ -60,7 +75,7 @@ const CollectionItem = ({
             className="collection-item__logo"
           />
         ) : (
-          <span >{item.name}</span>
+          <span>{item.name}</span>
         )}
       </div>
       <span className="collection-item__name">{item.name}</span>
@@ -69,6 +84,8 @@ const CollectionItem = ({
         <button
           className="collection-item__remove-btn"
           type="button"
+          data-no-drag="true"
+          onPointerDown={(event) => event.stopPropagation()}
           onClick={handleRemove}
           aria-label={`${item.name} 삭제`}
         >
