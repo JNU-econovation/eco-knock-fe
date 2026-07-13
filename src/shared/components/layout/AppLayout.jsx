@@ -1,9 +1,12 @@
 // shared/components/layout/AppLayout.jsx
+import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import BottomNav from './BottomNav';
 import './AppLayout.css';
 
 const AppLayout = () => {
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
   return (
     <div className="app-layout">
       <main className="app-layout__main">
@@ -11,7 +14,11 @@ const AppLayout = () => {
         <Outlet />
       </main>
       {/* 하단바 */}
-      <BottomNav />
+      <BottomNav
+        isChatOpen={isChatOpen}
+        onToggleChat={() => setIsChatOpen((prev) => !prev)}
+        onCloseChat={() => setIsChatOpen(false)}
+      />
     </div>
   );
 };

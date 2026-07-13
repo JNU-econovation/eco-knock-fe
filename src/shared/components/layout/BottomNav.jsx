@@ -11,7 +11,11 @@ import BottomNavItem from './BottomNavItem';
 
 const BG_WIDTH = 70; // 아이콘 4개 트랙의 활성화 배경 너비
 
-const BottomNav = () => {
+const BottomNav = ({
+  isChatOpen = false,
+  onToggleChat,
+  onCloseChat,
+}) => {
   const location = useLocation();
 
   const trackRef = useRef(null);
@@ -72,6 +76,7 @@ const BottomNav = () => {
             <BottomNavItem
               key={item.route}
               {...item}
+              onClick={onCloseChat}
             />
           ))}
       </div>
@@ -82,6 +87,8 @@ const BottomNav = () => {
           <BottomNavItem
             key={item.route}
             {...item}
+            isActiveOverride={isChatOpen}
+            onClick={onToggleChat}
           />
         ))}
     </nav>
