@@ -9,9 +9,7 @@ import { ROUTES } from '@/shared/constants/routes';
 import { CLASS_NAMES, NAV_ITEMS } from '@/shared/constants/bottomNavItems';
 import BottomNavItem from './BottomNavItem';
 
-
-const BG_WIDTH = 70; // 아이콘 4개있는 트랙의 활성화 배경 너비!
-
+const BG_WIDTH = 70; // 아이콘 4개 트랙의 활성화 배경 너비
 
 const BottomNav = () => {
   const location = useLocation();
@@ -20,7 +18,7 @@ const BottomNav = () => {
 
   const [bgStyle, setBgStyle] = useState({
     x: 0,
-    opacity: 1,
+    opacity: 0,
   });
 
   useEffect(() => {

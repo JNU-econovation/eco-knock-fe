@@ -30,12 +30,14 @@
   background: rgba(225, 235, 255, 0.25);
   box-shadow: 0 1px 5px 0 rgba(34, 84, 176, 0.30) inset;
 
-  display: flex;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: repeat(4, 40px);
+  justify-content: space-between;
   align-items: center;
 
   position: relative;
-  padding: 10px 15px;
+  /* 양끝 아이콘도 70px 활성화 배경 중앙에 오도록 좌우 안전 여백을 확보한다. */
+  padding: 10px 23px;
 
   pointer-events: auto;
 }
@@ -108,9 +110,37 @@
   height: 30px;
 }
 
-.bottom-nav__icon svg {
+.bottom-nav__icon-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.16s ease;
+}
+
+.bottom-nav__icon-layer--outline {
+  opacity: 1;
+}
+
+.bottom-nav__item.active .bottom-nav__icon-layer--outline,
+.bottom-nav__chat-btn.active .bottom-nav__icon-layer--outline {
+  opacity: 0;
+}
+
+.bottom-nav__item.active .bottom-nav__icon-layer--filled,
+.bottom-nav__chat-btn.active .bottom-nav__icon-layer--filled {
+  opacity: 1;
+}
+
+.bottom-nav__icon svg,
+.bottom-nav__chat-icon svg {
   display: block;
   flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  transform-origin: center;
 }
 
 /* ───────── CHAT BUTTON ───────── */
@@ -186,9 +216,4 @@
 
   width: 30px;
   height: 30px;
-}
-
-.bottom-nav__chat-icon svg {
-  display: block;
-  flex-shrink: 0;
 }

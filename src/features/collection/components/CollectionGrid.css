@@ -14,7 +14,7 @@
   margin: 0;
   padding-bottom: 130px;
   border-radius: 40px 40px 0 0;
-  padding-left: 40px; padding-right: 40px;
+  padding-left: 30px; padding-right: 30px;
 }
 
 /* ── 헤더 ── */
@@ -82,15 +82,23 @@
 }
 
 .collection-grid--2x2 {
-  grid-template-columns: repeat(2, 1fr);
-  justify-items: center;
-  gap: 20px;
+  grid-template-columns: repeat(2, minmax(0, min(155px, calc((100% - 20px) / 2))));
+  justify-content: center;
+  justify-items: stretch;
+  row-gap: 20px;
+  column-gap: clamp(20px, calc(100% - 310px), 30px);
+}
+
+.collection-grid--2x2 .collection-item,
+.collection-grid--2x2 .collection-grid__cell {
+  width: 100%;
 }
 
 .collection-grid--2x2 .collection-item__logo-wrap,
 .collection-grid--2x2 .collection-grid__add-btn {
-  width: 155px;
-  height: 155px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
   border-radius: 30px;
 }
 
