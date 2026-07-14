@@ -159,6 +159,8 @@
   flex-shrink: 0;
 
   border-radius: 100px;
+  border: 0;
+  padding: 0;
   background: rgba(225, 235, 255, 0.25);
 
   box-shadow:
@@ -167,6 +169,9 @@
   overflow: hidden;
 
   pointer-events: auto;
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
 
   transition:
     transform 0.25s ease;

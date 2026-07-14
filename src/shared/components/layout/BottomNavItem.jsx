@@ -6,11 +6,14 @@ import { CLASS_NAMES } from '@/shared/constants/bottomNavItems';
 
 const BottomNavItem = ({
   route,
+  label,
 
   outlineIcon: OutlineIcon,
   filledIcon: FilledIcon,
 
-  isStandalone = false, // 기본으로 false, 채팅 버튼만 true로 적용되게
+  isStandalone = false,
+  isActiveOverride = false,
+  onClick,
 }) => {
   const location = useLocation();
   const typeClassNames = isStandalone
@@ -31,9 +34,45 @@ const BottomNavItem = ({
       ? `${CLASS_NAMES.prefix}__${typeClassNames.activeBg}`
       : null;
 
+  const renderIcon = (isActiveItem) => (
+    <>
+      {isStandalone && (
+        <span className={activeBgClassName} />
+      )}
+
+      <span
+        className={iconClassName}
+        aria-hidden="true"
+        data-active={isActiveItem}
+      >
+        <span className="bottom-nav__icon-layer bottom-nav__icon-layer--outline">
+          <OutlineIcon />
+        </span>
+        <span className="bottom-nav__icon-layer bottom-nav__icon-layer--filled">
+          <FilledIcon />
+        </span>
+      </span>
+    </>
+  );
+
+  if (isStandalone && onClick) {
+    return (
+      <button
+        type="button"
+        className={`${itemClassName} ${isActiveOverride ? 'active' : ''}`}
+        aria-label={label}
+        aria-pressed={isActiveOverride}
+        onClick={onClick}
+      >
+        {renderIcon(isActiveOverride)}
+      </button>
+    );
+  }
+
   return (
     <NavLink
       to={route}
+      onClick={onClick}
       className={({ isActive }) =>
         `${itemClassName} ${
           isActive || isCollectionHome ? 'active' : ''
@@ -43,26 +82,7 @@ const BottomNavItem = ({
       {({ isActive }) => {
         const isActiveItem = isActive || isCollectionHome;
 
-        return (
-          <>
-            {isStandalone && (
-              <span className={activeBgClassName} />
-            )}
-
-            <span
-              className={iconClassName}
-              aria-hidden="true"
-              data-active={isActiveItem}
-            >
-              <span className="bottom-nav__icon-layer bottom-nav__icon-layer--outline">
-                <OutlineIcon />
-              </span>
-              <span className="bottom-nav__icon-layer bottom-nav__icon-layer--filled">
-                <FilledIcon />
-              </span>
-            </span>
-          </>
-        );
+        return renderIcon(isActiveItem);
       }}
     </NavLink>
   );
