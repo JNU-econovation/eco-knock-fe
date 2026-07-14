@@ -1,0 +1,191 @@
+.chat-overlay {
+  --chat-overlay-duration: 0.32s;
+  --chat-overlay-easing: cubic-bezier(0.22, 1, 0.36, 1);
+  position: fixed;
+  inset: 0;
+  left: 50%;
+  width: 100%;
+  max-width: var(--max-width);
+  min-height: 100dvh;
+  transform: translateX(-50%);
+  z-index: 200;
+  visibility: hidden;
+  pointer-events: none;
+  transition: visibility 0s linear var(--chat-overlay-duration);
+}
+
+.chat-overlay--open {
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.chat-overlay__dim {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.24);
+  opacity: 0;
+  pointer-events: auto;
+  transition: opacity var(--chat-overlay-duration) ease-out;
+}
+
+.chat-overlay--open .chat-overlay__dim {
+  opacity: 1;
+}
+
+.chat-overlay__sheet {
+  position: absolute;
+  top: clamp(86px, 21dvh, 138px);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 40px 40px 0 0;
+  background: var(--color-surface);
+  box-shadow:
+    0 -1px 6px rgba(0, 0, 0, 0.22),
+    1px 1px 5px 2px rgba(34, 84, 176, 0.1);
+  transform: translate3d(0, 100%, 0);
+  pointer-events: auto;
+  transition: transform var(--chat-overlay-duration) var(--chat-overlay-easing);
+  will-change: transform;
+}
+
+.chat-overlay--open .chat-overlay__sheet {
+  transform: translate3d(0, 0, 0);
+}
+
+.chat-overlay__header {
+  display: flex;
+  justify-content: center;
+  flex: 0 0 auto;
+  padding: 13px 0 4px;
+}
+
+.chat-overlay__close-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 29px;
+  height: 29px;
+  border: 0;
+  border-radius: 999px;
+  background: #F3F7FF;
+  color: var(--color-primary);
+  box-shadow:
+    0 1px 4px rgba(34, 84, 176, 0.2),
+    inset 0 0 0 1px rgba(225, 235, 255, 0.9);
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.chat-overlay__body {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 12px 30px 8px;
+}
+
+.chat-overlay__background-image {
+  width: min(58%, 230px);
+  max-height: 72%;
+  object-fit: contain;
+  opacity: 0.22;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.chat-overlay__footer {
+  flex: 0 0 auto;
+  padding: 0 30px calc(38px + env(safe-area-inset-bottom));
+}
+
+.chat-overlay__attachment-row {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 5px;
+}
+
+.chat-overlay__attachment-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1.4px solid var(--color-subtle-1);
+  border-radius: 999px;
+  padding: 0;
+  background: transparent;
+  color: var(--color-subtle-1);
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.chat-overlay__input-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 27px;
+  gap: 5px;
+  align-items: center;
+}
+
+.chat-overlay__input {
+  width: 100%;
+  min-width: 0;
+  height: 34px;
+  padding: 0 13px;
+  border-radius: 20px;
+  border: 1px solid var(--color-subtle-1, #61646B);
+  background: var(--color-surface, #FAFAFB);
+  color: var(--color-normal);
+  font: var(--body-large);
+  letter-spacing: 0;
+  outline: none;
+}
+
+.chat-overlay__input::placeholder {
+  color: var(--color-subtle-1);
+  opacity: 1;
+}
+
+.chat-overlay__input:focus {
+  border-color: var(--color-primary-dark);
+}
+
+.chat-overlay__send-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 27px;
+  height: 27px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0;
+  background: var(--color-primary-dark);
+  color: var(--color-surface);
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-height: 560px) {
+  .chat-overlay__sheet {
+    top: 64px;
+  }
+
+  .chat-overlay__footer {
+    padding-bottom: calc(18px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-overlay {
+    --chat-overlay-duration: 0.01ms;
+  }
+}
