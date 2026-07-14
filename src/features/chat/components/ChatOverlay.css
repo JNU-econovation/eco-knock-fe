@@ -54,7 +54,11 @@
 }
 
 .chat-overlay--open .chat-overlay__sheet {
-  transform: translate3d(0, 0, 0);
+  transform: translate3d(0, var(--chat-drag-offset, 0), 0);
+}
+
+.chat-overlay__sheet--dragging {
+  transition: none;
 }
 
 .chat-overlay__header {
@@ -62,6 +66,14 @@
   justify-content: center;
   flex: 0 0 auto;
   padding: 13px 0 4px;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.chat-overlay__sheet--dragging .chat-overlay__header {
+  cursor: grabbing;
 }
 
 .chat-overlay__close-button {
@@ -93,10 +105,7 @@
 }
 
 .chat-overlay__background-image {
-  width: min(58%, 230px);
-  max-height: 72%;
-  object-fit: contain;
-  opacity: 0.22;
+  width: 100%;
   user-select: none;
   -webkit-user-drag: none;
 }
@@ -162,8 +171,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 27px;
-  height: 27px;
+  width: 34px;
+  height: 34px;
   border: 0;
   border-radius: 999px;
   padding: 0;
