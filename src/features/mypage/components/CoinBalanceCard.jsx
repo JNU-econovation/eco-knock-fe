@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CoinIcon } from '@/assets/icons/MyPageIcons';
-import { COIN_IMAGE } from '@/features/mypage/constants/imageAssets';
+import coinImage from '@/assets/img/coin.png';
 import { ROUTES } from '@/shared/constants/routes';
 import './CoinBalanceCard.css';
 
@@ -16,7 +16,7 @@ const formatCoinBalance = (coinBalance) => {
 const CoinBalanceCard = ({ coinBalance }) => {
   const displayBalance = formatCoinBalance(coinBalance);
   const [hasCoinImageError, setHasCoinImageError] = useState(false);
-  const hasCoinImage = Boolean(COIN_IMAGE) && !hasCoinImageError;
+  const hasCoinImage = !hasCoinImageError;
 
   return (
     <Link
@@ -34,7 +34,7 @@ const CoinBalanceCard = ({ coinBalance }) => {
         {hasCoinImage ? (
           <img
             className="coin-balance-card__image"
-            src={COIN_IMAGE}
+            src={coinImage}
             alt=""
             onError={() => setHasCoinImageError(true)}
           />

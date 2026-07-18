@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import defaultProfileImage from '@/assets/img/default-profile.png';
 import './UserProfileCard.css';
 
 const EMPTY_VALUE = '-';
@@ -9,9 +10,9 @@ const getGenerationDisplayValue = (value) => (
     : `${value}기`
 );
 
-const UserProfileCard = ({ user, defaultUserImg = null }) => {
+const UserProfileCard = ({ user }) => {
   const [failedImageSources, setFailedImageSources] = useState([]);
-  const imageSources = [user.userImg, defaultUserImg].filter(Boolean);
+  const imageSources = [user.userImg, defaultProfileImage].filter(Boolean);
   const activeImageSrc = imageSources.find(
     (imageSrc) => !failedImageSources.includes(imageSrc)
   );

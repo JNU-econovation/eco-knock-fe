@@ -1,7 +1,6 @@
 import { SettingsIcon } from '@/assets/icons/MyPageIcons';
 import CoinBalanceCard from '@/features/mypage/components/CoinBalanceCard';
 import UserProfileCard from '@/features/mypage/components/UserProfileCard';
-import { DEFAULT_PROFILE_IMAGE } from '@/features/mypage/constants/imageAssets';
 import { MOCK_USER } from '@/features/mypage/constants/mockUser';
 import './MyPage.css';
 
@@ -15,10 +14,7 @@ const MyPage = () => (
     </div>
 
     <div className="my-page__content">
-      <UserProfileCard
-        user={MOCK_USER}
-        defaultUserImg={DEFAULT_PROFILE_IMAGE}
-      />
+      <UserProfileCard user={MOCK_USER} />
       <CoinBalanceCard coinBalance={MOCK_USER.coinBalance} />
     </div>
   </div>
