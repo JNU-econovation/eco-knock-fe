@@ -115,6 +115,11 @@
   padding: 0 30px calc(38px + env(safe-area-inset-bottom));
 }
 
+.chat-overlay__attachment-area {
+  position: relative;
+  width: max-content;
+}
+
 .chat-overlay__attachment-row {
   display: flex;
   gap: 4px;
