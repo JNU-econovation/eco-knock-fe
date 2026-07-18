@@ -12,11 +12,41 @@ Build features with clear responsibilities from the start while avoiding specula
 1. Read the target page or feature, its stylesheet, related hooks, constants, utilities, routes, and nearby implementations.
 2. Search all references before renaming props, fields, selectors, or exports.
 3. Identify rendering, stateful workflow, pure transformation, static data, and shared concerns.
-4. Keep the change within the user's requested behavior.
-5. Add structure only where a real responsibility exists.
-6. Validate imports, stale references, behavior, and repository scripts.
+4. Before adding another workflow to an existing component or hook, check whether its current responsibilities should be extracted first.
+5. If the UI can be affected by viewport height, safe areas, the software keyboard, scrolling, or touch gestures, identify the Android Chrome and iOS Safari risks before editing.
+6. Keep the change within the user's requested behavior.
+7. Add structure only where a real responsibility exists.
+8. Validate imports, stale references, behavior, and repository scripts.
 
 Prefer current neighboring conventions when they conflict with older examples in this skill.
+
+## Repository Structure
+
+Use the current repository shape as the placement baseline:
+
+```text
+src
+├─ app
+│  ├─ router
+│  └─ styles
+├─ assets
+│  ├─ icons
+│  └─ img
+├─ features
+│  └─ <feature>
+│     ├─ components
+│     ├─ hooks
+│     ├─ constants
+│     └─ utils
+├─ pages
+└─ shared
+   ├─ components
+   ├─ constants
+   ├─ contexts
+   └─ hooks
+```
+
+The feature child folders describe available responsibility boundaries, not folders that must always exist. Create only the folders backed by real code, and add a new category such as `api`, `services`, or `tests` only after the repository has an actual contract and implementation that needs it.
 
 ## Place Code by Responsibility
 
@@ -48,6 +78,19 @@ Extract code when it:
 
 Do not move a one-line handler to another file merely to make the component shorter.
 
+## Reassess Structure As Features Grow
+
+Small features may begin in one component. Before extending a file that has grown beyond straightforward rendering, reassess its responsibilities and extract the relevant code instead of continuing to accumulate behavior.
+
+- Extract an independent visual unit into its own component when it has a distinct purpose, state, or interaction surface.
+- Extract a feature hook when a component gains timers, effects, refs, document or pointer listeners, cleanup, or a multi-event workflow.
+- Move static copy, options, definitions, and temporary feature data into `constants` when they form a meaningful set or are used outside one local expression.
+- Move React-independent transformations and calculations into `utils` when they are meaningful, reusable, or independently testable.
+- Keep component-specific CSS beside the component that renders the selectors.
+- Keep feature code inside its feature until it is genuinely reused across features or is application-wide.
+
+Do not use file length alone as the extraction rule. The trigger is mixed responsibility: when a requested change adds a second workflow or makes rendering, DOM coordination, state management, and pure logic compete in one file, split those boundaries before or as part of the change.
+
 ## Choose React Primitives Deliberately
 
 - Use `useState` when a value change must alter rendered JSX or CSS state.
@@ -61,6 +104,22 @@ Typical choices:
 - Item arrays, edit mode, loading, errors, and visible press state: `useState`
 - Current dragged item ID and timeout handle: `useRef`
 - Document-level outside press listener and cleanup: `useEffect`
+
+## Mobile Browser Considerations
+
+Apply this section when a feature is affected by viewport size or height, fixed positioning, bottom controls, text input, scrolling, or touch gestures. Do not add browser-specific complexity to an unaffected component merely to satisfy a checklist.
+
+- Design mobile-first and verify narrow widths without horizontal overflow, clipped controls, overlapping text, or hover-only interactions.
+- For full-height screens, sheets, and overlays, account for dynamic browser chrome with `dvh` or another appropriate dynamic viewport unit. Keep a compatible fallback when the supported browser range requires one.
+- Apply `env(safe-area-inset-*)` where fixed or bottom-aligned content can collide with iOS device cutouts or the home indicator.
+- Avoid fixed-height assumptions that break when Android Chrome or iOS Safari changes the visible viewport as the address bar or software keyboard appears.
+- Keep text inputs and their primary actions visible and usable with the software keyboard open. On iOS Safari, avoid unintended input zoom; normally use at least a 16 CSS pixel input font instead of disabling page zoom.
+- Prefer Pointer Events when one interaction must support touch, pen, and mouse. Use pointer capture only for an active gesture and always handle release, cancellation, and cleanup.
+- Scope `touch-action`, pointer capture, and `preventDefault` to the smallest necessary interaction surface. Do not block page scrolling or native input behavior globally.
+- Keep drag and swipe gestures out of inputs, buttons, attachment controls, and scrollable message or list regions unless their conflict behavior is explicitly designed.
+- Provide non-gesture controls for essential actions, such as a close button alongside swipe-to-close.
+- Respect `prefers-reduced-motion` for nonessential movement and preserve the same final state when motion is reduced.
+- Prefer responsive CSS over `window` or `visualViewport` listeners. Add JavaScript viewport handling or browser-specific branches only when CSS cannot provide the required behavior, and keep their effects and cleanup in a feature hook.
 
 ## Prevent Duplicate Side Effects
 
@@ -116,7 +175,8 @@ Use intent-revealing callbacks such as `onEnterEditMode`, `onRemove`, and `onDro
 3. Run the narrowest relevant checks first.
 4. Read `package.json` and run only scripts that exist, commonly `npm run lint` and `npm run build`.
 5. If a dev server is already running, reuse it rather than starting a duplicate.
-6. Separate pre-existing failures from failures introduced by the change.
+6. For mobile-sensitive UI, verify narrow viewport layout, dynamic address-bar height, software-keyboard behavior, safe areas, scrolling, and touch cancellation in representative Android Chrome and iOS Safari conditions.
+7. Separate pre-existing failures from failures introduced by the change.
 
 Before finishing, confirm:
 
@@ -127,4 +187,6 @@ Before finishing, confirm:
 - Constants are static or clearly temporary.
 - Naming distinguishes SVG icons from backend-provided media.
 - No unnecessary directories or abstractions were added.
+- Mobile-sensitive UI does not rely on hover, clip at narrow widths, collide with safe areas, or break native scrolling and input behavior.
+- Gesture workflows handle pointer cancellation and retain an accessible non-gesture action.
 - The implementation stayed within the requested scope.

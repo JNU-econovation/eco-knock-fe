@@ -1,0 +1,78 @@
+.chat-attachment-notice {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 0;
+  z-index: 2;
+  display: flex;
+  width: 136px;
+  height: 98px;
+  padding: 12px 10px 8px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-radius: 20px;
+  border: 1px solid var(--color-text-sub, #AFB1B6);
+  opacity: 0.97;
+  background: var(--color-surface, #FAFAFB);
+  box-shadow: 1px 1px 5px 2px rgba(34, 84, 176, 0.10);
+  transform-origin: bottom left;
+  animation: chat-attachment-notice-enter 0.38s
+    cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.chat-attachment-notice__message {
+  margin: 0;
+  color: var(--color-normal);
+  font: var(--body-medium);
+  letter-spacing: var(--body-medium-spacing);
+  line-height: 1.45;
+  text-align: center;
+  white-space: pre-line;
+}
+
+.chat-attachment-notice__confirm-button {
+  width: 116px;
+  height: 26px;
+  border: 1px solid var(--color-text-sub, #AFB1B6);
+  border-radius: 20px;
+  background: var(--color-surface);
+  color: var(--color-normal);
+  font: var(--body-medium);
+  letter-spacing: var(--body-medium-spacing);
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.chat-attachment-notice__confirm-button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+@keyframes chat-attachment-notice-enter {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.94);
+  }
+
+  65% {
+    opacity: 0.97;
+    transform: translate3d(0, -4px, 0) scale(1.02);
+  }
+
+  84% {
+    transform: translate3d(0, 2px, 0) scale(0.99);
+  }
+
+  100% {
+    opacity: 0.97;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-attachment-notice {
+    animation-duration: 0.01ms;
+  }
+}
