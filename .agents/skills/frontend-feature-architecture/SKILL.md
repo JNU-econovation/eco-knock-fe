@@ -12,11 +12,40 @@ Build features with clear responsibilities from the start while avoiding specula
 1. Read the target page or feature, its stylesheet, related hooks, constants, utilities, routes, and nearby implementations.
 2. Search all references before renaming props, fields, selectors, or exports.
 3. Identify rendering, stateful workflow, pure transformation, static data, and shared concerns.
-4. Keep the change within the user's requested behavior.
-5. Add structure only where a real responsibility exists.
-6. Validate imports, stale references, behavior, and repository scripts.
+4. Before adding another workflow to an existing component or hook, check whether its current responsibilities should be extracted first.
+5. Keep the change within the user's requested behavior.
+6. Add structure only where a real responsibility exists.
+7. Validate imports, stale references, behavior, and repository scripts.
 
 Prefer current neighboring conventions when they conflict with older examples in this skill.
+
+## Repository Structure
+
+Use the current repository shape as the placement baseline:
+
+```text
+src
+├─ app
+│  ├─ router
+│  └─ styles
+├─ assets
+│  ├─ icons
+│  └─ img
+├─ features
+│  └─ <feature>
+│     ├─ components
+│     ├─ hooks
+│     ├─ constants
+│     └─ utils
+├─ pages
+└─ shared
+   ├─ components
+   ├─ constants
+   ├─ contexts
+   └─ hooks
+```
+
+The feature child folders describe available responsibility boundaries, not folders that must always exist. Create only the folders backed by real code, and add a new category such as `api`, `services`, or `tests` only after the repository has an actual contract and implementation that needs it.
 
 ## Place Code by Responsibility
 
@@ -47,6 +76,19 @@ Extract code when it:
 - Materially obscures the JSX
 
 Do not move a one-line handler to another file merely to make the component shorter.
+
+## Reassess Structure As Features Grow
+
+Small features may begin in one component. Before extending a file that has grown beyond straightforward rendering, reassess its responsibilities and extract the relevant code instead of continuing to accumulate behavior.
+
+- Extract an independent visual unit into its own component when it has a distinct purpose, state, or interaction surface.
+- Extract a feature hook when a component gains timers, effects, refs, document or pointer listeners, cleanup, or a multi-event workflow.
+- Move static copy, options, definitions, and temporary feature data into `constants` when they form a meaningful set or are used outside one local expression.
+- Move React-independent transformations and calculations into `utils` when they are meaningful, reusable, or independently testable.
+- Keep component-specific CSS beside the component that renders the selectors.
+- Keep feature code inside its feature until it is genuinely reused across features or is application-wide.
+
+Do not use file length alone as the extraction rule. The trigger is mixed responsibility: when a requested change adds a second workflow or makes rendering, DOM coordination, state management, and pure logic compete in one file, split those boundaries before or as part of the change.
 
 ## Choose React Primitives Deliberately
 
