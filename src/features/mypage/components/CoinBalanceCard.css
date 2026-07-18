@@ -1,0 +1,61 @@
+.coin-balance-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(100%, 330px);
+  min-height: 88px;
+  padding: 14px 14px 14px 22px;
+  border-radius: 40px;
+  background: var(--color-primary-dark, #2254B0);
+  color: var(--color-surface, #FAFAFB);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.coin-balance-card:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+.coin-balance-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.coin-balance-card__label {
+  font: var(--body-small);
+  letter-spacing: var(--body-small-spacing);
+}
+
+.coin-balance-card__value {
+  font: var(--headline-medium);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.coin-balance-card__icon {
+  display: grid;
+  flex: 0 0 60px;
+  width: 60px;
+  height: 60px;
+  border: 5px solid var(--color-surface, #FAFAFB);
+  border-radius: 50%;
+  background: var(--color-surface);
+  color: var(--color-primary-dark);
+  place-items: center;
+}
+
+.coin-balance-card__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+@media (max-width: 360px) {
+  .coin-balance-card__value {
+    font-size: 21px;
+  }
+}

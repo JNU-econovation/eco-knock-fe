@@ -1,0 +1,49 @@
+.my-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100%;
+  background-color: var(--color-bg);
+}
+
+.my-page__heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 350px;
+  margin: 99px 0px 33px 49px;
+}
+
+.my-page__header {
+  font: var(--display-small); 
+  color: var(--color-primary-dark);
+  font-weight: bold; 
+  letter-spacing: var(--display-small-spacing);
+}
+
+.my-page__settings-button {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  padding-right: 50px;
+  border: 0;
+  background: transparent;
+  color: var(--color-subtle-1);
+  place-items: center;
+  cursor: pointer;
+}
+
+.my-page__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 30px;
+}
+
+@media (max-width: 360px) {
+  .my-page {
+    padding-inline: 20px;
+  }
+}
