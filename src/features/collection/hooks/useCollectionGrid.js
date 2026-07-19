@@ -85,6 +85,7 @@ export const useCollectionGrid = (
   const [draggedItemId, setDraggedItemId] = useState(null);
   const [dragPreview, setDragPreview] = useState(null);
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const { showError } = useErrorModal();
   const dragPointerRef = useRef(null);
@@ -267,8 +268,27 @@ export const useCollectionGrid = (
   };
 
   const addItem = () => {
-    // TODO: connect add item modal/input UI.
-    // TODO: use custom shortcut URL/logo image or google favicon.
+    if (pendingRemoveItem || isRemoving || isResetModalOpen) return;
+
+    clearDragInteraction();
+    setIsAddModalOpen(true);
+  };
+
+  const cancelAddItem = () => {
+    setIsAddModalOpen(false);
+  };
+
+  const confirmAddItem = ({ name, url, logo }) => {
+    const newItem = {
+      id: globalThis.crypto?.randomUUID?.() ?? `collection-${Date.now()}`,
+      name,
+      url,
+      logo,
+    };
+
+    // TODO: send newItem to the backend once the add-link API contract exists.
+    setItems((prev) => [...prev, newItem]);
+    setIsAddModalOpen(false);
   };
 
   const requestResetItems = () => {
@@ -447,7 +467,7 @@ export const useCollectionGrid = (
   });
 
   useEffect(() => {
-    if (!isEditMode || pendingRemoveItem || isResetModalOpen) {
+    if (!isEditMode || pendingRemoveItem || isResetModalOpen || isAddModalOpen) {
       return undefined;
     }
 
@@ -464,7 +484,7 @@ export const useCollectionGrid = (
     return () => {
       document.removeEventListener('pointerdown', handlePointerDown);
     };
-  }, [exitEditMode, isEditMode, isResetModalOpen, pendingRemoveItem]);
+  }, [exitEditMode, isAddModalOpen, isEditMode, isResetModalOpen, pendingRemoveItem]);
 
   useEffect(() => {
     isMountedRef.current = true;
@@ -486,6 +506,7 @@ export const useCollectionGrid = (
     draggedItemId,
     dragPreview,
     isResetModalOpen,
+    isAddModalOpen,
     toggleEditMode,
     enterEditMode,
     getItemPointerHandlers,
@@ -495,6 +516,8 @@ export const useCollectionGrid = (
     confirmRemoveItem,
     changeGridLayout,
     addItem,
+    cancelAddItem,
+    confirmAddItem,
     requestResetItems,
     cancelResetItems,
     confirmResetItems,

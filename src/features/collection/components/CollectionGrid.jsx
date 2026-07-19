@@ -7,6 +7,7 @@ import {
   CollectionResetIcon,
 } from '@/assets/icons/CollectionPageIcons';
 import { useCollectionGrid } from '../hooks/useCollectionGrid';
+import CollectionAddModal from './CollectionAddModal';
 import CollectionDragPreview from './CollectionDragPreview';
 import CollectionDeleteModal from './CollectionDeleteModal';
 import CollectionItem from './CollectionItem';
@@ -23,6 +24,7 @@ const CollectionGrid = () => {
     draggedItemId,
     dragPreview,
     isResetModalOpen,
+    isAddModalOpen,
     toggleEditMode,
     enterEditMode,
     getItemPointerHandlers,
@@ -32,6 +34,8 @@ const CollectionGrid = () => {
     confirmRemoveItem,
     changeGridLayout,
     addItem,
+    cancelAddItem,
+    confirmAddItem,
     requestResetItems,
     cancelResetItems,
     confirmResetItems,
@@ -114,6 +118,13 @@ const CollectionGrid = () => {
         <CollectionResetModal
           onConfirm={confirmResetItems}
           onCancel={cancelResetItems}
+        />
+      )}
+
+      {isAddModalOpen && (
+        <CollectionAddModal
+          onAdd={confirmAddItem}
+          onCancel={cancelAddItem}
         />
       )}
 
