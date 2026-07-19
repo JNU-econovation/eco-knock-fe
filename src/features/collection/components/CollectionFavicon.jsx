@@ -21,6 +21,7 @@ const CollectionFavicon = ({ item, className, alt = item.name }) => {
       src={imageUrl}
       alt={alt}
       className={className}
+      draggable={false}
       onError={handleError}
     />
   );
