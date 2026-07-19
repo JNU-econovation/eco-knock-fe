@@ -11,7 +11,7 @@
 .collection-grid__wrapper--2x2 {
   position: relative;
   width: auto;
-  min-height: calc(100dvh - 176px);
+  min-height: 100dvh;
   margin-inline: 0;
   padding-bottom: 130px;
   border-radius: 40px 40px 0 0;
