@@ -21,7 +21,7 @@ const CoinBalanceCard = ({ coinBalance }) => {
   return (
     <Link
       className="coin-balance-card"
-      to={ROUTES.COIN}
+      to={ROUTES.MYPAGE_COIN}
       aria-label={`보유 코인 ${displayBalance} COIN, 코인 페이지로 이동`}
     >
       <span className="coin-balance-card__content">

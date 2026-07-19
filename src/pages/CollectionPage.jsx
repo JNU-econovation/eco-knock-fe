@@ -1,16 +1,12 @@
 // pages/CollectionPage.jsx
 import CollectionGrid from '@/features/collection/components/CollectionGrid';
-import './CollectionPage.css';
+import MainPageFrame from '@/shared/components/layout/MainPageFrame';
 
 const CollectionPage = () => {
   return (
-    <div className="collection-page">
-      {/* 로고 */}
-      <h1 className="collection-page__logo">ECO-KNOCK</h1>
-
-      {/* 바로가기 컬렉션 그리드 */}
+    <MainPageFrame title="ECO-KNOCK">
       <CollectionGrid />
-    </div>
+    </MainPageFrame>
   );
 };
 
