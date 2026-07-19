@@ -3,7 +3,7 @@ import { BackIcon } from '@/assets/icons/LayoutIcons';
 import { ROUTES } from '@/shared/constants/routes';
 import './DetailBackButton.css';
 
-const DetailBackButton = ({ variant = 'circle' }) => {
+const DetailBackButton = () => {
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -19,7 +19,7 @@ const DetailBackButton = ({ variant = 'circle' }) => {
 
   return (
     <button
-      className={`detail-back-button detail-back-button--${variant}`}
+      className="detail-back-button"
       type="button"
       aria-label="뒤로 가기"
       onClick={handleBack}
