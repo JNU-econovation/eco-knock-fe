@@ -10,7 +10,10 @@
 
 .confirm-modal {
   display: flex;
-  width: 261px;
+  width: fit-content;
+  min-width: 261px;
+  max-width: calc(100vw - 40px);
+  box-sizing: border-box;
   min-height: 190px;
   padding: 20px 18px;
   flex-direction: column;

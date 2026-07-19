@@ -1,5 +1,6 @@
 // features/collection/components/CollectionDragPreview.jsx
 import './CollectionDragPreview.css';
+import CollectionFavicon from './CollectionFavicon';
 
 const CollectionDragPreview = ({
   preview,
@@ -33,15 +34,11 @@ const CollectionDragPreview = ({
           borderRadius: logoBorderRadius,
         }}
       >
-        {item.logo ? (
-          <img
-            src={item.logo}
-            alt=""
-            className="collection-drag-preview__logo"
-          />
-        ) : (
-          <span>{item.name}</span>
-        )}
+        <CollectionFavicon
+          item={item}
+          className="collection-drag-preview__logo"
+          alt=""
+        />
       </div>
 
       {showName && (

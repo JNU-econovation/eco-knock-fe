@@ -1,6 +1,7 @@
 // features/collection/components/CollectionItem.jsx
 import { CollectionRemoveIcon } from '@/assets/icons/CollectionPageIcons';
 import { useCollectionItemPress } from '../hooks/useCollectionItemPress';
+import CollectionFavicon from './CollectionFavicon';
 import './CollectionItem.css';
 
 const CollectionItem = ({
@@ -68,15 +69,7 @@ const CollectionItem = ({
       onPointerCancel={handlePointerCancel}
     >
       <div className="collection-item__logo-wrap">
-        {item.logo ? (
-          <img
-            src={item.logo}
-            alt={item.name}
-            className="collection-item__logo"
-          />
-        ) : (
-          <span>{item.name}</span>
-        )}
+        <CollectionFavicon item={item} className="collection-item__logo" />
       </div>
       <span className="collection-item__name">{item.name}</span>
 

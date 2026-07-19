@@ -84,6 +84,8 @@ export const useCollectionGrid = (
   const [isRemoving, setIsRemoving] = useState(false);
   const [draggedItemId, setDraggedItemId] = useState(null);
   const [dragPreview, setDragPreview] = useState(null);
+  const [isResetModalOpen, setIsResetModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const { showError } = useErrorModal();
   const dragPointerRef = useRef(null);
@@ -266,8 +268,44 @@ export const useCollectionGrid = (
   };
 
   const addItem = () => {
-    // TODO: connect add item modal/input UI.
-    // TODO: use custom shortcut URL/logo image or google favicon.
+    if (pendingRemoveItem || isRemoving || isResetModalOpen) return;
+
+    clearDragInteraction();
+    setIsAddModalOpen(true);
+  };
+
+  const cancelAddItem = () => {
+    setIsAddModalOpen(false);
+  };
+
+  const confirmAddItem = ({ name, url, logo }) => {
+    const newItem = {
+      id: globalThis.crypto?.randomUUID?.() ?? `collection-${Date.now()}`,
+      name,
+      url,
+      logo,
+    };
+
+    // TODO: send newItem to the backend once the add-link API contract exists.
+    setItems((prev) => [...prev, newItem]);
+    setIsAddModalOpen(false);
+  };
+
+  const requestResetItems = () => {
+    if (pendingRemoveItem || isRemoving) return;
+
+    clearDragInteraction();
+    setIsResetModalOpen(true);
+  };
+
+  const cancelResetItems = () => {
+    setIsResetModalOpen(false);
+  };
+
+  const confirmResetItems = () => {
+    // TODO: replace this local reset with the backend reset request once its API contract exists.
+    setItems(DEFAULT_COLLECTION_ITEMS.map((item) => ({ ...item })));
+    setIsResetModalOpen(false);
   };
 
   const updateDropTargetFromPoint = useCallback((clientX, clientY, draggedId) => {
@@ -429,7 +467,7 @@ export const useCollectionGrid = (
   });
 
   useEffect(() => {
-    if (!isEditMode || pendingRemoveItem) {
+    if (!isEditMode || pendingRemoveItem || isResetModalOpen || isAddModalOpen) {
       return undefined;
     }
 
@@ -446,7 +484,7 @@ export const useCollectionGrid = (
     return () => {
       document.removeEventListener('pointerdown', handlePointerDown);
     };
-  }, [clearDragInteraction, exitEditMode, isEditMode, pendingRemoveItem]);
+  }, [exitEditMode, isAddModalOpen, isEditMode, isResetModalOpen, pendingRemoveItem]);
 
   useEffect(() => {
     isMountedRef.current = true;
@@ -467,6 +505,8 @@ export const useCollectionGrid = (
     isRemoving,
     draggedItemId,
     dragPreview,
+    isResetModalOpen,
+    isAddModalOpen,
     toggleEditMode,
     enterEditMode,
     getItemPointerHandlers,
@@ -476,5 +516,10 @@ export const useCollectionGrid = (
     confirmRemoveItem,
     changeGridLayout,
     addItem,
+    cancelAddItem,
+    confirmAddItem,
+    requestResetItems,
+    cancelResetItems,
+    confirmResetItems,
   };
 };

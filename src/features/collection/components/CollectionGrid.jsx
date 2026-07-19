@@ -4,11 +4,14 @@ import {
   CollectionEditIcon,
   CollectionGrid2Icon,
   CollectionGrid3Icon,
+  CollectionResetIcon,
 } from '@/assets/icons/CollectionPageIcons';
 import { useCollectionGrid } from '../hooks/useCollectionGrid';
+import CollectionAddModal from './CollectionAddModal';
 import CollectionDragPreview from './CollectionDragPreview';
 import CollectionDeleteModal from './CollectionDeleteModal';
 import CollectionItem from './CollectionItem';
+import CollectionResetModal from './CollectionResetModal';
 import './CollectionGrid.css';
 
 const CollectionGrid = () => {
@@ -20,6 +23,8 @@ const CollectionGrid = () => {
     isRemoving,
     draggedItemId,
     dragPreview,
+    isResetModalOpen,
+    isAddModalOpen,
     toggleEditMode,
     enterEditMode,
     getItemPointerHandlers,
@@ -29,6 +34,11 @@ const CollectionGrid = () => {
     confirmRemoveItem,
     changeGridLayout,
     addItem,
+    cancelAddItem,
+    confirmAddItem,
+    requestResetItems,
+    cancelResetItems,
+    confirmResetItems,
   } = useCollectionGrid();
   const isTwoColumnLayout = gridLayout === '2x2';
 
@@ -37,14 +47,25 @@ const CollectionGrid = () => {
       <div className="collection-grid__header">
         <span className="collection-grid__title">KNOCK COLLECTION</span>
         <div className="collection-grid__header-actions">
-          <button
-            className="collection-grid__icon-btn"
-            aria-label={isTwoColumnLayout ? 'Show 3 column grid' : 'Show 2 column grid'}
-            type="button"
-            onClick={changeGridLayout}
-          >
-            {isTwoColumnLayout ? <CollectionGrid3Icon /> : <CollectionGrid2Icon />}
-          </button>
+          {isEditMode ? (
+            <button
+              className="collection-grid__icon-btn"
+              aria-label="기본 구성으로 되돌리기"
+              type="button"
+              onClick={requestResetItems}
+            >
+              <CollectionResetIcon />
+            </button>
+          ) : (
+            <button
+              className="collection-grid__icon-btn"
+              aria-label={isTwoColumnLayout ? 'Show 3 column grid' : 'Show 2 column grid'}
+              type="button"
+              onClick={changeGridLayout}
+            >
+              {isTwoColumnLayout ? <CollectionGrid3Icon /> : <CollectionGrid2Icon />}
+            </button>
+          )}
 
           <button
             className={`collection-grid__icon-btn collection-grid__icon-btn--edit ${isEditMode ? 'active' : ''}`}
@@ -90,6 +111,20 @@ const CollectionGrid = () => {
           isRemoving={isRemoving}
           onConfirm={confirmRemoveItem}
           onCancel={cancelRemoveItem}
+        />
+      )}
+
+      {isResetModalOpen && (
+        <CollectionResetModal
+          onConfirm={confirmResetItems}
+          onCancel={cancelResetItems}
+        />
+      )}
+
+      {isAddModalOpen && (
+        <CollectionAddModal
+          onAdd={confirmAddItem}
+          onCancel={cancelAddItem}
         />
       )}
 
