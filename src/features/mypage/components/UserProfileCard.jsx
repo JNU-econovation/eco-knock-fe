@@ -21,11 +21,14 @@ const UserProfileCard = ({ user }) => {
     (imageSrc) => !failedImageSources.includes(imageSrc)
   );
 
-  const userDetails = [
+  const userTitle = [
     getGenerationDisplayValue(user.userGeneration),
+    getDisplayValue(user.userName),
+  ].join(' ');
+  const userDetails = [
     getDisplayValue(user.userPart),
     getDisplayValue(user.userDepartment),
-  ];
+  ].join(' / ');
 
   const handleConfirmEditNotice = () => {
     setIsEditNoticeOpen(false);
@@ -77,12 +80,10 @@ const UserProfileCard = ({ user }) => {
         </button>
       </div>
 
-      <strong className="user-profile-card__name">
-        {getDisplayValue(user.userName)}
-      </strong>
-      <p className="user-profile-card__details">
-        {userDetails.join(' · ')}
-      </p>
+      <div className="user-profile-card__content">
+        <strong className="user-profile-card__name">{userTitle}</strong>
+        <p className="user-profile-card__details">{userDetails}</p>
+      </div>
     </section>
   );
 };

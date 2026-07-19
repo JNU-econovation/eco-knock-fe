@@ -1,23 +1,38 @@
-.my-page__settings-link {
+.my-page__settings-button {
   display: grid;
   width: 40px;
   height: 40px;
+  padding: 0;
+  border: 0;
   border-radius: 50%;
+  background: transparent;
   color: var(--color-subtle-1);
-  text-decoration: none;
   place-items: center;
+  appearance: none;
   -webkit-tap-highlight-color: transparent;
 }
 
-.my-page__settings-link:focus-visible {
-  outline: 3px solid var(--color-primary);
-  outline-offset: 2px;
+.my-page__settings-button:disabled {
+  cursor: default;
+  opacity: 1;
 }
 
 .my-page__content {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  width: calc(100% - var(--main-page-inline-total));
+  margin: 0 auto;
+  gap: 28px;
+}
+
+.my-page__section {
   width: 100%;
-  gap: 30px;
+}
+
+.my-page__section-title {
+  margin-bottom: 10px;
+  color: var(--color-primary-dark);
+  font: var(--label-large);
+  font-weight: 700;
+  letter-spacing: var(--label-large-spacing);
 }
