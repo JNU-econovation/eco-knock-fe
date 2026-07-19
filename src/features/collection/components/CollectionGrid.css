@@ -9,12 +9,23 @@
 }
 
 .collection-grid__wrapper--2x2 {
-  width: 100%;
+  position: relative;
+  width: auto;
   min-height: calc(100dvh - 176px);
-  margin: 0;
+  margin-inline: 0;
   padding-bottom: 130px;
   border-radius: 40px 40px 0 0;
   padding-left: 30px; padding-right: 30px;
+}
+
+.collection-grid__wrapper--2x2::after {
+  position: absolute;
+  top: calc(100% - 1px);
+  right: 0;
+  left: 0;
+  height: calc(120px + env(safe-area-inset-bottom));
+  background: var(--color-surface);
+  content: '';
 }
 
 /* ── 헤더 ── */

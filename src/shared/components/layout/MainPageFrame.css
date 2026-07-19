@@ -1,6 +1,6 @@
 .main-page-frame {
   --main-page-side: 49px;
-  --main-page-inline-total: 98px;
+  --main-page-inline-total: 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,6 +30,10 @@
   width: 40px;
   height: 40px;
   place-items: center;
+}
+
+.main-page-frame__header-action svg {
+  justify-self: end;
 }
 
 .main-page-frame__content {
