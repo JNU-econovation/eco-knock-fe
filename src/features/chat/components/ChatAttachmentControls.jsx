@@ -7,7 +7,7 @@ import {
   FILE_ATTACH_LABEL,
   PHOTO_ATTACH_LABEL,
 } from '@/features/chat/constants/chatText';
-import ChatAttachmentNotice from './ChatAttachmentNotice';
+import DevelopmentNotice from '@/shared/components/development-notice/DevelopmentNotice';
 
 const ChatAttachmentControls = () => {
   const [isNoticeOpen, setIsNoticeOpen] = useState(false);
@@ -26,7 +26,9 @@ const ChatAttachmentControls = () => {
   return (
     <div className="chat-overlay__attachment-area">
       {isNoticeOpen && (
-        <ChatAttachmentNotice onConfirm={handleConfirmNotice} />
+        <div className="chat-overlay__attachment-notice">
+          <DevelopmentNotice onConfirm={handleConfirmNotice} />
+        </div>
       )}
 
       <div className="chat-overlay__attachment-row">

@@ -121,6 +121,14 @@
   width: max-content;
 }
 
+.chat-overlay__attachment-notice {
+  --development-notice-transform-origin: bottom left;
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 0;
+  z-index: 2;
+}
+
 .chat-overlay__attachment-row {
   display: flex;
   gap: 4px;
