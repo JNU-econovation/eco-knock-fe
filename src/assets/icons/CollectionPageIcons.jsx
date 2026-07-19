@@ -39,6 +39,27 @@ export const CollectionEditIcon = () => (
   </svg>
 );
 
+export const CollectionResetIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <g transform="translate(-1.2 -1.2) scale(1.1)">
+      <path
+        d="M4 7v5h5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M5.5 11a7 7 0 1 1 1.3 5.8"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </g>
+  </svg>
+);
+
 export const CollectionRemoveIcon = () => (
   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
     <path
