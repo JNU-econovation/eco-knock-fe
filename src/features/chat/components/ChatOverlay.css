@@ -85,7 +85,7 @@
   border: 0;
   border-radius: 999px;
   background: #F3F7FF;
-  color: var(--color-primary);
+  color: var(--color-primary-dark);
   box-shadow:
     0 1px 4px rgba(34, 84, 176, 0.2),
     inset 0 0 0 1px rgba(225, 235, 255, 0.9);

@@ -1,0 +1,23 @@
+.my-page__settings-link {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: var(--color-subtle-1);
+  text-decoration: none;
+  place-items: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.my-page__settings-link:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.my-page__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 30px;
+}

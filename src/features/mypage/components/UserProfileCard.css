@@ -1,0 +1,67 @@
+.user-profile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(100%, 227px);
+  min-height: 217px;
+  padding: 15px 10px;
+  border: 1px solid var(--color-text-sub, #AFB1B6);
+  border-radius: 80px;
+  background: var(--color-surface, #FAFAFB);
+}
+
+.user-profile-card__avatar {
+  display: grid;
+  width: 110px;  height: 110px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--color-primary-light);
+  place-items: center;
+}
+
+.user-profile-card__image,
+.user-profile-card__image-placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+.user-profile-card__image {
+  display: block;
+  object-fit: cover;
+}
+
+.user-profile-card__image-placeholder {
+  display: grid;
+  color: var(--color-primary-dark);
+  font: var(--headline-medium);
+  place-items: center;
+}
+
+.user-profile-card__name {
+  color: var(--color-normal);
+  font: var(--headline-small);
+  font-weight: 600;
+}
+
+.user-profile-card__details {
+  margin-top: 2px;
+  color: var(--color-subtle-1);
+  font: var(--body-small);
+  letter-spacing: var(--body-small-spacing);
+  text-align: center;
+}
+
+.user-profile-card__edit-button{
+  width: 41px; height: 24px;
+  border-radius: 15px;
+  border: 1px solid #EDEDED;
+  background: var(--color-surface, #FAFAFB);
+  margin-top: 5px;
+  cursor: pointer;
+
+  color: var(--color-text-sub, #AFB1B6);
+  font: var(--body-small);
+  letter-spacing: var(--body-small-spacing);
+  text-align: center;
+}
