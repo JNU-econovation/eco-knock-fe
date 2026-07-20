@@ -1,12 +1,14 @@
 import { useRef, useState } from 'react';
 import { DoorbellIcon } from '@/assets/icons/RoomIcons';
 import EnvironmentSection from '@/features/room/components/EnvironmentSection';
-import { MOCK_ROOM_ENVIRONMENT } from '@/features/room/constants/mockRoomEnvironment';
+import { ROOM_METRICS } from '@/features/room/constants/mockRoomEnvironment';
+import { useRoomIntervals } from '@/features/room/hooks/useRoomIntervals';
 import DevelopmentNotice from '@/shared/components/development-notice/DevelopmentNotice';
 import MainPageFrame from '@/shared/components/layout/MainPageFrame';
 import './RoomPage.css';
 
 const RoomPage = () => {
+  const { defaultIntervals } = useRoomIntervals();
   const [isDoorbellNoticeOpen, setIsDoorbellNoticeOpen] = useState(false);
   const doorbellButtonRef = useRef(null);
 
@@ -44,8 +46,14 @@ const RoomPage = () => {
       className="room-page-frame"
     >
       <div className="room-page__content">
-        {MOCK_ROOM_ENVIRONMENT.map((section) => (
-          <EnvironmentSection key={section.id} section={section} />
+        {ROOM_METRICS.map((metric) => (
+          <EnvironmentSection
+            key={metric.id}
+            section={{
+              ...metric,
+              readings: metric.histories[defaultIntervals[metric.id]],
+            }}
+          />
         ))}
       </div>
     </MainPageFrame>
