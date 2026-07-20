@@ -1,12 +1,5 @@
+import { formatCoinAmount } from '../utils/formatCoinAmount';
 import './CoinSummary.css';
-
-const formatCoinBalance = (coinBalance) => {
-  if (coinBalance === null || coinBalance === undefined) {
-    return '-';
-  }
-
-  return new Intl.NumberFormat('ko-KR').format(coinBalance);
-};
 
 const CoinSummary = ({ coinBalance }) => (
   <section className="coin-summary" aria-labelledby="coin-summary-title">
@@ -14,7 +7,7 @@ const CoinSummary = ({ coinBalance }) => (
       MY COIN
     </h2>
     <p className="coin-summary__balance">
-      {formatCoinBalance(coinBalance)} COIN
+      {formatCoinAmount(coinBalance)} COIN
     </p>
   </section>
 );

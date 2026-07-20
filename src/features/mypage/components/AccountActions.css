@@ -1,0 +1,23 @@
+.account-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+  gap: 20px;
+}
+
+.account-actions__button {
+  padding: 4px;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-sub);
+  font: var(--body-large);
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.account-actions__button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}

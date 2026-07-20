@@ -1,0 +1,11 @@
+.coin-record-section {
+  width: 100%;
+}
+
+.coin-record-section__title {
+  margin-bottom: 8px;
+  color: var(--color-primary-dark);
+  font: var(--label-large);
+  font-weight: 700;
+  letter-spacing: var(--label-large-spacing);
+}

@@ -4,5 +4,5 @@ export const MOCK_USER = {
   userPart: '파트',
   userDepartment: '무소속',
   userImg: null,
-  coinBalance: null,
+  coinBalance: 13240,
 };
