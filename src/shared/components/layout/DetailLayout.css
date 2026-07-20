@@ -3,7 +3,11 @@
   height: 100dvh;
   overflow-x: hidden;
   overflow-y: auto;
-  scrollbar-gutter: stable;
+  scrollbar-width: none;
+}
+
+.detail-layout::-webkit-scrollbar {
+  display: none;
 }
 
 .detail-layout__back-button {
@@ -15,6 +19,6 @@
 
 @media (max-width: 360px) {
   .detail-layout__back-button {
-    left: 20px;
+    left: 28px;
   }
 }
