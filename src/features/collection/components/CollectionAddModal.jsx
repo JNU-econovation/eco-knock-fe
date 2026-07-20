@@ -1,4 +1,11 @@
-import { useEffect, useId, useMemo, useRef, useState } from 'react';
+import {
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   normalizeCollectionUrl,
   resolveFaviconUrl,
@@ -7,6 +14,7 @@ import './CollectionAddModal.css';
 
 const CollectionAddModal = ({ onAdd, onCancel }) => {
   const titleId = useId();
+  const backdropRef = useRef(null);
   const nameInputRef = useRef(null);
   const [name, setName] = useState('');
   const [urlInput, setUrlInput] = useState('');
@@ -35,6 +43,31 @@ const CollectionAddModal = ({ onAdd, onCancel }) => {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [onCancel]);
+
+  useLayoutEffect(() => {
+    const backdrop = backdropRef.current;
+    const scrollContainer = document.querySelector('.app-layout__main');
+
+    if (!backdrop || !scrollContainer) return undefined;
+
+    const alignToContentCenter = () => {
+      const containerRect = scrollContainer.getBoundingClientRect();
+      const contentCenter = containerRect.left + scrollContainer.clientWidth / 2;
+
+      backdrop.style.setProperty('--collection-add-modal-center-x', `${contentCenter}px`);
+    };
+
+    alignToContentCenter();
+
+    const resizeObserver = new ResizeObserver(alignToContentCenter);
+    resizeObserver.observe(scrollContainer);
+    window.addEventListener('resize', alignToContentCenter);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', alignToContentCenter);
+    };
+  }, []);
 
   useEffect(() => {
     let isCancelled = false;
@@ -68,7 +101,11 @@ const CollectionAddModal = ({ onAdd, onCancel }) => {
   };
 
   return (
-    <div className="collection-add-modal__backdrop" onClick={onCancel}>
+    <div
+      ref={backdropRef}
+      className="collection-add-modal__backdrop"
+      onClick={onCancel}
+    >
       <form
         className="collection-add-modal"
         role="dialog"
