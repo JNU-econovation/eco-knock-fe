@@ -5,6 +5,7 @@ import CoinLogPage from '@/pages/CoinLogPage';
 import CoinPage from '@/pages/CoinPage';
 import MyPage from '@/pages/MyPage';
 import RoomPage from '@/pages/RoomPage';
+import RoomEnvironmentDetailPage from '@/pages/RoomEnvironmentDetailPage';
 import AppLayout from '@/shared/components/layout/AppLayout';
 import DetailLayout from '@/shared/components/layout/DetailLayout';
 
@@ -20,6 +21,22 @@ export default function AppRouter() {
       </Route>
 
       <Route element={<DetailLayout />}>
+        <Route
+          path={ROUTES.ROOM_TEMPERATURE}
+          element={<RoomEnvironmentDetailPage metricId="temperature" />}
+        />
+        <Route
+          path={ROUTES.ROOM_HUMIDITY}
+          element={<RoomEnvironmentDetailPage metricId="humidity" />}
+        />
+        <Route
+          path={ROUTES.ROOM_FINE_DUST}
+          element={<RoomEnvironmentDetailPage metricId="fine-dust" />}
+        />
+        <Route
+          path={ROUTES.ROOM_AIR_QUALITY}
+          element={<RoomEnvironmentDetailPage metricId="air-quality" />}
+        />
         <Route path={ROUTES.MYPAGE_COIN} element={<CoinPage />} />
         <Route path={ROUTES.MYPAGE_COIN_LOG} element={<CoinLogPage />} />
       </Route>

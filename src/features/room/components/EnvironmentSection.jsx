@@ -1,29 +1,8 @@
+import { Link } from 'react-router-dom';
 import { AIR_QUALITY_LEVELS } from '../constants/mockRoomEnvironment';
 import { useHorizontalDragScroll } from '../hooks/useHorizontalDragScroll';
+import EnvironmentReading from './EnvironmentReading';
 import './EnvironmentSection.css';
-
-const ValueReading = ({ reading }) => (
-  <li className="environment-section__reading environment-section__reading--value">
-    <span className="environment-section__reading-value">{reading.value}</span>
-    <time className="environment-section__reading-time">{reading.time}</time>
-  </li>
-);
-
-const StatusReading = ({ reading }) => {
-  const level = AIR_QUALITY_LEVELS[reading.value];
-  const { Icon } = level;
-
-  return (
-    <li
-      className="environment-section__reading environment-section__reading--status"
-      aria-label={`${reading.time} ${level.label}`}
-    >
-      <Icon size={20} />
-      <span className="environment-section__reading-label">{level.shortLabel}</span>
-      <time className="environment-section__reading-time">{reading.time}</time>
-    </li>
-  );
-};
 
 const EnvironmentSection = ({ section }) => {
   const horizontalDragScrollHandlers = useHorizontalDragScroll(section.readings.length);
@@ -36,11 +15,17 @@ const EnvironmentSection = ({ section }) => {
   return (
     <section className="environment-section" aria-labelledby={`${section.id}-title`}>
       <h2 className="environment-section__title" id={`${section.id}-title`}>
-        {section.title}
+        <Link className="environment-section__title-link" to={section.path}>
+          {section.title}
+        </Link>
       </h2>
 
       <div className={`environment-section__card environment-section__card--${section.type}`}>
-        <div className="environment-section__current">
+        <Link
+          className="environment-section__current"
+          to={section.path}
+          aria-label={`${section.title} 상세 보기`}
+        >
           {isStatus ? (
             <>
               <CurrentIcon size={50} />
@@ -53,7 +38,7 @@ const EnvironmentSection = ({ section }) => {
               {section.currentValue}
             </strong>
           )}
-        </div>
+        </Link>
 
         <div
           className="environment-section__scroll"
@@ -65,9 +50,11 @@ const EnvironmentSection = ({ section }) => {
         >
           <ul className="environment-section__readings">
             {section.readings.map((reading) => (
-              isStatus
-                ? <StatusReading key={reading.id} reading={reading} />
-                : <ValueReading key={reading.id} reading={reading} />
+              <EnvironmentReading
+                key={reading.id}
+                reading={reading}
+                type={section.type}
+              />
             ))}
           </ul>
         </div>

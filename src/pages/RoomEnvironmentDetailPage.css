@@ -1,0 +1,28 @@
+.room-environment-detail {
+  display: flex;
+  flex-direction: column;
+}
+
+.room-environment-detail__description {
+  margin-top: -23px;
+  color: var(--color-subtle-1);
+  font: var(--label-large);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.room-environment-detail__intervals {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+@media (max-width: 360px) {
+  .room-environment-detail__description {
+    font-size: 14px;
+  }
+
+  .room-environment-detail__intervals {
+    gap: 12px;
+  }
+}
