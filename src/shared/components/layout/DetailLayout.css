@@ -1,6 +1,9 @@
 .detail-layout {
   position: relative;
-  min-height: 100dvh;
+  height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
 }
 
 .detail-layout__back-button {
