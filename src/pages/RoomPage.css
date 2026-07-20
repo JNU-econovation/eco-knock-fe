@@ -1,0 +1,74 @@
+.room-page__content {
+  display: flex;
+  width: calc(100% - var(--main-page-inline-total));
+  margin: 0 auto;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.room-page-frame .main-page-frame__header {
+  justify-content: flex-start;
+  gap: 30px;
+}
+
+.room-page-frame .main-page-frame__header-action {
+  flex-basis: 70px;
+  width: 70px;
+  height: 70px;
+}
+
+.room-page__doorbell-area {
+  position: relative;
+  display: grid;
+  width: 70px;
+  height: 70px;
+  place-items: center;
+}
+
+.room-page__doorbell-button {
+  display: flex;
+  width: 70px;
+  height: 70px;
+  padding: 0;
+  border: 0;
+  border-radius: 20px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--color-primary-dark);
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.room-page__doorbell-button span {
+  position: absolute;
+  bottom: 6px;
+  font: var(--body-smallsmall);
+  font-size: 10px;
+  line-height: 10px;
+}
+
+.room-page__doorbell-button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.room-page__doorbell-notice {
+  --development-notice-transform-origin: bottom right;
+  position: absolute;
+  right: calc(100% + 5px);
+  z-index: 10;
+}
+
+@media (max-width: 360px) {
+  .room-page-frame .main-page-frame__title {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .room-page__content {
+    gap: 20px;
+  }
+}

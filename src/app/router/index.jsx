@@ -4,6 +4,7 @@ import CollectionPage from '@/pages/CollectionPage';
 import CoinLogPage from '@/pages/CoinLogPage';
 import CoinPage from '@/pages/CoinPage';
 import MyPage from '@/pages/MyPage';
+import RoomPage from '@/pages/RoomPage';
 import AppLayout from '@/shared/components/layout/AppLayout';
 import DetailLayout from '@/shared/components/layout/DetailLayout';
 
@@ -13,7 +14,7 @@ export default function AppRouter() {
       <Route element={<AppLayout />}>
         <Route path={ROUTES.HOME} element={<CollectionPage />} />
         <Route path={ROUTES.COLLECTION} element={<CollectionPage />} />
-        <Route path={ROUTES.ROOM} element={<CollectionPage />} />
+        <Route path={ROUTES.ROOM} element={<RoomPage />} />
         <Route path={ROUTES.RECRUIT} element={<CollectionPage />} />
         <Route path={ROUTES.MYPAGE} element={<MyPage />} />
       </Route>
