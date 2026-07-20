@@ -59,10 +59,10 @@
 }
 
 .user-profile-card__edit-notice {
-  --development-notice-transform-origin: bottom right;
+  --development-notice-transform-origin: bottom left;
   position: absolute;
-  left: 70px;
-  bottom: calc(100% + 12px);
+  left: 75px;
+  bottom: calc(100% + 5px);
   z-index: 2;
 }
 

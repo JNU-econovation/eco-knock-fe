@@ -6,7 +6,7 @@
 .detail-layout__back-button {
   position: absolute;
   top: max(45px, calc(env(safe-area-inset-top) + 12px));
-  left: 45px;
+  left: 40px;
   z-index: 10;
 }
 
