@@ -69,6 +69,7 @@
 .environment-section__scroll {
   min-width: 0;
   flex: 1;
+  container-type: inline-size;
   overflow-x: auto;
   overflow-y: hidden;
   overscroll-behavior-inline: contain;
