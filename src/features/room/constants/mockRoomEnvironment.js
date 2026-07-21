@@ -6,7 +6,6 @@ import {
   VeryGoodFaceIcon,
 } from '@/assets/icons/RoomIcons';
 import { ROUTES } from '@/shared/constants/routes';
-import { getAirQualityLevel } from '../utils/airQualityLevel';
 
 export const AIR_QUALITY_LEVELS = {
   veryGood: { label: '매우 좋음', shortLabel: '매우좋음', Icon: VeryGoodFaceIcon },
@@ -75,7 +74,7 @@ const makeAirQualityHistory = (interval) => (
       id: `${interval.id}-${time}-${index}`,
       time,
       sensorValues,
-      value: getAirQualityLevel(sensorValues),
+      value: "good",
     };
   })
 );
@@ -123,7 +122,7 @@ export const ROOM_METRICS = [
     title: '동방 공기질',
     description: '동방의 이산화탄소와 bvoc(냄새)를 포함한 공기질 정도를 나타냅니다.',
     type: 'status',
-    currentLevel: getAirQualityLevel({ co2: 820, bvoc: 210 }),
+    currentLevel: "good",
     histories: makeHistories(makeAirQualityHistory),
   },
 ];
