@@ -14,7 +14,7 @@
 }
 
 .detail-page-frame--plain {
-  --detail-page-side: 40px;
+  --detail-page-side: 35px;
   padding: 0 var(--detail-page-side) calc(64px + env(safe-area-inset-bottom));
   background: var(--color-bg);
 }

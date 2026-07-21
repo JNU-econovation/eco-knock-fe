@@ -12,23 +12,23 @@
 }
 
 .room-page-frame .main-page-frame__header-action {
-  flex-basis: 70px;
-  width: 70px;
-  height: 70px;
+  flex-basis: 65px;
+  width: 65px;
+  height: 65px;
 }
 
 .room-page__doorbell-area {
   position: relative;
   display: grid;
-  width: 70px;
-  height: 70px;
+  width: 65px;
+  height: 65px;
   place-items: center;
 }
 
 .room-page__doorbell-button {
   display: flex;
-  width: 70px;
-  height: 70px;
+  width: 65px;
+  height: 65px;
   padding: 0;
   border: 0;
   border-radius: 20px;

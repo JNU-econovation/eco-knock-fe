@@ -1,5 +1,5 @@
 .main-page-frame {
-  --main-page-side: 40px;
+  --main-page-side: 35px;
   --main-page-inline-total: calc(var(--main-page-side) * 2);
   display: flex;
   flex-direction: column;
