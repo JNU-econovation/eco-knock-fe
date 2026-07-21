@@ -1,7 +1,6 @@
 import {
   useEffect,
   useId,
-  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -14,21 +13,17 @@ import './CollectionAddModal.css';
 
 const CollectionAddModal = ({ onAdd, onCancel }) => {
   const titleId = useId();
-  const backdropRef = useRef(null);
   const nameInputRef = useRef(null);
+  const isSubmittingRef = useRef(false);
+  const isMountedRef = useRef(true);
   const [name, setName] = useState('');
   const [urlInput, setUrlInput] = useState('');
-  const [faviconResolution, setFaviconResolution] = useState({
-    url: null,
-    logo: null,
-  });
+  const [isFaviconResolving, setIsFaviconResolving] = useState(false);
   const normalizedUrl = useMemo(() => normalizeCollectionUrl(urlInput), [urlInput]);
-  const hasResolvedFavicon = faviconResolution.url === normalizedUrl;
-  const resolvedFaviconUrl = hasResolvedFavicon ? faviconResolution.logo : null;
-  const isFaviconResolving = Boolean(normalizedUrl && !hasResolvedFavicon);
   const canSubmit = Boolean(name.trim() && normalizedUrl && !isFaviconResolving);
 
   useEffect(() => {
+    isMountedRef.current = true;
     nameInputRef.current?.focus();
 
     const handleKeyDown = (event) => {
@@ -40,69 +35,32 @@ const CollectionAddModal = ({ onAdd, onCancel }) => {
     document.addEventListener('keydown', handleKeyDown);
 
     return () => {
+      isMountedRef.current = false;
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [onCancel]);
 
-  useLayoutEffect(() => {
-    const backdrop = backdropRef.current;
-    const scrollContainer = document.querySelector('.app-layout__main');
-
-    if (!backdrop || !scrollContainer) return undefined;
-
-    const alignToContentCenter = () => {
-      const containerRect = scrollContainer.getBoundingClientRect();
-      const contentCenter = containerRect.left + scrollContainer.clientWidth / 2;
-
-      backdrop.style.setProperty('--collection-add-modal-center-x', `${contentCenter}px`);
-    };
-
-    alignToContentCenter();
-
-    const resizeObserver = new ResizeObserver(alignToContentCenter);
-    resizeObserver.observe(scrollContainer);
-    window.addEventListener('resize', alignToContentCenter);
-
-    return () => {
-      resizeObserver.disconnect();
-      window.removeEventListener('resize', alignToContentCenter);
-    };
-  }, []);
-
-  useEffect(() => {
-    let isCancelled = false;
-
-    if (!normalizedUrl) return undefined;
-
-    resolveFaviconUrl(normalizedUrl).then((faviconUrl) => {
-      if (isCancelled) return;
-
-      setFaviconResolution({
-        url: normalizedUrl,
-        logo: faviconUrl,
-      });
-    });
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [normalizedUrl]);
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!canSubmit) return;
+    if (!canSubmit || isSubmittingRef.current) return;
+
+    isSubmittingRef.current = true;
+    setIsFaviconResolving(true);
+
+    const logo = await resolveFaviconUrl(normalizedUrl, name);
+
+    if (!isMountedRef.current) return;
 
     onAdd({
       name: name.trim(),
       url: normalizedUrl,
-      logo: resolvedFaviconUrl,
+      logo,
     });
   };
 
   return (
     <div
-      ref={backdropRef}
       className="collection-add-modal__backdrop"
       onClick={onCancel}
     >

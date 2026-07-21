@@ -1,7 +1,7 @@
 import './MainPageFrame.css';
 
-const MainPageFrame = ({ title, headerAction, children }) => (
-  <div className="main-page-frame">
+const MainPageFrame = ({ title, headerAction, children, className = '' }) => (
+  <div className={`main-page-frame ${className}`.trim()}>
     <header className="main-page-frame__header">
       <h1 className="main-page-frame__title">{title}</h1>
       {headerAction && (

@@ -1,15 +1,36 @@
-import { useState } from 'react';
-import { createGoogleFaviconUrl } from '../utils/collectionLink';
+import { useMemo, useState } from 'react';
+import {
+  createInitialPlaceholderUrl,
+  hasUsableFaviconSize,
+  isInitialPlaceholderUrl,
+} from '../utils/collectionLink';
 
 const CollectionFavicon = ({ item, className, alt = item.name }) => {
-  const fallbackUrl = createGoogleFaviconUrl(item.url);
+  const fallbackUrl = useMemo(
+    () => createInitialPlaceholderUrl(item.url, item.name),
+    [item.name, item.url],
+  );
   const [failedUrls, setFailedUrls] = useState(() => new Set());
   const imageUrl = !failedUrls.has(item.logo)
     ? item.logo
     : !failedUrls.has(fallbackUrl) ? fallbackUrl : null;
+  const imageClassName = [
+    className,
+    isInitialPlaceholderUrl(imageUrl) ? 'collection-favicon--placeholder' : '',
+  ].filter(Boolean).join(' ');
 
   const handleError = () => {
     setFailedUrls((prev) => new Set(prev).add(imageUrl));
+  };
+
+  const handleLoad = (event) => {
+    if (isInitialPlaceholderUrl(imageUrl)) return;
+
+    const { naturalWidth, naturalHeight } = event.currentTarget;
+
+    if (!hasUsableFaviconSize(naturalWidth, naturalHeight)) {
+      handleError();
+    }
   };
 
   if (!item.logo || !imageUrl) {
@@ -20,8 +41,9 @@ const CollectionFavicon = ({ item, className, alt = item.name }) => {
     <img
       src={imageUrl}
       alt={alt}
-      className={className}
+      className={imageClassName}
       draggable={false}
+      onLoad={handleLoad}
       onError={handleError}
     />
   );

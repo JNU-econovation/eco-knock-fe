@@ -10,9 +10,6 @@
 }
 
 .collection-add-modal {
-  position: absolute;
-  top: 50%;
-  left: var(--collection-add-modal-center-x, 50%);
   display: flex;
   width: min(280px, calc(100vw - 40px));
   box-sizing: border-box;
@@ -24,7 +21,6 @@
   box-shadow:
     0 4px 4px rgba(0, 0, 0, 0.25),
     1px 1px 5px 2px rgba(34, 84, 176, 0.1);
-  transform: translate(-50%, -50%);
 }
 
 .collection-add-modal__title {

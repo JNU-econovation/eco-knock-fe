@@ -1,6 +1,6 @@
 .main-page-frame {
-  --main-page-side: 49px;
-  --main-page-inline-total: 80px;
+  --main-page-side: clamp(30px, 8vw, 35px);
+  --main-page-inline-total: calc(var(--main-page-side) * 2);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -38,11 +38,4 @@
 
 .main-page-frame__content {
   width: 100%;
-}
-
-@media (max-width: 360px) {
-  .main-page-frame {
-    --main-page-side: 28px;
-    --main-page-inline-total: 56px;
-  }
 }

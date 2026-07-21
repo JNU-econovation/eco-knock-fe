@@ -33,6 +33,12 @@
   -webkit-touch-callout: none;
 }
 
+.collection-drag-preview__logo.collection-favicon--placeholder {
+  width: 60%;
+  height: 60%;
+  border-radius: 50%;
+}
+
 .collection-drag-preview__name {
   font: var(--body-medium);
   color: var(--color-primary-dark);

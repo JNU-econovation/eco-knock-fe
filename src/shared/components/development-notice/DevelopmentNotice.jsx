@@ -5,11 +5,7 @@ import {
 } from '@/shared/constants/developmentNotice';
 import './DevelopmentNotice.css';
 
-const DevelopmentNotice = ({
-  message = DEVELOPMENT_NOTICE_MESSAGE,
-  confirmLabel = DEVELOPMENT_NOTICE_CONFIRM_LABEL,
-  onConfirm,
-}) => {
+const DevelopmentNotice = ({ onConfirm }) => {
   const messageId = useId();
   const confirmButtonRef = useRef(null);
 
@@ -24,7 +20,7 @@ const DevelopmentNotice = ({
       aria-labelledby={messageId}
     >
       <p id={messageId} className="development-notice__message">
-        {message}
+        {DEVELOPMENT_NOTICE_MESSAGE}
       </p>
       <button
         ref={confirmButtonRef}
@@ -32,7 +28,7 @@ const DevelopmentNotice = ({
         type="button"
         onClick={onConfirm}
       >
-        {confirmLabel}
+        {DEVELOPMENT_NOTICE_CONFIRM_LABEL}
       </button>
     </div>
   );

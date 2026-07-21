@@ -14,7 +14,7 @@
 }
 
 .detail-page-frame--plain {
-  --detail-page-side: 40px;
+  --detail-page-side: clamp(30px, 8vw, 35px);
   padding: 0 var(--detail-page-side) calc(64px + env(safe-area-inset-bottom));
   background: var(--color-bg);
 }
@@ -33,10 +33,4 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
-}
-
-@media (max-width: 360px) {
-  .detail-page-frame--plain {
-    --detail-page-side: 28px;
-  }
 }

@@ -1,0 +1,77 @@
+.room-interval-card {
+  width: 100%;
+  min-height: 112px;
+  overflow: hidden;
+  border: 1px solid rgba(175, 177, 182, 0.3);
+  border-radius: 22px;
+  background: var(--color-surface);
+}
+
+.room-interval-card__header {
+  display: flex;
+  height: 32px;
+  padding: 6px 11px 0;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.room-interval-card__header h2 {
+  color: var(--color-primary-dark);
+  font: var(--body-small);
+  font-weight: 700;
+}
+
+.room-interval-card__default-button {
+  min-width: 39px;
+  height: 21px;
+  padding: 0 8px;
+  border: 1px solid rgba(175, 177, 182, 0.3);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-subtle-1);
+  font: var(--body-smallsmall);
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.room-interval-card__default-button--active {
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
+}
+
+.room-interval-card__default-button:focus-visible,
+.room-interval-card__scroll:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+.room-interval-card__scroll {
+  container-type: inline-size;
+  height: 79px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  overscroll-behavior-inline: contain;
+  cursor: grab;
+  touch-action: pan-x pan-y;
+  user-select: none;
+  -webkit-overflow-scrolling: touch;
+  -webkit-user-select: none;
+}
+
+.room-interval-card__scroll:active {
+  cursor: grabbing;
+}
+
+.room-interval-card__scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.room-interval-card__readings {
+  display: flex;
+  width: max-content;
+  height: 100%;
+  padding: 0 10px;
+  list-style: none;
+}
