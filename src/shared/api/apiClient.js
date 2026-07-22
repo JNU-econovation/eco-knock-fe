@@ -21,20 +21,25 @@ let clientHandlers = null;
 let refreshPromise = null;
 let unauthorizedFlowPromise = null;
 
-export const getApiErrorMessage = (error) => {
+export const getApiErrorDetails = (error) => {
   const status = error.response?.status;
   const backendMessage = error.response?.data?.message;
-
-  if (
+  const backendErrorCode = error.response?.data?.errorCode;
+  const message = (
     status >= 400 &&
     status < 500 &&
     typeof backendMessage === 'string' &&
     backendMessage.trim()
-  ) {
-    return backendMessage;
-  }
+  )
+    ? backendMessage
+    : UNKNOWN_ERROR_MESSAGE;
+  const errorCode = (
+    typeof backendErrorCode === 'string' && backendErrorCode.trim()
+  )
+    ? backendErrorCode.trim()
+    : status >= 400 && status < 600 ? `HTTP ${status}` : null;
 
-  return UNKNOWN_ERROR_MESSAGE;
+  return { message, errorCode };
 };
 
 export const configureApiClient = (handlers) => {
@@ -46,7 +51,7 @@ export const configureApiClient = (handlers) => {
 };
 
 const showRequestError = async (error) => {
-  await clientHandlers?.showError(getApiErrorMessage(error));
+  await clientHandlers?.showError(getApiErrorDetails(error));
 };
 
 const handleUnauthorized = (error) => {

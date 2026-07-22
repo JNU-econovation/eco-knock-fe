@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import './ErrorModal.css';
 
-const ErrorModal = ({ message, onDismiss }) => {
+const ErrorModal = ({ message, errorCode, onDismiss }) => {
   const confirmButtonRef = useRef(null);
 
   useEffect(() => {
@@ -32,9 +32,14 @@ const ErrorModal = ({ message, onDismiss }) => {
         aria-labelledby="error-modal-message"
         onClick={(event) => event.stopPropagation()}
       >
-        <p id="error-modal-message" className="error-modal__message">
-          {message}
-        </p>
+        <div className="error-modal__details">
+          <p id="error-modal-message" className="error-modal__message">
+            Error: {message}
+          </p>
+          {errorCode && (
+            <p className="error-modal__error-code">{errorCode}</p>
+          )}
+        </div>
         <button
           ref={confirmButtonRef}
           className="error-modal__confirm-button"
