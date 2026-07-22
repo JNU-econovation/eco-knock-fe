@@ -83,6 +83,8 @@ const refreshAccessToken = () => {
 apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
+    if (axios.isCancel(error)) return Promise.reject(error);
+
     const requestConfig = error.config ?? {};
     const isUnauthorized = error.response?.status === 401;
     const canRefresh = isUnauthorized && !requestConfig.skipAuthRefresh;

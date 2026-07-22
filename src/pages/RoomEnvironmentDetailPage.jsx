@@ -3,14 +3,16 @@ import RoomMetricHero from '@/features/room/components/RoomMetricHero';
 import {
   getRoomMetric,
   ROOM_INTERVALS,
-} from '@/features/room/constants/mockRoomEnvironment';
+} from '@/features/room/constants/roomEnvironment';
 import { useRoomIntervals } from '@/features/room/hooks/useRoomIntervals';
+import { useRoomMetricDetail } from '@/features/room/hooks/useRoomMetricDetail';
 import DetailPageFrame from '@/shared/components/layout/DetailPageFrame';
 import './RoomEnvironmentDetailPage.css';
 
 const RoomEnvironmentDetailPage = ({ metricId }) => {
   const metric = getRoomMetric(metricId);
   const { defaultIntervals, setDefaultInterval } = useRoomIntervals();
+  const { displayMetric, histories } = useRoomMetricDetail(metric);
 
   return (
     <DetailPageFrame title={metric.title} variant="plain">
@@ -19,14 +21,14 @@ const RoomEnvironmentDetailPage = ({ metricId }) => {
           {metric.description}
         </p>
 
-        <RoomMetricHero metric={metric} />
+        <RoomMetricHero metric={displayMetric} />
 
         <div className="room-environment-detail__intervals">
           {ROOM_INTERVALS.map((interval) => (
             <RoomIntervalCard
               key={interval.id}
               interval={interval}
-              readings={metric.histories[interval.id]}
+              readings={histories[interval.id] ?? []}
               metricType={metric.type}
               isDefault={defaultIntervals[metric.id] === interval.id}
               onSetDefault={() => setDefaultInterval(metric.id, interval.id)}

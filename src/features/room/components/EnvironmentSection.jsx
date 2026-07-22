@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { AIR_QUALITY_LEVELS } from '../constants/mockRoomEnvironment';
+import { AIR_QUALITY_LEVELS } from '../constants/roomEnvironment';
 import { useHorizontalDragScroll } from '../hooks/useHorizontalDragScroll';
 import EnvironmentReading from './EnvironmentReading';
 import './EnvironmentSection.css';
@@ -26,17 +26,19 @@ const EnvironmentSection = ({ section }) => {
           to={section.path}
           aria-label={`${section.title} 상세 보기`}
         >
-          {isStatus ? (
+          {isStatus && currentLevel ? (
             <>
               <CurrentIcon size={50} />
               <strong className="environment-section__current-status">
                 {currentLevel.shortLabel}
               </strong>
             </>
-          ) : (
+          ) : !isStatus ? (
             <strong className="environment-section__current-value">
               {section.currentValue}
             </strong>
+          ) : (
+            <strong className="environment-section__current-status">–</strong>
           )}
         </Link>
 
