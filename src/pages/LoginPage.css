@@ -1,0 +1,16 @@
+.auth-page.main-page-frame {
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding-bottom: max(32px, env(safe-area-inset-bottom));
+}
+
+.auth-page__content {
+  width: calc(100% - var(--main-page-inline-total));
+  margin: 0 auto;
+}
+
+.login-page__actions {
+  display: grid;
+  margin-top: 64px;
+  gap: 16px;
+}
