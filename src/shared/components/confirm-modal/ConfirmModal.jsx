@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef } from 'react';
+import ButtonSpinner from '@/shared/components/button-spinner/ButtonSpinner';
 import './ConfirmModal.css';
 
 const ConfirmModal = ({
@@ -17,29 +18,19 @@ const ConfirmModal = ({
     cancelButtonRef.current?.focus();
 
     const handleKeyDown = (event) => {
-      if (event.key === 'Escape' && !isPending) {
-        onCancel();
-      }
+      if (event.key === 'Escape' && !isPending) onCancel();
     };
 
     document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isPending, onCancel]);
 
   const handleBackdropClick = () => {
-    if (!isPending) {
-      onCancel();
-    }
+    if (!isPending) onCancel();
   };
 
   return (
-    <div
-      className="confirm-modal__backdrop"
-      onClick={handleBackdropClick}
-    >
+    <div className="confirm-modal__backdrop" onClick={handleBackdropClick}>
       <div
         className="confirm-modal"
         role="dialog"
@@ -60,9 +51,7 @@ const ConfirmModal = ({
             aria-busy={isPending}
             aria-label={isPending ? pendingLabel : undefined}
           >
-            {isPending ? (
-              <span className="confirm-modal__spinner" aria-hidden="true" />
-            ) : confirmLabel}
+            {isPending ? <ButtonSpinner /> : confirmLabel}
           </button>
           <button
             ref={cancelButtonRef}

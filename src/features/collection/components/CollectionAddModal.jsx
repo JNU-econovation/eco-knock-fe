@@ -5,6 +5,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import ButtonSpinner from '@/shared/components/button-spinner/ButtonSpinner';
 import {
   normalizeCollectionUrl,
   resolveFaviconUrl,
@@ -104,9 +105,7 @@ const CollectionAddModal = ({ onAdd, onCancel }) => {
           aria-busy={isFaviconResolving}
           aria-label={isFaviconResolving ? '아이콘 확인 중' : undefined}
         >
-          {isFaviconResolving ? (
-            <span className="collection-add-modal__spinner" aria-hidden="true" />
-          ) : '확인'}
+          {isFaviconResolving ? <ButtonSpinner /> : '확인'}
         </button>
       </form>
     </div>
