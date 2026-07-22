@@ -1,12 +1,20 @@
 // features/collection/hooks/useCollectionGrid.js
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useErrorModal } from '@/shared/hooks/useErrorModal';
-import { DEFAULT_COLLECTION_ITEMS } from '../constants/collectionItems';
+import {
+  getOverviewShortcuts,
+  resetOverviewShortcuts,
+  updateOverviewLayout,
+  updateOverviewShortcuts,
+} from '../api/overviewApi';
 import { removeItemById, reorderItemsByInsertion } from '../utils/collectionGrid';
+import {
+  mapOverviewResult,
+  toOverviewShortcutRequest,
+} from '../utils/overviewShortcuts';
 
-const REMOVE_REQUEST_TIMEOUT_MS = 2000;
 const DRAG_HOLD_DELAY_MS = 150;
 const DRAG_MOVE_CANCEL_THRESHOLD_PX = 8;
+const MAX_SHORTCUT_COUNT = 20;
 
 const EDIT_MODE_CONTROL_SELECTOR = [
   '.collection-item',
@@ -16,8 +24,6 @@ const EDIT_MODE_CONTROL_SELECTOR = [
 
 const DRAG_EXCLUDED_SELECTOR = 'button, [data-no-drag="true"]';
 const COLLECTION_ITEM_SELECTOR = '[data-collection-item-id]';
-
-const resolveRemoveItemRequest = () => Promise.resolve();
 
 const getCollectionItemElements = () => (
   [...document.querySelectorAll(COLLECTION_ITEM_SELECTOR)]
@@ -73,21 +79,18 @@ const findNearestDropTargetElement = (clientX, clientY, draggedId) => {
   }, null)?.element;
 };
 
-export const useCollectionGrid = (
-  initialItems = DEFAULT_COLLECTION_ITEMS,
-  removeItemRequest = resolveRemoveItemRequest,
-) => {
-  const [items, setItems] = useState(initialItems);
-  const [gridLayout, setGridLayout] = useState('3x3');
+export const useCollectionGrid = () => {
+  const [items, setItems] = useState([]);
+  const [gridLayout, setGridLayout] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
   const [pendingRemoveItem, setPendingRemoveItem] = useState(null);
   const [isRemoving, setIsRemoving] = useState(false);
   const [draggedItemId, setDraggedItemId] = useState(null);
   const [dragPreview, setDragPreview] = useState(null);
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
-  const { showError } = useErrorModal();
   const dragPointerRef = useRef(null);
   const dragHoldTimerRef = useRef(null);
   const isDragActiveRef = useRef(false);
@@ -97,9 +100,19 @@ export const useCollectionGrid = (
   const dragPreviewPositionRef = useRef(null);
   const touchMoveCleanupRef = useRef(null);
   const removeRequestLockRef = useRef(false);
-  const removeAbortControllerRef = useRef(null);
-  const removeTimeoutRef = useRef(null);
+  const shortcutRequestLockRef = useRef(false);
+  const layoutRequestLockRef = useRef(false);
   const isMountedRef = useRef(true);
+
+  const loadOverview = useCallback(async () => {
+    const response = await getOverviewShortcuts();
+    const overview = mapOverviewResult(response.data.result);
+
+    if (!isMountedRef.current) return;
+
+    setItems(overview.items);
+    setGridLayout(overview.gridLayout);
+  }, []);
 
   const stopTouchMoveBlocker = useCallback(() => {
     touchMoveCleanupRef.current?.();
@@ -220,41 +233,29 @@ export const useCollectionGrid = (
   };
 
   const confirmRemoveItem = async () => {
-    if (!pendingRemoveItem || removeRequestLockRef.current) return;
+    if (
+      !pendingRemoveItem ||
+      removeRequestLockRef.current ||
+      shortcutRequestLockRef.current
+    ) return;
 
     removeRequestLockRef.current = true;
+    shortcutRequestLockRef.current = true;
     setIsRemoving(true);
 
-    const abortController = new AbortController();
-    removeAbortControllerRef.current = abortController;
-
     try {
-      // TODO - backend integration: replace with the real remove API and pass AbortSignal.
-      const removeRequest = removeItemRequest(pendingRemoveItem, {
-        signal: abortController.signal,
-      });
-      const timeoutRequest = new Promise((_, reject) => {
-        removeTimeoutRef.current = window.setTimeout(() => {
-          abortController.abort();
-          reject(new Error('Remove request timed out'));
-        }, REMOVE_REQUEST_TIMEOUT_MS);
-      });
-
-      await Promise.race([removeRequest, timeoutRequest]);
+      const nextItems = removeItemById(items, pendingRemoveItem.id);
+      await updateOverviewShortcuts(toOverviewShortcutRequest(nextItems));
 
       if (!isMountedRef.current) return;
 
-      setItems((prev) => removeItemById(prev, pendingRemoveItem.id));
+      setItems(nextItems);
       setPendingRemoveItem(null);
     } catch {
-      if (isMountedRef.current) {
-        showError();
-      }
+      // The shared API client presents the backend error. Keep the item for retry.
     } finally {
-      window.clearTimeout(removeTimeoutRef.current);
-      removeTimeoutRef.current = null;
-      removeAbortControllerRef.current = null;
       removeRequestLockRef.current = false;
+      shortcutRequestLockRef.current = false;
 
       if (isMountedRef.current) {
         setIsRemoving(false);
@@ -262,13 +263,31 @@ export const useCollectionGrid = (
     }
   };
 
-  const changeGridLayout = () => {
+  const changeGridLayout = async () => {
+    if (layoutRequestLockRef.current) return;
+
     clearDragInteraction();
-    setGridLayout((prev) => (prev === '3x3' ? '2x2' : '3x3'));
+    const nextGridLayout = gridLayout === '3x3' ? '2x2' : '3x3';
+    layoutRequestLockRef.current = true;
+
+    try {
+      await updateOverviewLayout(nextGridLayout[0]);
+
+      if (isMountedRef.current) setGridLayout(nextGridLayout);
+    } catch {
+      // Keep the server-confirmed layout when the update fails.
+    } finally {
+      layoutRequestLockRef.current = false;
+    }
   };
 
   const addItem = () => {
-    if (pendingRemoveItem || isRemoving || isResetModalOpen) return;
+    if (
+      pendingRemoveItem ||
+      isRemoving ||
+      isResetModalOpen ||
+      items.length >= MAX_SHORTCUT_COUNT
+    ) return;
 
     clearDragInteraction();
     setIsAddModalOpen(true);
@@ -278,17 +297,28 @@ export const useCollectionGrid = (
     setIsAddModalOpen(false);
   };
 
-  const confirmAddItem = ({ name, url, logo }) => {
+  const confirmAddItem = async ({ name, url, logo }) => {
+    if (shortcutRequestLockRef.current) return;
+
     const newItem = {
       id: globalThis.crypto?.randomUUID?.() ?? `collection-${Date.now()}`,
       name,
       url,
       logo,
     };
+    const nextItems = [...items, newItem];
+    shortcutRequestLockRef.current = true;
 
-    // TODO: send newItem to the backend once the add-link API contract exists.
-    setItems((prev) => [...prev, newItem]);
-    setIsAddModalOpen(false);
+    try {
+      await updateOverviewShortcuts(toOverviewShortcutRequest(nextItems));
+
+      if (!isMountedRef.current) return;
+
+      setItems(nextItems);
+      setIsAddModalOpen(false);
+    } finally {
+      shortcutRequestLockRef.current = false;
+    }
   };
 
   const requestResetItems = () => {
@@ -302,10 +332,24 @@ export const useCollectionGrid = (
     setIsResetModalOpen(false);
   };
 
-  const confirmResetItems = () => {
-    // TODO: replace this local reset with the backend reset request once its API contract exists.
-    setItems(DEFAULT_COLLECTION_ITEMS.map((item) => ({ ...item })));
-    setIsResetModalOpen(false);
+  const confirmResetItems = async () => {
+    if (shortcutRequestLockRef.current) return;
+
+    shortcutRequestLockRef.current = true;
+    setIsResetting(true);
+
+    try {
+      await resetOverviewShortcuts();
+      await loadOverview();
+
+      if (isMountedRef.current) setIsResetModalOpen(false);
+    } catch {
+      // Keep the confirmation open so the user can retry.
+    } finally {
+      shortcutRequestLockRef.current = false;
+
+      if (isMountedRef.current) setIsResetting(false);
+    }
   };
 
   const updateDropTargetFromPoint = useCallback((clientX, clientY, draggedId) => {
@@ -438,18 +482,28 @@ export const useCollectionGrid = (
 
     if (shouldCommitDrop) {
       event.preventDefault();
-      setItems((prev) => (
-        reorderItemsByInsertion(
-          prev,
-          pointer.itemId,
-          activeDropTarget.targetId,
-          activeDropTarget.position,
-        )
-      ));
+      const nextItems = reorderItemsByInsertion(
+        items,
+        pointer.itemId,
+        activeDropTarget.targetId,
+        activeDropTarget.position,
+      );
+
+      if (nextItems !== items && !shortcutRequestLockRef.current) {
+        shortcutRequestLockRef.current = true;
+        setItems(nextItems);
+        updateOverviewShortcuts(toOverviewShortcutRequest(nextItems))
+          .catch(() => {
+            if (isMountedRef.current) setItems(items);
+          })
+          .finally(() => {
+            shortcutRequestLockRef.current = false;
+          });
+      }
     }
 
     clearDragInteraction();
-  }, [clearDragInteraction]);
+  }, [clearDragInteraction, items]);
 
   const handleItemPointerCancel = useCallback((event) => {
     const pointer = dragPointerRef.current;
@@ -488,14 +542,15 @@ export const useCollectionGrid = (
 
   useEffect(() => {
     isMountedRef.current = true;
+    loadOverview().catch(() => {
+      // The shared API client handles the error; mock data must not replace it.
+    });
 
     return () => {
       isMountedRef.current = false;
       clearDragInteraction();
-      window.clearTimeout(removeTimeoutRef.current);
-      removeAbortControllerRef.current?.abort();
     };
-  }, [clearDragInteraction]);
+  }, [clearDragInteraction, loadOverview]);
 
   return {
     items,
@@ -506,7 +561,9 @@ export const useCollectionGrid = (
     draggedItemId,
     dragPreview,
     isResetModalOpen,
+    isResetting,
     isAddModalOpen,
+    canAddItem: items.length < MAX_SHORTCUT_COUNT,
     toggleEditMode,
     enterEditMode,
     getItemPointerHandlers,

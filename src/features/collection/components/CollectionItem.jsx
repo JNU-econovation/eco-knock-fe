@@ -26,7 +26,6 @@ const CollectionItem = ({
     if (isEditMode) return;
     if (shouldIgnoreClick()) return;
 
-    // TODO: connect shortcut URL.
     window.open(item.url, '_blank', 'noopener,noreferrer');
   };
 

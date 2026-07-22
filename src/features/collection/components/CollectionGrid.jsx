@@ -6,6 +6,7 @@ import {
   CollectionGrid3Icon,
   CollectionResetIcon,
 } from '@/assets/icons/CollectionPageIcons';
+import ButtonSpinner from '@/shared/components/button-spinner/ButtonSpinner';
 import { useCollectionGrid } from '../hooks/useCollectionGrid';
 import CollectionAddModal from './CollectionAddModal';
 import CollectionDragPreview from './CollectionDragPreview';
@@ -24,7 +25,9 @@ const CollectionGrid = () => {
     draggedItemId,
     dragPreview,
     isResetModalOpen,
+    isResetting,
     isAddModalOpen,
+    canAddItem,
     toggleEditMode,
     enterEditMode,
     getItemPointerHandlers,
@@ -40,6 +43,20 @@ const CollectionGrid = () => {
     cancelResetItems,
     confirmResetItems,
   } = useCollectionGrid();
+
+  if (!gridLayout) {
+    return (
+      <div
+        className="collection-grid__loading"
+        role="status"
+        aria-label="모아두기 불러오는 중"
+        aria-busy="true"
+      >
+        <ButtonSpinner className="collection-grid__loading-spinner" />
+      </div>
+    );
+  }
+
   const isTwoColumnLayout = gridLayout === '2x2';
 
   return (
@@ -91,7 +108,7 @@ const CollectionGrid = () => {
           />
         ))}
 
-        {isEditMode && (
+        {isEditMode && canAddItem && (
           <div className="collection-grid__cell">
             <button
               className="collection-grid__add-btn"
@@ -116,6 +133,7 @@ const CollectionGrid = () => {
 
       {isResetModalOpen && (
         <CollectionResetModal
+          isResetting={isResetting}
           onConfirm={confirmResetItems}
           onCancel={cancelResetItems}
         />

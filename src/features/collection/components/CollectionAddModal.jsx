@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useEffect,
   useId,
   useMemo,
@@ -23,13 +24,17 @@ const CollectionAddModal = ({ onAdd, onCancel }) => {
   const normalizedUrl = useMemo(() => normalizeCollectionUrl(urlInput), [urlInput]);
   const canSubmit = Boolean(name.trim() && normalizedUrl && !isFaviconResolving);
 
+  const handleCancel = useCallback(() => {
+    if (!isSubmittingRef.current) onCancel();
+  }, [onCancel]);
+
   useEffect(() => {
     isMountedRef.current = true;
     nameInputRef.current?.focus();
 
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') {
-        onCancel();
+        handleCancel();
       }
     };
 
@@ -39,7 +44,7 @@ const CollectionAddModal = ({ onAdd, onCancel }) => {
       isMountedRef.current = false;
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [onCancel]);
+  }, [handleCancel]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -49,21 +54,29 @@ const CollectionAddModal = ({ onAdd, onCancel }) => {
     isSubmittingRef.current = true;
     setIsFaviconResolving(true);
 
-    const logo = await resolveFaviconUrl(normalizedUrl, name);
+    try {
+      const logo = await resolveFaviconUrl(normalizedUrl, name);
 
-    if (!isMountedRef.current) return;
+      if (!isMountedRef.current) return;
 
-    onAdd({
-      name: name.trim(),
-      url: normalizedUrl,
-      logo,
-    });
+      await onAdd({
+        name: name.trim(),
+        url: normalizedUrl,
+        logo,
+      });
+    } catch {
+      // Keep both input values intact so the user can retry.
+    } finally {
+      isSubmittingRef.current = false;
+
+      if (isMountedRef.current) setIsFaviconResolving(false);
+    }
   };
 
   return (
     <div
       className="collection-add-modal__backdrop"
-      onClick={onCancel}
+      onClick={handleCancel}
     >
       <form
         className="collection-add-modal"
@@ -82,7 +95,7 @@ const CollectionAddModal = ({ onAdd, onCancel }) => {
             type="text"
             value={name}
             placeholder="예) 홈페이지"
-            maxLength={20}
+            maxLength={10}
             onChange={(event) => setName(event.target.value)}
           />
         </label>
