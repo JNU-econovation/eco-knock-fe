@@ -4,6 +4,9 @@ export const ROUTES = {
 
   HOME:       '/',
 
+  LOGIN:      '/login',
+  LOGIN_ADMIN: '/login/admin',
+
   COLLECTION: '/collection',   // 모아두기
   
   ROOM:       '/room',         // 동방

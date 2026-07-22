@@ -1,0 +1,45 @@
+.auth-button {
+  display: grid;
+  width: 100%;
+  min-height: 60px;
+  padding: 10px 20px;
+  border: 1px solid var(--color-text-sub);
+  border-radius: 999px;
+  place-items: center;
+  font: var(--body-large);
+  letter-spacing: var(--body-large-spacing);
+  font-weight: 600;
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.auth-button--sso {
+  background: var(--color-primary-dark);
+  color: var(--color-surface);
+}
+
+.auth-button--guest {
+  background: var(--color-surface);
+  color: var(--color-subtle-1);
+}
+
+.auth-button--admin {
+  background: var(--color-subtle-3);
+  color: var(--color-subtle-1);
+}
+
+.auth-button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--color-primary) 35%, transparent);
+  outline-offset: 2px;
+}
+
+.auth-button:active {
+  transform: translateY(1px);
+}
+
+.auth-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+  transform: none;
+}

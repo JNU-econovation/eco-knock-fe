@@ -67,19 +67,3 @@
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
-
-.confirm-modal__spinner {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid var(--color-text-sub);
-  border-top-color: var(--color-primary);
-  border-radius: 50%;
-  animation: confirm-modal-spin 0.8s linear infinite;
-}
-
-@keyframes confirm-modal-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}

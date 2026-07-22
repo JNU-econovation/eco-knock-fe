@@ -79,20 +79,3 @@
   color: var(--color-text-sub);
   cursor: not-allowed;
 }
-
-.collection-add-modal__spinner {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  box-sizing: border-box;
-  border: 2px solid var(--color-text-sub);
-  border-top-color: var(--color-primary);
-  border-radius: 50%;
-  animation: collection-add-modal-spin 0.8s linear infinite;
-}
-
-@keyframes collection-add-modal-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}

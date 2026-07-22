@@ -1,9 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
 import { ROUTES } from '@/shared/constants/routes';
 import CollectionPage from '@/pages/CollectionPage';
+import AdminLoginPage from '@/pages/AdminLoginPage';
 import CoinLogPage from '@/pages/CoinLogPage';
 import CoinPage from '@/pages/CoinPage';
 import MyPage from '@/pages/MyPage';
+import LoginPage from '@/pages/LoginPage';
 import RoomPage from '@/pages/RoomPage';
 import RoomEnvironmentDetailPage from '@/pages/RoomEnvironmentDetailPage';
 import AppLayout from '@/shared/components/layout/AppLayout';
@@ -12,6 +14,8 @@ import DetailLayout from '@/shared/components/layout/DetailLayout';
 export default function AppRouter() {
   return (
     <Routes>
+      <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+      
       <Route element={<AppLayout />}>
         <Route path={ROUTES.HOME} element={<CollectionPage />} />
         <Route path={ROUTES.COLLECTION} element={<CollectionPage />} />
@@ -21,6 +25,7 @@ export default function AppRouter() {
       </Route>
 
       <Route element={<DetailLayout />}>
+        <Route path={ROUTES.LOGIN_ADMIN} element={<AdminLoginPage />} />
         <Route
           path={ROUTES.ROOM_TEMPERATURE}
           element={<RoomEnvironmentDetailPage metricId="temperature" />}

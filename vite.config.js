@@ -14,16 +14,27 @@ export default defineConfig({
         description: '에코놐',
         theme_color: '#ffffff',
         icons: [
-          { // 일단 임시로 채워둠
-            src: '/icons/glaham-icon-144x144.png',
-            sizes: '144x144',
+          {
+            src: '/icons/eco-knock-icon-152x152.png',
+            sizes: '152x152',
             type: 'image/png'
           },
           {
-            src: '/icons/glaham-icon-152x152.png',
-            sizes: '152x152',
+            src: '/icons/eco-knock-icon-196x196.png',
+            sizes: '196x196',
             type: 'image/png'
-          }
+          },
+          {
+            src: '/icons/eco-knock-icon-558x558.png',
+            sizes: '558x558',
+            type: 'image/png'
+          },
+          {
+            src: '/icons/ECO-KNOCK_icon.svg',
+            sizes: 'any',
+            type: 'image/svg+xml',
+            purpose: 'any',
+          },
         ],
         display: 'standalone',  // 앱처럼 보임(상단 주소창 제거)
         start_url: '/'          //앱이 실행될 때 처음 열릴 주소

@@ -127,10 +127,26 @@ Protect asynchronous actions whose duplicate execution can cause side effects, i
 
 - Lock the action immediately when the request starts.
 - Keep the visible pending state in rendering state and connect it to the trigger's `disabled` attribute and, when useful, `aria-busy`.
+- Treat the shared `ButtonSpinner` as the standard feedback for any button waiting on asynchronous work, including API requests, link metadata resolution, form submission, deletion, and similar actions.
+- Before adding spinner markup or keyframes, search for the shared spinner and an existing button component with an `isPending` interface. Reuse them instead of creating feature-specific loading visuals.
+- While pending, replace the visible button label with the spinner, preserve the action through an accessible pending label, set `disabled` and `aria-busy`, and keep the button's dimensions stable.
 - Guard inside the event handler as well as disabling the rendered control so repeated events cannot start another request.
 - Release the lock in `finally` when the flow supports retry after either success or failure.
 - Do not apply blanket debouncing or locking to repeat-safe interactions such as toggles, cancellation, navigation, or setting the same state again.
 - Treat client-side locking as protection against accidental repeated input, not as a replacement for server-side idempotency or a confirmed API contract.
+
+## Preserve Shared Layout Contracts
+
+- When a page uses a shared layout specifically to match established width, header position, spacing, or typography, keep those layout-owned values intact.
+- Do not override the shared layout's core geometry in page CSS merely to approximate a screenshot. Add page-specific layout overrides only when the design explicitly differs from the shared contract.
+
+## Integrate APIs Through the Shared Client
+
+- Use the shared Axios client for JSON APIs and keep endpoint functions grouped by backend domain. Keep navigation-based SSO redirects separate from Axios request modules.
+- Treat access and refresh tokens as HttpOnly cookies: send credentials through the shared client and do not copy tokens into React state or browser storage.
+- On protected-request 401 responses, share one token reissue request, retry each original request at most once, and avoid refresh recursion for public auth endpoints.
+- Use backend `message` values for 4XX errors. Use `알 수 없는 오류가 발생했습니다.` for 5XX, network failures, or missing messages.
+- When unauthorized handling requires navigation, await dismissal of the error modal before replacing the route with the login page.
 
 ## Structure Interactive Lists
 
