@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import {
   DEFAULT_ROOM_INTERVAL,
   ROOM_METRICS,
-} from '../constants/mockRoomEnvironment';
+} from '../constants/roomEnvironment';
 import { RoomIntervalContext } from '../contexts/RoomIntervalContext';
 
 const INITIAL_INTERVALS = Object.fromEntries(

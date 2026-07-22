@@ -1,9 +1,18 @@
-import { AIR_QUALITY_LEVELS } from '../constants/mockRoomEnvironment';
+import { AIR_QUALITY_LEVELS } from '../constants/roomEnvironment';
 import './EnvironmentReading.css';
 
 const EnvironmentReading = ({ reading, type, variant = 'compact' }) => {
   if (type === 'status') {
     const level = AIR_QUALITY_LEVELS[reading.value];
+    if (!level) {
+      return (
+        <li className={`environment-reading environment-reading--status environment-reading--${variant}`}>
+          <span className="environment-reading__label">–</span>
+          <time className="environment-reading__time">{reading.time}</time>
+        </li>
+      );
+    }
+
     const { Icon } = level;
 
     return (
