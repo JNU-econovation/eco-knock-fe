@@ -15,7 +15,6 @@ export default function AppRouter() {
   return (
     <Routes>
       <Route path={ROUTES.LOGIN} element={<LoginPage />} />
-      <Route path={ROUTES.LOGIN_ADMIN} element={<AdminLoginPage />} />
       
       <Route element={<AppLayout />}>
         <Route path={ROUTES.HOME} element={<CollectionPage />} />
@@ -26,6 +25,7 @@ export default function AppRouter() {
       </Route>
 
       <Route element={<DetailLayout />}>
+        <Route path={ROUTES.LOGIN_ADMIN} element={<AdminLoginPage />} />
         <Route
           path={ROUTES.ROOM_TEMPERATURE}
           element={<RoomEnvironmentDetailPage metricId="temperature" />}
