@@ -1,4 +1,6 @@
+import { useNavigate } from 'react-router-dom';
 import { SettingsIcon } from '@/assets/icons/MyPageIcons';
+import { logout } from '@/features/auth/api/authApi';
 import CoinRecordCard from '@/features/coin/components/CoinRecordCard';
 import { MOCK_COIN_DETAIL } from '@/features/coin/constants/mockCoinDetail';
 import AccountActions from '@/features/mypage/components/AccountActions';
@@ -9,10 +11,12 @@ import { ROUTES } from '@/shared/constants/routes';
 import './MyPage.css';
 
 const MyPage = ({ userData, coinRecords = MOCK_COIN_DETAIL.coinRecords }) => {
+  const navigate = useNavigate();
   const user = userData ?? MOCK_USER;
 
-  const handleLogout = () => {
-    // TODO: 로그아웃 API와 인증 상태 초기화 방식이 확정되면 연결합니다.
+  const handleLogout = async () => {
+    await logout();
+    navigate(ROUTES.LOGIN, { replace: true });
   };
 
   const handleWithdraw = () => {

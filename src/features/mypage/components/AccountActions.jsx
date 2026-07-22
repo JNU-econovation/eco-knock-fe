@@ -5,20 +5,25 @@ import './AccountActions.css';
 
 const AccountActions = ({ onLogout, onWithdraw }) => {
   const [pendingAction, setPendingAction] = useState(null);
+  const [isActionPending, setIsActionPending] = useState(false);
   const confirmation = pendingAction
     ? ACCOUNT_CONFIRMATIONS[pendingAction]
     : null;
 
-  const handleConfirm = () => {
-    if (pendingAction === 'logout') {
-      onLogout();
-    }
+  const handleConfirm = async () => {
+    if (isActionPending) return;
 
-    if (pendingAction === 'withdraw') {
-      onWithdraw();
-    }
+    setIsActionPending(true);
 
-    setPendingAction(null);
+    try {
+      if (pendingAction === 'logout') await onLogout();
+      if (pendingAction === 'withdraw') await onWithdraw();
+    } catch {
+      // API 오류는 공통 Axios 인터셉터가 표시합니다.
+    } finally {
+      setIsActionPending(false);
+      setPendingAction(null);
+    }
   };
 
   return (
@@ -47,6 +52,7 @@ const AccountActions = ({ onLogout, onWithdraw }) => {
           cancelLabel="취소"
           onConfirm={handleConfirm}
           onCancel={() => setPendingAction(null)}
+          isPending={isActionPending}
         />
       )}
     </>

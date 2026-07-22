@@ -1,14 +1,17 @@
 import AuthButton from '@/features/auth/components/AuthButton';
 import AuthIntro from '@/features/auth/components/AuthIntro';
+import useAdminLogin from '@/features/auth/hooks/useAdminLogin';
 import MainPageFrame from '@/shared/components/layout/MainPageFrame';
 import './AdminLoginPage.css';
 import './LoginPage.css';
 
 export default function AdminLoginPage() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // TODO: 관리자 로그인 API 계약이 확정되면 연결합니다.
-  };
+  const {
+    handleSubmit,
+    isPending,
+    password,
+    setPassword,
+  } = useAdminLogin();
 
   return (
     <MainPageFrame title="ECO-KNOCK" className="auth-page admin-login-page">
@@ -24,11 +27,16 @@ export default function AdminLoginPage() {
             id="admin-password"
             name="password"
             type="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
             placeholder="마스터 비밀번호 입력"
             autoComplete="current-password"
             required
+            disabled={isPending}
           />
-          <AuthButton type="submit">로그인</AuthButton>
+          <AuthButton type="submit" isPending={isPending} pendingLabel="로그인 중">
+            로그인
+          </AuthButton>
         </form>
       </div>
     </MainPageFrame>
