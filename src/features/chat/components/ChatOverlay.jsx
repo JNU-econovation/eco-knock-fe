@@ -10,7 +10,9 @@ import {
   SEND_LABEL,
 } from '@/features/chat/constants/chatText';
 import useChatOverlayDrag from '@/features/chat/hooks/useChatOverlayDrag';
+import useChat from '@/features/chat/hooks/useChat';
 import ChatAttachmentControls from './ChatAttachmentControls';
+import ChatMessages from './ChatMessages';
 import './ChatOverlay.css';
 
 const ChatOverlay = ({ isOpen, onClose }) => {
@@ -18,6 +20,19 @@ const ChatOverlay = ({ isOpen, onClose }) => {
     isOpen,
     onClose,
   });
+  const {
+    input,
+    isPending,
+    loadingDotCount,
+    messages,
+    sendMessage,
+    setInput,
+  } = useChat();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    sendMessage();
+  };
 
   return (
     <div
@@ -51,6 +66,11 @@ const ChatOverlay = ({ isOpen, onClose }) => {
             src={chatBackgroundImage}
             alt=""
           />
+          <ChatMessages
+            messages={messages}
+            isPending={isPending}
+            loadingDotCount={loadingDotCount}
+          />
         </div>
 
         <footer className="chat-overlay__footer">
@@ -58,17 +78,22 @@ const ChatOverlay = ({ isOpen, onClose }) => {
 
           <form
             className="chat-overlay__input-row"
-            onSubmit={(event) => event.preventDefault()}
+            onSubmit={handleSubmit}
           >
             <input
               className="chat-overlay__input"
               type="text"
               placeholder={CHAT_PLACEHOLDER}
+              value={input}
+              disabled={isPending}
+              onChange={(event) => setInput(event.target.value)}
             />
             <button
               className="chat-overlay__send-button"
               type="submit"
               aria-label={SEND_LABEL}
+              aria-busy={isPending}
+              disabled={isPending || !input.trim()}
             >
               <ChatSendIcon />
             </button>
