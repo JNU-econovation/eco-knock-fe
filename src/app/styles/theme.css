@@ -12,6 +12,8 @@
   --color-subtle-1:      #61646B;   /* 보조텍스트1 */
   --color-text-sub:      #AFB1B6;   /* 보조 텍스트2, 더 밝게 */
   --color-subtle-3:      #D9D9D9;
+  --color-redred:        #C92C2C;
+  --color-refuse:        #FFABAB;
   /* -- 타이포 -- */
   --font-sans: "Work Sans", sans-serif;
 

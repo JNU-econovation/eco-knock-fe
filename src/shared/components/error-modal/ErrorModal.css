@@ -24,10 +24,22 @@
 }
 
 .error-modal__message {
-  color: var(--color-normal);
+  color: var(--color-redred);
   font: var(--body-medium);
   letter-spacing: var(--body-medium-spacing);
   text-align: center;
+}
+
+.error-modal__details {
+  display: grid;
+  gap: 8px;
+  text-align: center;
+}
+
+.error-modal__error-code {
+  color: var(--color-text-sub);
+  font: var(--body-small);
+  overflow-wrap: anywhere;
 }
 
 .error-modal__confirm-button {

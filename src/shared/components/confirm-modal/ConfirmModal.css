@@ -56,7 +56,7 @@
 }
 
 .confirm-modal__button--confirm {
-  color: #FF4D4F;
+  color: var(--color-redred);
 }
 
 .confirm-modal__button:disabled {

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import {
   createInitialPlaceholderUrl,
-  hasUsableFaviconSize,
+  hasUsableFavicon,
   isInitialPlaceholderUrl,
 } from '../utils/collectionLink';
 
@@ -19,17 +19,20 @@ const CollectionFavicon = ({ item, className, alt = item.name }) => {
     isInitialPlaceholderUrl(imageUrl) ? 'collection-favicon--placeholder' : '',
   ].filter(Boolean).join(' ');
 
-  const handleError = () => {
-    setFailedUrls((prev) => new Set(prev).add(imageUrl));
+  const markUrlFailed = (failedUrl) => {
+    setFailedUrls((prev) => new Set(prev).add(failedUrl));
   };
 
-  const handleLoad = (event) => {
+  const handleError = () => markUrlFailed(imageUrl);
+
+  const handleLoad = async (event) => {
     if (isInitialPlaceholderUrl(imageUrl)) return;
 
+    const loadedUrl = imageUrl;
     const { naturalWidth, naturalHeight } = event.currentTarget;
 
-    if (!hasUsableFaviconSize(naturalWidth, naturalHeight)) {
-      handleError();
+    if (!await hasUsableFavicon(loadedUrl, naturalWidth, naturalHeight)) {
+      markUrlFailed(loadedUrl);
     }
   };
 

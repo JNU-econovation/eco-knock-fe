@@ -8,9 +8,12 @@ const ErrorModalProvider = ({ children }) => {
   const [errorQueue, setErrorQueue] = useState([]);
   const nextErrorIdRef = useRef(0);
 
-  const showError = useCallback((message = DEFAULT_ERROR_MESSAGE) => {
+  const showError = useCallback((error = {}) => {
     const errorId = nextErrorIdRef.current;
     nextErrorIdRef.current += 1;
+    const isMessageOnly = typeof error === 'string';
+    const message = isMessageOnly ? error : error.message;
+    const errorCode = isMessageOnly ? null : error.errorCode;
 
     return new Promise((resolve) => {
       setErrorQueue((currentQueue) => [
@@ -18,6 +21,7 @@ const ErrorModalProvider = ({ children }) => {
         {
           id: errorId,
           message: message || DEFAULT_ERROR_MESSAGE,
+          errorCode: errorCode || null,
           resolve,
         },
       ]);
@@ -45,6 +49,7 @@ const ErrorModalProvider = ({ children }) => {
       {currentError && (
         <ErrorModal
           message={currentError.message}
+          errorCode={currentError.errorCode}
           onDismiss={hideError}
         />
       )}
