@@ -3,8 +3,7 @@ import { ChevronRightIcon } from '@/assets/icons/GroupIcons';
 import { ROUTES } from '@/shared/constants/routes';
 import './GroupSettingsMenu.css';
 
-const GroupSettingsMenu = ({ group, viewerRole, roleQuery }) => {
-  const isLeader = viewerRole === 'leader';
+const GroupSettingsMenu = ({ group, permissions, roleQuery, onDelete }) => {
   const memberSettingsPath =
     generatePath(ROUTES.GROUP_MEMBER_SETTINGS, { groupId: group.id }) +
     roleQuery;
@@ -14,7 +13,7 @@ const GroupSettingsMenu = ({ group, viewerRole, roleQuery }) => {
       <section>
         <h2>그룹 정보</h2>
         <div className="group-settings-menu__rows">
-          {isLeader ? (
+          {permissions.canEditGroup ? (
             <Link
               className="group-settings-menu__row"
               to={
@@ -48,8 +47,12 @@ const GroupSettingsMenu = ({ group, viewerRole, roleQuery }) => {
         </div>
       </section>
 
-      {isLeader && (
-        <button className="group-settings-menu__delete" type="button">
+      {permissions.canDeleteGroup && (
+        <button
+          className="group-settings-menu__delete"
+          type="button"
+          onClick={onDelete}
+        >
           그룹 제거
         </button>
       )}

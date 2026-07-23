@@ -1,12 +1,13 @@
 import { useGroupCreateForm } from '@/features/groups/hooks/useGroupCreateForm';
+import ButtonSpinner from '@/shared/components/button-spinner/ButtonSpinner';
 import './GroupCreateForm.css';
 
-const GroupCreateForm = ({ onSubmit }) => {
+const GroupCreateForm = ({ onSubmit, isPending = false }) => {
   const { form, updateField } = useGroupCreateForm();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    onSubmit(form);
+    if (!isPending) onSubmit(form);
   };
 
   return (
@@ -16,9 +17,10 @@ const GroupCreateForm = ({ onSubmit }) => {
         <input
           value={form.name}
           onChange={(event) => updateField('name', event.target.value)}
-          placeholder="행사부"
-          maxLength={30}
+          placeholder="그룹 이름 작성 (최대 15자)"
+          maxLength={15}
           required
+          disabled={isPending}
         />
       </label>
 
@@ -32,6 +34,7 @@ const GroupCreateForm = ({ onSubmit }) => {
               type="button"
               aria-pressed={form.category === category}
               onClick={() => updateField('category', category)}
+              disabled={isPending}
             >
               {category}
             </button>
@@ -44,9 +47,10 @@ const GroupCreateForm = ({ onSubmit }) => {
         <textarea
           value={form.description}
           onChange={(event) => updateField('description', event.target.value)}
-          placeholder={'안녕하세요~~~\n곰세마리가 한집에있엉'}
-          maxLength={300}
+          placeholder={'그룹 소개글을 적어주세요! (최대 100자)'}
+          maxLength={100}
           required
+          disabled={isPending}
         />
       </label>
 
@@ -61,6 +65,7 @@ const GroupCreateForm = ({ onSubmit }) => {
               updateField('recruitmentStartDate', event.target.value)
             }
             required
+            disabled={isPending}
           />
           <span>~</span>
           <input
@@ -72,6 +77,7 @@ const GroupCreateForm = ({ onSubmit }) => {
               updateField('recruitmentEndDate', event.target.value)
             }
             required
+            disabled={isPending}
           />
         </div>
       </fieldset>
@@ -81,17 +87,24 @@ const GroupCreateForm = ({ onSubmit }) => {
         <input
           type="number"
           value={form.memberLimit}
-          min="2"
-          max="100"
+          min="1"
+          max="50"
           onChange={(event) =>
             updateField('memberLimit', Number(event.target.value))
           }
           required
+          disabled={isPending}
         />
       </label>
 
-      <button className="group-create-form__submit" type="submit">
-        그룹 생성
+      <button
+        className="group-create-form__submit"
+        type="submit"
+        disabled={isPending}
+        aria-busy={isPending}
+        aria-label={isPending ? '그룹 생성 중' : undefined}
+      >
+        {isPending ? <ButtonSpinner /> : '그룹 생성'}
       </button>
     </form>
   );

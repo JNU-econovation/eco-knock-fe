@@ -1,10 +1,12 @@
 import GroupList from '@/features/groups/components/GroupList';
 import GroupsToolbar from '@/features/groups/components/GroupsToolbar';
 import { useGroupsView } from '@/features/groups/hooks/useGroupsView';
+import { useProfile } from '@/features/mypage/hooks/useProfile';
 import MainPageFrame from '@/shared/components/layout/MainPageFrame';
 import './GroupsPage.css';
 
 const GroupsPage = () => {
+  const profile = useProfile();
   const {
     activeView,
     setActiveView,
@@ -45,6 +47,9 @@ const GroupsPage = () => {
             onHideClosedGroupsChange={setHideClosedGroups}
             sortOrder={sortOrder}
             onSortOrderChange={setSortOrder}
+            canCreate={
+              profile?.role === 'USER' || profile?.role === 'ADMIN'
+            }
           />
         )}
         <GroupList groups={visibleGroups} />

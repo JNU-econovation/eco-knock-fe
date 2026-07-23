@@ -1,36 +1,35 @@
 export const getVisibleGroups = ({
   groups,
-  myGroupIds,
-  activeView,
   hideClosedGroups,
   sortOrder,
 }) => {
-  const viewGroups = activeView === 'mine'
-    ? groups.filter((group) => myGroupIds.includes(group.id))
-    : groups;
   const filteredGroups = hideClosedGroups
-    ? viewGroups.filter((group) => group.isRecruiting)
-    : viewGroups;
+    ? groups.filter((group) => (
+      group.recruitmentStatusCode
+        ? group.recruitmentStatusCode !== 'CLOSED'
+        : group.isRecruiting
+    ))
+    : groups;
 
-  if (sortOrder === 'name-asc') {
+  if (sortOrder === 'NAME_ASC') {
     return [...filteredGroups].sort((a, b) =>
       a.name.localeCompare(b.name, 'ko')
     );
   }
 
-  if (sortOrder === 'name-desc') {
+  if (sortOrder === 'NAME_DESC') {
     return [...filteredGroups].sort((a, b) =>
       b.name.localeCompare(a.name, 'ko')
     );
   }
 
-  if (sortOrder === 'recent') {
+  if (sortOrder === 'RECENT') {
     return [...filteredGroups].sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
   }
 
-  if (sortOrder === 'closing-soon') {
+  if (sortOrder === 'DEADLINE_ASC') {
     return [...filteredGroups].sort(
       (a, b) => {
         if (a.isRecruiting !== b.isRecruiting) {

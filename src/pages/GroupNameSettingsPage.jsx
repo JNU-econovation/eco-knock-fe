@@ -3,12 +3,26 @@ import { useGroupRouteContext } from '@/features/groups/hooks/useGroupRouteConte
 import DetailPageFrame from '@/shared/components/layout/DetailPageFrame';
 
 const GroupNameSettingsPage = () => {
-  const { group, viewerRole } = useGroupRouteContext();
+  const navigate = useNavigate();
+  const { group, permissions, hasApiData, isLoading } =
+    useGroupRouteContext();
+
+  if (isLoading) {
+    return (
+      <DetailPageFrame title="그룹 이름 수정" variant="primary-light">
+        <p>그룹 정보를 불러오는 중입니다.</p>
+      </DetailPageFrame>
+    );
+  }
 
   return (
     <DetailPageFrame title="그룹 이름 수정" variant="primary-light">
-      {group && viewerRole === 'leader' ? (
-        <GroupNameSettingsForm group={group} />
+      {group && permissions?.canEditGroup ? (
+        <GroupNameSettingsForm
+          group={group}
+          enableApi={hasApiData}
+          onSaved={() => navigate(-1)}
+        />
       ) : (
         <p>그룹 이름을 수정할 권한이 없습니다.</p>
       )}
@@ -17,3 +31,4 @@ const GroupNameSettingsPage = () => {
 };
 
 export default GroupNameSettingsPage;
+import { useNavigate } from 'react-router-dom';

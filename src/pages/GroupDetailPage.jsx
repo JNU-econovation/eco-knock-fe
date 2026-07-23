@@ -8,7 +8,17 @@ import { ROUTES } from '@/shared/constants/routes';
 import './GroupDetailPage.css';
 
 const GroupDetailPage = () => {
-  const { group, viewerRole, roleQuery } = useGroupRouteContext();
+  const {
+    group,
+    permissions,
+    roleQuery,
+    hasApiData,
+    isLoading,
+  } = useGroupRouteContext();
+
+  if (isLoading) {
+    return <DetailPageFrame title="그룹을 불러오는 중입니다." />;
+  }
 
   if (!group) {
     return <DetailPageFrame title="그룹을 찾을 수 없습니다." />;
@@ -25,7 +35,7 @@ const GroupDetailPage = () => {
     <DetailPageFrame
       title={title}
       headerAction={
-        viewerRole !== 'guest' ? (
+        permissions?.canViewSettings ? (
           <GroupSettingsButton
             to={
               generatePath(ROUTES.GROUP_SETTINGS, { groupId: group.id }) +
@@ -37,8 +47,10 @@ const GroupDetailPage = () => {
       className="group-detail-page"
     >
       <GroupDetailContent
+        key={group.id}
         group={group}
-        viewerRole={viewerRole}
+        permissions={permissions}
+        enableApi={hasApiData}
         applicationPath={
           generatePath(ROUTES.GROUP_APPLICATION, { groupId: group.id }) +
           roleQuery

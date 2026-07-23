@@ -8,8 +8,13 @@ const GroupsToolbar = ({
   onHideClosedGroupsChange,
   sortOrder,
   onSortOrderChange,
+  canCreate,
 }) => (
-  <div className="groups-toolbar">
+  <div
+    className={`groups-toolbar${
+      canCreate ? '' : ' groups-toolbar--without-create'
+    }`}
+  >
     <label className="groups-toolbar__closed-filter">
       <span>모집 끝난 그룹 제외</span>
       <input
@@ -24,9 +29,11 @@ const GroupsToolbar = ({
       onSortOrderChange={onSortOrderChange}
     />
 
-    <Link className="groups-toolbar__create" to={ROUTES.GROUP_CREATE}>
-      만들기 +
-    </Link>
+    {canCreate && (
+      <Link className="groups-toolbar__create" to={ROUTES.GROUP_CREATE}>
+        만들기 +
+      </Link>
+    )}
   </div>
 );
 

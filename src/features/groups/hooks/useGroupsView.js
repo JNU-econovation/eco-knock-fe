@@ -1,15 +1,24 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import {
+  getGroups,
+  getMyGroups,
+} from '@/features/groups/api/groupsApi';
 import {
   GROUPS,
   MY_GROUP_IDS,
 } from '@/features/groups/constants/groupData';
+import { mapGroupSummary } from '@/features/groups/utils/groupContract';
 import { getVisibleGroups } from '@/features/groups/utils/getVisibleGroups';
 
 export const useGroupsView = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [groupsByView, setGroupsByView] = useState({
+    mine: GROUPS.filter((group) => MY_GROUP_IDS.includes(group.id)),
+    browse: GROUPS,
+  });
   const [hideClosedGroups, setHideClosedGroups] = useState(false);
-  const [sortOrder, setSortOrder] = useState('default');
+  const [sortOrder, setSortOrder] = useState('NAME_ASC');
   const activeView = searchParams.get('view') === 'browse'
     ? 'browse'
     : 'mine';
@@ -26,15 +35,47 @@ export const useGroupsView = () => {
     setSearchParams(nextSearchParams, { replace: true });
   };
 
+  useEffect(() => {
+    const controller = new AbortController();
+    let isActive = true;
+
+    const loadGroups = async () => {
+      try {
+        const response = activeView === 'mine'
+          ? await getMyGroups(controller.signal)
+          : await getGroups({
+            excludeClosed: hideClosedGroups,
+            sort: sortOrder,
+            signal: controller.signal,
+          });
+        const groups = (response.data.result ?? []).map(mapGroupSummary);
+
+        if (isActive) {
+          setGroupsByView((current) => ({
+            ...current,
+            [activeView]: groups,
+          }));
+        }
+      } catch {
+        // The shared API client handles the error; retain temporary mock data.
+      }
+    };
+
+    loadGroups();
+
+    return () => {
+      isActive = false;
+      controller.abort();
+    };
+  }, [activeView, hideClosedGroups, sortOrder]);
+
   const visibleGroups = useMemo(
     () => getVisibleGroups({
-      groups: GROUPS,
-      myGroupIds: MY_GROUP_IDS,
-      activeView,
-      hideClosedGroups,
-      sortOrder,
+      groups: groupsByView[activeView],
+      hideClosedGroups: activeView === 'browse' && hideClosedGroups,
+      sortOrder: activeView === 'browse' ? sortOrder : 'NAME_ASC',
     }),
-    [activeView, hideClosedGroups, sortOrder]
+    [activeView, groupsByView, hideClosedGroups, sortOrder]
   );
 
   return {

@@ -3,6 +3,8 @@ import {
   Navigate,
   useNavigate,
 } from 'react-router-dom';
+import { useRef, useState } from 'react';
+import { submitGroupApplication } from '@/features/groups/api/groupsApi';
 import GroupApplicationFormPanel from '@/features/groups/components/GroupApplicationFormPanel';
 import GroupDetailContent from '@/features/groups/components/GroupDetailContent';
 import { useGroupRouteContext } from '@/features/groups/hooks/useGroupRouteContext';
@@ -13,8 +15,20 @@ import './GroupDetailPage.css';
 
 const GroupApplicationPage = () => {
   const navigate = useNavigate();
-  const { group, viewerRole } = useGroupRouteContext();
+  const {
+    group,
+    permissions,
+    hasApiData,
+    isLoading,
+    roleQuery,
+  } = useGroupRouteContext();
   const profile = useProfile();
+  const [isPending, setIsPending] = useState(false);
+  const isPendingRef = useRef(false);
+
+  if (isLoading) {
+    return <DetailPageFrame title="그룹을 불러오는 중입니다." />;
+  }
 
   if (!group) {
     return <DetailPageFrame title="그룹을 찾을 수 없습니다." />;
@@ -22,13 +36,31 @@ const GroupApplicationPage = () => {
 
   const detailPath =
     generatePath(ROUTES.GROUP_DETAIL, { groupId: group.id }) +
-    `?role=${viewerRole}`;
+    roleQuery;
 
-  if (viewerRole !== 'guest') {
+  if (!permissions?.canApply) {
     return <Navigate to={detailPath} replace />;
   }
 
   const closeApplication = () => navigate(detailPath, { replace: true });
+  const submitApplication = async (content) => {
+    if (isPendingRef.current) return;
+
+    isPendingRef.current = true;
+    setIsPending(true);
+
+    try {
+      if (hasApiData) {
+        await submitGroupApplication(group.groupId, content.trim());
+      }
+      closeApplication();
+    } catch {
+      // The shared API client handles the error.
+    } finally {
+      isPendingRef.current = false;
+      setIsPending(false);
+    }
+  };
   const title = (
     <span className="group-detail-page__title">
       <span>{group.name}</span>
@@ -40,7 +72,8 @@ const GroupApplicationPage = () => {
     <DetailPageFrame title={title} className="group-detail-page">
       <GroupDetailContent
         group={group}
-        viewerRole="guest"
+        permissions={permissions}
+        enableApi={hasApiData}
         showApplyButton={false}
       />
       <GroupApplicationFormPanel
@@ -50,8 +83,9 @@ const GroupApplicationPage = () => {
             ? profile.name.trim()
             : '사용자'
         }
+        isPending={isPending}
         onClose={closeApplication}
-        onSubmitted={closeApplication}
+        onSubmitted={submitApplication}
       />
     </DetailPageFrame>
   );

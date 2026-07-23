@@ -9,6 +9,14 @@
   font-weight: 500;
 }
 
+.groups-toolbar--without-create {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.groups-toolbar--without-create .group-sort-dropdown__menu {
+  right: 0;
+}
+
 .groups-toolbar__closed-filter {
   display: flex;
   min-width: 0;

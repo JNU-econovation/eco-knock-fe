@@ -6,8 +6,9 @@ import './GroupApplicationFormPanel.css';
 const GroupApplicationFormPanel = ({
   group,
   applicantName,
+  isPending = false,
   onClose,
-  onSubmitted,
+    onSubmitted,
 }) => {
   const closeButtonRef = useRef(null);
   const {
@@ -31,6 +32,7 @@ const GroupApplicationFormPanel = ({
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (!message.trim()) return;
     openConfirm();
   };
 
@@ -63,13 +65,15 @@ const GroupApplicationFormPanel = ({
           <textarea
             value={message}
             onChange={(event) => setMessage(event.target.value)}
-            placeholder="지원서를 작성하세요."
-            maxLength={500}
+            placeholder="지원서를 작성하세요. (최대 20자)"
+            maxLength={20}
             required
+            disabled={isPending}
           />
           <button
             className="group-application-form-panel__submit"
             type="submit"
+            disabled={isPending}
           >
             지원서 제출
           </button>
@@ -83,7 +87,9 @@ const GroupApplicationFormPanel = ({
           cancelLabel="취소"
           confirmVariant="primary"
           cancelVariant="danger"
-          onConfirm={onSubmitted}
+          isPending={isPending}
+          pendingLabel="지원서 제출 중"
+          onConfirm={() => onSubmitted(message)}
           onCancel={closeConfirm}
         />
       )}

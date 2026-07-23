@@ -11,3 +11,13 @@ export const getGroupViewerRole = ({
   if (myGroupIds.includes(group.id)) return 'member';
   return 'guest';
 };
+
+export const getMockGroupPermissions = (viewerRole, group) => ({
+  canViewSettings: viewerRole !== 'guest',
+  canEditGroup: viewerRole === 'leader',
+  canManageMembers: viewerRole === 'leader',
+  canViewApplications: viewerRole !== 'guest',
+  canReviewApplications: viewerRole === 'leader',
+  canDeleteGroup: viewerRole === 'leader',
+  canApply: viewerRole === 'guest' && group.isRecruiting,
+});

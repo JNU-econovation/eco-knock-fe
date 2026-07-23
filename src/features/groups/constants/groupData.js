@@ -1,4 +1,4 @@
-// TODO: Replace this temporary data when the groups API contract is confirmed.
+// TODO: Remove these fallbacks after the groups API is available everywhere.
 export const GROUPS = [
   {
     id: 'events',
@@ -10,6 +10,9 @@ export const GROUPS = [
     recruitmentStatus: '상시모집',
     createdAt: '2026-06-15',
     recruitmentEndsAt: null,
+    recruitmentMode: 'PERIOD',
+    recruitmentStartAt: '2026-03-01T00:00:00+09:00',
+    recruitmentEndAt: '2026-03-24T23:59:59.999999+09:00',
     isRecruiting: true,
     isLeader: true,
     description:
@@ -55,6 +58,9 @@ export const GROUPS = [
     recruitmentStatus: '마감',
     createdAt: '2026-05-20',
     recruitmentEndsAt: '2026-06-10',
+    recruitmentMode: 'ALWAYS',
+    recruitmentStartAt: null,
+    recruitmentEndAt: null,
     isRecruiting: false,
     isLeader: false,
     description: 'AI를 직접 실습하며 함께 성장하는 스터디입니다.',
@@ -72,6 +78,9 @@ export const GROUPS = [
     recruitmentStatus: '모집중',
     createdAt: '2026-07-20',
     recruitmentEndsAt: '2026-08-15',
+    recruitmentMode: 'PERIOD',
+    recruitmentStartAt: '2026-07-24T00:00:00+09:00',
+    recruitmentEndAt: '2026-08-15T23:59:59.999999+09:00',
     isRecruiting: true,
     isLeader: false,
     description:
