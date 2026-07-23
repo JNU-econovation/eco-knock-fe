@@ -20,10 +20,6 @@ const MyPage = ({ userData }) => {
     navigate(ROUTES.LOGIN, { replace: true });
   };
 
-  const handleWithdraw = () => {
-    // TODO: 회원 탈퇴 API 계약이 확정되면 연결합니다.
-  };
-
   return (
     <MainPageFrame
       title="Mypage"
@@ -51,17 +47,15 @@ const MyPage = ({ userData }) => {
             coin
           </h2>
           <CoinRecordCard
-            coinBalance={user.coinBalance}
-            coinRecords={coinRecords ?? []}
+            balance={wallet?.balance}
+            symbol={wallet?.symbol}
+            coinRecords={[]}
             limit={3}
             to={ROUTES.MYPAGE_COIN}
           />
         </section>
 
-        <AccountActions
-          onLogout={handleLogout}
-          onWithdraw={handleWithdraw}
-        />
+        <AccountActions onLogout={handleLogout} />
       </div>
     </MainPageFrame>
   );
