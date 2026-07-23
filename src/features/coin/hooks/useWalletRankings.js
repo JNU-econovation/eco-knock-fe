@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { getWalletRankings } from '../api/walletApi';
 import { mapWalletRankings } from '../utils/coinApiData';
 
-export const useWalletRankings = (limit) => {
+export const useWalletRankings = (limit, { enabled = true } = {}) => {
   const [rankingData, setRankingData] = useState({
     rankings: [],
     symbol: 'KRT',
@@ -11,6 +11,8 @@ export const useWalletRankings = (limit) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (!enabled) return undefined;
+
     const controller = new AbortController();
     let isActive = true;
 
@@ -44,7 +46,10 @@ export const useWalletRankings = (limit) => {
       isActive = false;
       controller.abort();
     };
-  }, [limit]);
+  }, [enabled, limit]);
 
-  return { ...rankingData, isLoading };
+  return {
+    ...rankingData,
+    isLoading: enabled && isLoading,
+  };
 };

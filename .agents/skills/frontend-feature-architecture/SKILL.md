@@ -144,9 +144,13 @@ Protect asynchronous actions whose duplicate execution can cause side effects, i
 
 - Use the shared Axios client for JSON APIs and keep endpoint functions grouped by backend domain. Keep navigation-based SSO redirects separate from Axios request modules.
 - Treat access and refresh tokens as HttpOnly cookies: send credentials through the shared client and do not copy tokens into React state or browser storage.
+- Let endpoint functions accept `AbortSignal` for cancellable reads. Abort in hook cleanup, ignore cancellation errors, and prevent state updates after unmount.
+- When known role or prerequisite data determines whether a read is allowed, let the hook accept an explicit `enabled` option. Wait until the prerequisite is resolved and skip predictably forbidden requests instead of generating an expected 403 or suppressing its global error afterward.
 - On protected-request 401 responses, share one token reissue request, retry each original request at most once, and avoid refresh recursion for public auth endpoints.
 - Use backend `message` values for 4XX errors. Use `알 수 없는 오류가 발생했습니다.` for 5XX, network failures, or missing messages.
+- While an error modal is open, share its pending promise for concurrent errors with the same backend `errorCode` or HTTP fallback code. Do not merge network errors that have no stable code.
 - When unauthorized handling requires navigation, await dismissal of the error modal before replacing the route with the login page.
+- For GET 403 responses, await the deduplicated error modal and then replace the route with the home page. Keep mutation 403 responses on the current page unless the product contract explicitly says otherwise.
 
 ## Structure Interactive Lists
 

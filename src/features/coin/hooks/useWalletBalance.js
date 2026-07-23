@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { getMyWalletBalance } from '../api/walletApi';
 
-export const useWalletBalance = () => {
+export const useWalletBalance = ({ enabled = true } = {}) => {
   const [wallet, setWallet] = useState(null);
 
   useEffect(() => {
+    if (!enabled) return undefined;
+
     const controller = new AbortController();
     let isActive = true;
 
@@ -24,7 +26,7 @@ export const useWalletBalance = () => {
       isActive = false;
       controller.abort();
     };
-  }, []);
+  }, [enabled]);
 
-  return wallet;
+  return enabled ? wallet : null;
 };
