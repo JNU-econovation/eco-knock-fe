@@ -20,6 +20,7 @@ export const ROOM_INTERVALS = [
   { id: '15m', label: '15분마다', minutes: 15 },
   { id: '1h', label: '1시간마다', minutes: 60 },
   { id: '4h', label: '4시간마다', minutes: 240 },
+  { id: '1d', label: '1일마다', minutes: 1440 },
 ];
 
 export const DEFAULT_ROOM_INTERVAL = '15m';
