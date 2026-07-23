@@ -1,9 +1,9 @@
-import CoinLogList from '@/features/coin/components/CoinLogList';
+import CoinLogHistory from '@/features/coin/components/CoinLogHistory';
 import DetailPageFrame from '@/shared/components/layout/DetailPageFrame';
 
 const CoinLogPage = () => (
   <DetailPageFrame title="COIN LOG">
-    <CoinLogList coinLogs={[]} variant="history" />
+    <CoinLogHistory />
   </DetailPageFrame>
 );
 

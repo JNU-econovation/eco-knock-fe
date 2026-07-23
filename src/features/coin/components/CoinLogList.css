@@ -12,7 +12,8 @@
   gap: 8px;
 }
 
-.coin-log-list__empty {
+.coin-log-list__empty,
+.coin-log-list__loading {
   display: grid;
   min-height: 64px;
   padding: 12px 20px;
@@ -23,8 +24,14 @@
 }
 
 .coin-log-list__empty--card,
-.coin-log-list__empty--history {
+.coin-log-list__empty--history,
+.coin-log-list__loading--card,
+.coin-log-list__loading--history {
   border: 1px solid rgba(209, 213, 219, 0.55);
   border-radius: 40px;
   background: var(--color-surface);
+}
+
+.coin-log-list__loading {
+  color: var(--color-primary-dark);
 }

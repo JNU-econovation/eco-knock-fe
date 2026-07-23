@@ -3,6 +3,7 @@ import { SettingsIcon } from '@/assets/icons/MyPageIcons';
 import { logout } from '@/features/auth/api/authApi';
 import CoinRecordCard from '@/features/coin/components/CoinRecordCard';
 import { useWalletBalance } from '@/features/coin/hooks/useWalletBalance';
+import { useWalletRankings } from '@/features/coin/hooks/useWalletRankings';
 import AccountActions from '@/features/mypage/components/AccountActions';
 import UserProfileCard from '@/features/mypage/components/UserProfileCard';
 import { MOCK_USER } from '@/features/mypage/constants/mockUser';
@@ -13,6 +14,7 @@ import './MyPage.css';
 const MyPage = ({ userData }) => {
   const navigate = useNavigate();
   const wallet = useWalletBalance();
+  const rankingData = useWalletRankings(3);
   const user = userData ?? MOCK_USER;
 
   const handleLogout = async () => {
@@ -48,8 +50,9 @@ const MyPage = ({ userData }) => {
           </h2>
           <CoinRecordCard
             balance={wallet?.balance}
-            symbol={wallet?.symbol}
-            coinRecords={[]}
+            symbol={wallet?.symbol || rankingData.symbol}
+            coinRecords={rankingData.rankings}
+            isRecordsLoading={rankingData.isLoading}
             limit={3}
             to={ROUTES.MYPAGE_COIN}
           />

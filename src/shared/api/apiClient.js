@@ -20,6 +20,8 @@ export const plainApiClient = axios.create({
 let clientHandlers = null;
 let refreshPromise = null;
 let unauthorizedFlowPromise = null;
+let forbiddenFlowPromise = null;
+const pendingErrorModalPromises = new Map();
 
 export const getApiErrorDetails = (error) => {
   const status = error.response?.status;
@@ -50,8 +52,29 @@ export const configureApiClient = (handlers) => {
   };
 };
 
-const showRequestError = async (error) => {
-  await clientHandlers?.showError(getApiErrorDetails(error));
+const showRequestError = (error) => {
+  const errorDetails = getApiErrorDetails(error);
+  const errorKey = errorDetails.errorCode;
+
+  if (!clientHandlers?.showError) return Promise.resolve();
+
+  if (!errorKey) {
+    return clientHandlers.showError(errorDetails);
+  }
+
+  if (!pendingErrorModalPromises.has(errorKey)) {
+    const modalPromise = Promise.resolve(
+      clientHandlers.showError(errorDetails),
+    ).finally(() => {
+      if (pendingErrorModalPromises.get(errorKey) === modalPromise) {
+        pendingErrorModalPromises.delete(errorKey);
+      }
+    });
+
+    pendingErrorModalPromises.set(errorKey, modalPromise);
+  }
+
+  return pendingErrorModalPromises.get(errorKey);
 };
 
 const handleUnauthorized = (error) => {
@@ -65,6 +88,19 @@ const handleUnauthorized = (error) => {
   }
 
   return unauthorizedFlowPromise;
+};
+
+const handleForbidden = (error) => {
+  if (!forbiddenFlowPromise) {
+    forbiddenFlowPromise = (async () => {
+      await showRequestError(error);
+      clientHandlers?.onForbidden();
+    })().finally(() => {
+      forbiddenFlowPromise = null;
+    });
+  }
+
+  return forbiddenFlowPromise;
 };
 
 const refreshAccessToken = () => {
@@ -88,6 +124,10 @@ apiClient.interceptors.response.use(
     const requestConfig = error.config ?? {};
     const isUnauthorized = error.response?.status === 401;
     const canRefresh = isUnauthorized && !requestConfig.skipAuthRefresh;
+    const isForbiddenPageRequest = (
+      error.response?.status === 403 &&
+      requestConfig.method?.toLowerCase() === 'get'
+    );
 
     if (canRefresh && !requestConfig.hasRetriedAfterRefresh) {
       requestConfig.hasRetriedAfterRefresh = true;
@@ -103,6 +143,11 @@ apiClient.interceptors.response.use(
 
     if (canRefresh) {
       await handleUnauthorized(error);
+      return Promise.reject(error);
+    }
+
+    if (isForbiddenPageRequest) {
+      await handleForbidden(error);
       return Promise.reject(error);
     }
 

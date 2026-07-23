@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CoinIcon } from '@/assets/icons/MyPageIcons';
 import coinImage from '@/assets/img/ecnv-coin-krt.png';
+import ButtonSpinner from '@/shared/components/button-spinner/ButtonSpinner';
 import { formatCoinAmount } from '../utils/formatCoinAmount';
 import CoinRecordItem from './CoinRecordItem';
 import './CoinRecordCard.css';
@@ -10,6 +11,7 @@ const CoinRecordCardContent = ({
   balance,
   symbol,
   coinRecords,
+  isRecordsLoading,
   limit,
 }) => {
   const [hasCoinImageError, setHasCoinImageError] = useState(false);
@@ -39,10 +41,19 @@ const CoinRecordCardContent = ({
         </span>
       </div>
 
-      {visibleRecords.length > 0 ? (
+      {isRecordsLoading ? (
+        <div
+          className="coin-record-card__empty"
+          role="status"
+          aria-label="코인 순위 불러오는 중"
+          aria-busy="true"
+        >
+          <ButtonSpinner />
+        </div>
+      ) : visibleRecords.length > 0 ? (
         <ol className="coin-record-card__list">
           {visibleRecords.map((record) => (
-            <CoinRecordItem key={record.id} {...record} />
+            <CoinRecordItem key={record.id} {...record} symbol={symbol} />
           ))}
         </ol>
       ) : (
@@ -58,6 +69,7 @@ const CoinRecordCard = ({
   balance,
   symbol = 'KRT',
   coinRecords = [],
+  isRecordsLoading = false,
   limit,
   to,
 }) => {
@@ -66,6 +78,7 @@ const CoinRecordCard = ({
       balance={balance}
       symbol={symbol}
       coinRecords={coinRecords}
+      isRecordsLoading={isRecordsLoading}
       limit={limit}
     />
   );

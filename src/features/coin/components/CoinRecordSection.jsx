@@ -5,6 +5,7 @@ const CoinRecordSection = ({
   balance,
   symbol,
   coinRecords = [],
+  isRecordsLoading = false,
 }) => (
   <section className="coin-record-section" aria-labelledby="coin-record-title">
     <h2 className="coin-record-section__title" id="coin-record-title">
@@ -14,6 +15,7 @@ const CoinRecordSection = ({
       balance={balance}
       symbol={symbol}
       coinRecords={coinRecords}
+      isRecordsLoading={isRecordsLoading}
     />
   </section>
 );
