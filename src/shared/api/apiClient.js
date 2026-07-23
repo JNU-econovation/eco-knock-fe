@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const DEFAULT_API_BASE_URL = 'https://eco-knock.isek-ai.org';
+const DEFAULT_API_BASE_URL = 'https://eco-knock.isek-ai.org';
 const UNKNOWN_ERROR_MESSAGE = '알 수 없는 오류가 발생했습니다.';
 
 export const API_BASE_URL = (
