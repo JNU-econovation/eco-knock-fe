@@ -9,6 +9,12 @@ import LoginPage from '@/pages/LoginPage';
 import RoomPage from '@/pages/RoomPage';
 import RoomEnvironmentDetailPage from '@/pages/RoomEnvironmentDetailPage';
 import GroupsPage from '@/pages/GroupsPage';
+import GroupDetailPage from '@/pages/GroupDetailPage';
+import GroupSettingsPage from '@/pages/GroupSettingsPage';
+import GroupNameSettingsPage from '@/pages/GroupNameSettingsPage';
+import GroupMemberSettingsPage from '@/pages/GroupMemberSettingsPage';
+import GroupCreatePage from '@/pages/GroupCreatePage';
+import GroupApplicationPage from '@/pages/GroupApplicationPage';
 import AppLayout from '@/shared/components/layout/AppLayout';
 import DetailLayout from '@/shared/components/layout/DetailLayout';
 
@@ -45,6 +51,27 @@ export default function AppRouter() {
         />
         <Route path={ROUTES.MYPAGE_COIN} element={<CoinPage />} />
         <Route path={ROUTES.MYPAGE_COIN_LOG} element={<CoinLogPage />} />
+        <Route path={ROUTES.GROUP_CREATE} element={<GroupCreatePage />} />
+        <Route path={ROUTES.GROUP_DETAIL} element={<GroupDetailPage />} />
+        <Route
+          path={ROUTES.GROUP_APPLICATION}
+          element={<GroupApplicationPage />}
+        />
+      </Route>
+
+      <Route element={<DetailLayout variant="primary-light" />}>
+        <Route
+          path={ROUTES.GROUP_SETTINGS}
+          element={<GroupSettingsPage />}
+        />
+        <Route
+          path={ROUTES.GROUP_NAME_SETTINGS}
+          element={<GroupNameSettingsPage />}
+        />
+        <Route
+          path={ROUTES.GROUP_MEMBER_SETTINGS}
+          element={<GroupMemberSettingsPage />}
+        />
       </Route>
     </Routes>
   );

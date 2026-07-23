@@ -55,7 +55,17 @@
   cursor: pointer;
 }
 
-.confirm-modal__button--confirm {
+.confirm-modal__button--danger {
+  color: var(--color-redred);
+}
+
+.confirm-modal__button--primary {
+  border-color: var(--color-primary-dark);
+  background: var(--color-primary-dark);
+  color: var(--color-surface);
+}
+
+.confirm-modal__button--cancel-danger {
   color: var(--color-redred);
 }
 

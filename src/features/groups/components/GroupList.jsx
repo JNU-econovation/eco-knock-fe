@@ -1,13 +1,13 @@
 import GroupCard from './GroupCard';
 import './GroupList.css';
 
-const GroupList = ({ groups, highlightLeaderCards = false }) => (
+const GroupList = ({ groups }) => (
   <div className="group-list">
     {groups.map((group) => (
       <GroupCard
         key={group.id}
         group={group}
-        isLeaderHighlighted={highlightLeaderCards && group.isLeader}
+        isLeaderHighlighted={group.isLeader}
       />
     ))}
   </div>

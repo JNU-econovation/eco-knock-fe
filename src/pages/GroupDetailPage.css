@@ -1,0 +1,19 @@
+.group-detail-page.detail-page-frame--plain {
+  --detail-page-side: clamp(22px, 5.5vw, 28px);
+}
+
+.group-detail-page.detail-page-frame--plain .detail-page-frame__header {
+  margin-bottom: 28px;
+}
+
+.group-detail-page__title {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+}
+
+.group-detail-page__title small {
+  color: var(--color-text-sub);
+  font: var(--body-medium);
+  font-weight: 600;
+}

@@ -17,6 +17,12 @@ export const ROUTES = {
 
   
   GROUPS:     '/groups',       // 그룹
+  GROUP_CREATE: '/groups/create',
+  GROUP_DETAIL: '/groups/:groupId',
+  GROUP_SETTINGS: '/groups/:groupId/settings',
+  GROUP_NAME_SETTINGS: '/groups/:groupId/settings/name',
+  GROUP_MEMBER_SETTINGS: '/groups/:groupId/settings/members',
+  GROUP_APPLICATION: '/groups/:groupId/apply',
 
   
   MYPAGE:     '/mypage',       // 마이페이지

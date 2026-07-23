@@ -1,0 +1,66 @@
+.group-member-settings-list {
+  display: flex;
+  list-style: none;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.group-member-settings-list li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 34px 54px;
+  align-items: center;
+  gap: 6px;
+}
+
+.group-member-settings-list--read-only li {
+  grid-template-columns: minmax(0, 1fr) 34px;
+}
+
+.group-member-settings-list li > span,
+.group-member-settings-list button {
+  height: 36px;
+  border: 0;
+  border-radius: 20px;
+  background: var(--color-surface);
+  font: var(--body-medium);
+}
+
+.group-member-settings-list li > span {
+  padding: 8px 12px;
+  color: var(--color-text-sub);
+}
+
+.group-member-settings-list button {
+  cursor: pointer;
+}
+
+.group-member-settings-list__crown {
+  display: grid;
+  padding: 0;
+  color: var(--color-primary-light);
+  place-items: center;
+}
+
+.group-member-settings-list__crown.active {
+  color: var(--color-primary-dark);
+}
+
+.group-member-settings-list__remove {
+  color: var(--color-redred);
+}
+
+.group-member-settings-list button:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+.group-member-settings-list__crown.active:disabled {
+  opacity: 1;
+}
+
+@media (max-width: 360px) {
+  .group-member-settings-list li {
+    grid-template-columns: minmax(0, 1fr) 32px 48px;
+    gap: 4px;
+  }
+}

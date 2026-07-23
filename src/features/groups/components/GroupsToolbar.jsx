@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+import { ROUTES } from '@/shared/constants/routes';
 import GroupSortDropdown from './GroupSortDropdown';
 import './GroupsToolbar.css';
 
@@ -22,9 +24,9 @@ const GroupsToolbar = ({
       onSortOrderChange={onSortOrderChange}
     />
 
-    <button className="groups-toolbar__create" type="button">
+    <Link className="groups-toolbar__create" to={ROUTES.GROUP_CREATE}>
       만들기 +
-    </button>
+    </Link>
   </div>
 );
 

@@ -35,7 +35,10 @@
 }
 
 .groups-toolbar__create {
+  display: inline-flex;
   padding: 2px 9px;
+  align-items: center;
+  text-decoration: none;
 }
 
 @media (max-width: 360px) {

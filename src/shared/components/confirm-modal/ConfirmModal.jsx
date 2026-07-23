@@ -8,6 +8,8 @@ const ConfirmModal = ({
   cancelLabel = '취소',
   isPending = false,
   pendingLabel = '처리 중',
+  confirmVariant = 'danger',
+  cancelVariant = 'default',
   onConfirm,
   onCancel,
 }) => {
@@ -44,7 +46,10 @@ const ConfirmModal = ({
 
         <div className="confirm-modal__actions">
           <button
-            className="confirm-modal__button confirm-modal__button--confirm"
+            className={
+              `confirm-modal__button confirm-modal__button--confirm ` +
+              `confirm-modal__button--${confirmVariant}`
+            }
             type="button"
             onClick={onConfirm}
             disabled={isPending}
@@ -55,7 +60,10 @@ const ConfirmModal = ({
           </button>
           <button
             ref={cancelButtonRef}
-            className="confirm-modal__button"
+            className={
+              `confirm-modal__button ` +
+              `confirm-modal__button--cancel-${cancelVariant}`
+            }
             type="button"
             onClick={onCancel}
             disabled={isPending}

@@ -1,0 +1,94 @@
+.application-detail-panel__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+}
+
+.application-detail-panel {
+  position: absolute;
+  top: 160px;
+  left: 50%;
+  z-index: 210;
+  display: flex;
+  width: min(332px, calc(100vw - 46px));
+  min-height: 410px;
+  padding: 35px 30px 24px;
+  border: 1px solid var(--color-text-sub);
+  border-radius: 20px;
+  flex-direction: column;
+  background: var(--color-surface);
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.22);
+  transform: translateX(-50%);
+}
+
+.application-detail-panel__close {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  border: 0;
+  background: transparent;
+  color: var(--color-subtle-1);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.application-detail-panel__name {
+  height: 36px;
+  padding: 6px 14px;
+  border: 1px solid var(--color-text-sub);
+  border-radius: 20px;
+  color: var(--color-subtle-1);
+  font: var(--body-medium);
+  font-weight: 600;
+}
+
+.application-detail-panel__message {
+  min-height: 244px;
+  margin-top: 20px;
+  padding: 20px 14px;
+  border: 1px solid var(--color-text-sub);
+  border-radius: 20px;
+  color: var(--color-subtle-1);
+  font: var(--body-large);
+  font-weight: 600;
+  white-space: pre-line;
+}
+
+.application-detail-panel__actions {
+  display: flex;
+  margin-top: 22px;
+  justify-content: flex-end;
+  gap: 9px;
+}
+
+.application-detail-panel__button {
+  height: 38px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 20px;
+  color: var(--color-surface);
+  font: var(--body-medium);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.application-detail-panel__button--reject {
+  background: var(--color-refuse);
+}
+
+.application-detail-panel__button--accept {
+  background: var(--color-primary-dark);
+}
+
+@media (max-width: 360px) {
+  .application-detail-panel {
+    top: 150px;
+    min-height: 365px;
+    padding-inline: 22px;
+  }
+
+  .application-detail-panel__message {
+    min-height: 210px;
+  }
+}

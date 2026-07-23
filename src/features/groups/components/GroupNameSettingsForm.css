@@ -1,0 +1,35 @@
+.group-name-settings-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.group-name-settings-form > button {
+  align-self: flex-end;
+  margin-bottom: 18px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-subtle-1);
+  font: var(--body-medium);
+  cursor: pointer;
+}
+
+.group-name-settings-form label span {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  clip-path: inset(50%);
+}
+
+.group-name-settings-form input {
+  width: 100%;
+  height: 38px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 20px;
+  background: var(--color-surface);
+  color: var(--color-subtle-1);
+  font: var(--body-medium);
+  font-size: 16px;
+}

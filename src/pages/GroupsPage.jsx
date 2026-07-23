@@ -47,10 +47,7 @@ const GroupsPage = () => {
             onSortOrderChange={setSortOrder}
           />
         )}
-        <GroupList
-          groups={visibleGroups}
-          highlightLeaderCards={activeView === 'mine'}
-        />
+        <GroupList groups={visibleGroups} />
       </div>
     </MainPageFrame>
   );

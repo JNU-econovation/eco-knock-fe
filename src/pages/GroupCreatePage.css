@@ -1,0 +1,7 @@
+.group-create-page.detail-page-frame--plain {
+  --detail-page-side: 28px;
+}
+
+.group-create-page.detail-page-frame--plain .detail-page-frame__header {
+  margin-bottom: 38px;
+}

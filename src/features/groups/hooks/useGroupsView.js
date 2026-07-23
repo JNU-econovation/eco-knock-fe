@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
   GROUPS,
   MY_GROUP_IDS,
@@ -6,9 +7,24 @@ import {
 import { getVisibleGroups } from '@/features/groups/utils/getVisibleGroups';
 
 export const useGroupsView = () => {
-  const [activeView, setActiveView] = useState('mine');
+  const [searchParams, setSearchParams] = useSearchParams();
   const [hideClosedGroups, setHideClosedGroups] = useState(false);
   const [sortOrder, setSortOrder] = useState('default');
+  const activeView = searchParams.get('view') === 'browse'
+    ? 'browse'
+    : 'mine';
+
+  const setActiveView = (nextView) => {
+    const nextSearchParams = new URLSearchParams(searchParams);
+
+    if (nextView === 'browse') {
+      nextSearchParams.set('view', 'browse');
+    } else {
+      nextSearchParams.delete('view');
+    }
+
+    setSearchParams(nextSearchParams, { replace: true });
+  };
 
   const visibleGroups = useMemo(
     () => getVisibleGroups({
