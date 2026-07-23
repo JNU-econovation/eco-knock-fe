@@ -22,12 +22,16 @@ const ChatOverlay = ({ isOpen, onClose }) => {
   });
   const {
     input,
+    isHistoryPending,
     isPending,
     loadingDotCount,
     messages,
     sendMessage,
     setInput,
-  } = useChat();
+  } = useChat({
+    isOpen,
+    onForbidden: onClose,
+  });
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -85,7 +89,7 @@ const ChatOverlay = ({ isOpen, onClose }) => {
               type="text"
               placeholder={CHAT_PLACEHOLDER}
               value={input}
-              disabled={isPending}
+              disabled={isHistoryPending || isPending}
               onChange={(event) => setInput(event.target.value)}
             />
             <button
@@ -93,7 +97,7 @@ const ChatOverlay = ({ isOpen, onClose }) => {
               type="submit"
               aria-label={SEND_LABEL}
               aria-busy={isPending}
-              disabled={isPending || !input.trim()}
+              disabled={isHistoryPending || isPending || !input.trim()}
             >
               <ChatSendIcon />
             </button>

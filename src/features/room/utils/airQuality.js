@@ -6,10 +6,17 @@ const QUALITY_LEVEL_MAP = {
   VERY_GOOD: 'veryGood',
 };
 
-export const formatAirQualityTime = (value) => {
+export const formatAirQualityTime = (value, resolution) => {
   const date = new Date(value);
 
   if (Number.isNaN(date.getTime())) return '--:--';
+
+  if (resolution === '1d') {
+    return new Intl.DateTimeFormat(undefined, {
+      month: '2-digit',
+      day: '2-digit',
+    }).format(date);
+  }
 
   return new Intl.DateTimeFormat(undefined, {
     hour: '2-digit',
@@ -34,7 +41,7 @@ export const mapAirQualityReadings = (points, metric, resolution) => (
     ))
     .map((point, index) => ({
       id: `${metric.id}-${resolution}-${point?.time ?? index}`,
-      time: formatAirQualityTime(point?.time),
+      time: formatAirQualityTime(point?.time, resolution),
       value: mapReadingValue(point, metric),
     }))
 );

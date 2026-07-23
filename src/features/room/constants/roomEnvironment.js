@@ -20,10 +20,13 @@ export const ROOM_INTERVALS = [
   { id: '15m', label: '15분마다', minutes: 15 },
   { id: '1h', label: '1시간마다', minutes: 60 },
   { id: '4h', label: '4시간마다', minutes: 240 },
+  { id: '1d', label: '1일마다', minutes: 1440 },
 ];
 
 export const DEFAULT_ROOM_INTERVAL = '15m';
 export const ROOM_READING_COUNT = 12;
+
+const SENSOR_ACCURACY_NOTICE = '*추후 더 정확한 값으로 제공될 예정입니다.';
 
 export const ROOM_METRICS = [
   {
@@ -49,6 +52,7 @@ export const ROOM_METRICS = [
     path: ROUTES.ROOM_FINE_DUST,
     title: '동방 미세먼지',
     description: '동방의 미세먼지 상태를 나타냅니다.',
+    detailNotice: SENSOR_ACCURACY_NOTICE,
     type: 'status',
     responseField: 'pm25Quality',
   },
@@ -57,6 +61,7 @@ export const ROOM_METRICS = [
     path: ROUTES.ROOM_AIR_QUALITY,
     title: '동방 공기질',
     description: '동방의 가스 센서 기반 공기질 상태를 나타냅니다.',
+    detailNotice: SENSOR_ACCURACY_NOTICE,
     type: 'status',
     responseField: 'gasQuality',
   },

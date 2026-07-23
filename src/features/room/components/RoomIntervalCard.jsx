@@ -1,3 +1,4 @@
+import ButtonSpinner from '@/shared/components/button-spinner/ButtonSpinner';
 import EnvironmentReading from './EnvironmentReading';
 import { useHorizontalDragScroll } from '../hooks/useHorizontalDragScroll';
 import './RoomIntervalCard.css';
@@ -7,6 +8,8 @@ const RoomIntervalCard = ({
   readings,
   metricType,
   isDefault,
+  isDefaultUpdatePending,
+  isDefaultUpdateDisabled,
   onSetDefault,
 }) => {
   const horizontalDragScrollHandlers = useHorizontalDragScroll(readings.length);
@@ -19,9 +22,14 @@ const RoomIntervalCard = ({
           className={`room-interval-card__default-button${isDefault ? ' room-interval-card__default-button--active' : ''}`}
           type="button"
           aria-pressed={isDefault}
+          aria-busy={isDefaultUpdatePending || undefined}
+          aria-label={isDefaultUpdatePending ? '기본 간격 저장 중' : undefined}
+          disabled={isDefaultUpdateDisabled}
           onClick={onSetDefault}
         >
-          기본
+          {isDefaultUpdatePending ? (
+            <ButtonSpinner className="room-interval-card__default-spinner" />
+          ) : '기본'}
         </button>
       </div>
 
