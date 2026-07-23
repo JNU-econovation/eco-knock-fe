@@ -91,12 +91,27 @@
   gap: 5px;
 }
 
+.user-profile-card__identity {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  gap: 6px;
+}
+
 .user-profile-card__name {
   overflow: hidden;
   color: var(--color-normal);
   font: var(--headline-small);
   font-weight: 600;
   text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-profile-card__role {
+  flex: 0 0 auto;
+  color: var(--color-text-sub);
+  font: var(--body-small);
+  letter-spacing: var(--body-small-spacing);
   white-space: nowrap;
 }
 

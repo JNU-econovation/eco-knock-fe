@@ -13,6 +13,7 @@ export default function ApiClientBridge() {
     showError,
     reissueToken,
     onUnauthorized: () => navigate(ROUTES.LOGIN, { replace: true }),
+    onForbidden: () => navigate(ROUTES.HOME, { replace: true }),
   }), [navigate, showError]);
 
   return null;

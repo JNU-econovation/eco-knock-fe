@@ -72,7 +72,7 @@ const CoinRankValue = ({ value }) => {
   );
 };
 
-const CoinRecordItem = ({ rank, userName, amount }) => {
+const CoinRecordItem = ({ rank, userName, amount, symbol = 'KRT' }) => {
   const displayRank = rank ?? EMPTY_VALUE;
   const RankIcon = COIN_RANK_ICONS[rank];
   const rankClassName = RankIcon
@@ -96,7 +96,7 @@ const CoinRecordItem = ({ rank, userName, amount }) => {
         {userName || EMPTY_VALUE}
       </strong>
       <strong className="coin-record-item__amount">
-        {formatCoinAmount(amount)} C
+        {formatCoinAmount(amount)} {symbol}
       </strong>
     </li>
   );

@@ -1,0 +1,27 @@
+.coin-log-history {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.coin-log-history__load-more {
+  align-self: center;
+  width: 120px;
+  min-height: 38px;
+  border: 1px solid var(--color-primary-dark);
+  border-radius: 20px;
+  background: var(--color-surface);
+  color: var(--color-primary-dark);
+  font: var(--body-medium);
+  cursor: pointer;
+}
+
+.coin-log-history__load-more:disabled {
+  cursor: default;
+}
+
+.coin-log-history__load-more:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}

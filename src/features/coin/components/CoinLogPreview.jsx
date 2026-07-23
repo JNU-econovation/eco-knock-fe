@@ -2,7 +2,13 @@ import { Link } from 'react-router-dom';
 import CoinLogList from './CoinLogList';
 import './CoinLogPreview.css';
 
-const CoinLogPreview = ({ coinLogs = [], to, limit = 4 }) => {
+const CoinLogPreview = ({
+  coinLogs = [],
+  isLoading = false,
+  symbol = 'KRT',
+  to,
+  limit = 4,
+}) => {
   const previewLogs = coinLogs.slice(0, limit);
 
   return (
@@ -15,7 +21,12 @@ const CoinLogPreview = ({ coinLogs = [], to, limit = 4 }) => {
         to={to}
         aria-label="전체 코인 내역 보기"
       >
-        <CoinLogList coinLogs={previewLogs} variant="preview" />
+        <CoinLogList
+          coinLogs={previewLogs}
+          isLoading={isLoading}
+          symbol={symbol}
+          variant="preview"
+        />
       </Link>
     </section>
   );
