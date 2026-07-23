@@ -42,6 +42,19 @@
   margin: 0 auto;
 }
 
+.groups-page__loading {
+  display: grid;
+  min-height: 240px;
+  color: var(--color-primary-dark);
+  place-items: center;
+}
+
+.groups-page__loading-spinner {
+  width: 28px;
+  height: 28px;
+  border-width: 3px;
+}
+
 @media (max-width: 360px) {
   .groups-page-frame .main-page-frame__title {
     font-size: 30px;

@@ -4,19 +4,16 @@ import {
   getGroups,
   getMyGroups,
 } from '@/features/groups/api/groupsApi';
-import {
-  GROUPS,
-  MY_GROUP_IDS,
-} from '@/features/groups/constants/groupData';
 import { mapGroupSummary } from '@/features/groups/utils/groupContract';
 import { getVisibleGroups } from '@/features/groups/utils/getVisibleGroups';
 
 export const useGroupsView = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [groupsByView, setGroupsByView] = useState({
-    mine: GROUPS.filter((group) => MY_GROUP_IDS.includes(group.id)),
-    browse: GROUPS,
+    mine: [],
+    browse: [],
   });
+  const [isLoading, setIsLoading] = useState(true);
   const [hideClosedGroups, setHideClosedGroups] = useState(false);
   const [sortOrder, setSortOrder] = useState('NAME_ASC');
   const activeView = searchParams.get('view') === 'browse'
@@ -24,6 +21,9 @@ export const useGroupsView = () => {
     : 'mine';
 
   const setActiveView = (nextView) => {
+    if (nextView === activeView) return;
+
+    setIsLoading(true);
     const nextSearchParams = new URLSearchParams(searchParams);
 
     if (nextView === 'browse') {
@@ -40,6 +40,8 @@ export const useGroupsView = () => {
     let isActive = true;
 
     const loadGroups = async () => {
+      setIsLoading(true);
+
       try {
         const response = activeView === 'mine'
           ? await getMyGroups(controller.signal)
@@ -57,7 +59,9 @@ export const useGroupsView = () => {
           }));
         }
       } catch {
-        // The shared API client handles the error; retain temporary mock data.
+        // The shared API client handles the error; mock data must not replace it.
+      } finally {
+        if (isActive) setIsLoading(false);
       }
     };
 
@@ -86,5 +90,6 @@ export const useGroupsView = () => {
     sortOrder,
     setSortOrder,
     visibleGroups,
+    isLoading,
   };
 };

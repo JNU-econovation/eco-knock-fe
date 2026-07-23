@@ -2,6 +2,7 @@ import GroupList from '@/features/groups/components/GroupList';
 import GroupsToolbar from '@/features/groups/components/GroupsToolbar';
 import { useGroupsView } from '@/features/groups/hooks/useGroupsView';
 import { useProfile } from '@/features/mypage/hooks/useProfile';
+import ButtonSpinner from '@/shared/components/button-spinner/ButtonSpinner';
 import MainPageFrame from '@/shared/components/layout/MainPageFrame';
 import './GroupsPage.css';
 
@@ -15,6 +16,7 @@ const GroupsPage = () => {
     sortOrder,
     setSortOrder,
     visibleGroups,
+    isLoading,
   } = useGroupsView();
 
   const title = (
@@ -41,18 +43,31 @@ const GroupsPage = () => {
   return (
     <MainPageFrame title={title} className="groups-page-frame">
       <div className="groups-page__content">
-        {activeView === 'browse' && (
-          <GroupsToolbar
-            hideClosedGroups={hideClosedGroups}
-            onHideClosedGroupsChange={setHideClosedGroups}
-            sortOrder={sortOrder}
-            onSortOrderChange={setSortOrder}
-            canCreate={
-              profile?.role === 'USER' || profile?.role === 'ADMIN'
-            }
-          />
+        {isLoading ? (
+          <div
+            className="groups-page__loading"
+            role="status"
+            aria-label="그룹 목록 불러오는 중"
+            aria-busy="true"
+          >
+            <ButtonSpinner className="groups-page__loading-spinner" />
+          </div>
+        ) : (
+          <>
+            {activeView === 'browse' && (
+              <GroupsToolbar
+                hideClosedGroups={hideClosedGroups}
+                onHideClosedGroupsChange={setHideClosedGroups}
+                sortOrder={sortOrder}
+                onSortOrderChange={setSortOrder}
+                canCreate={
+                  profile?.role === 'USER' || profile?.role === 'ADMIN'
+                }
+              />
+            )}
+            <GroupList groups={visibleGroups} />
+          </>
         )}
-        <GroupList groups={visibleGroups} />
       </div>
     </MainPageFrame>
   );
