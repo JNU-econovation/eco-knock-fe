@@ -11,6 +11,12 @@
   line-height: 1.5;
 }
 
+.room-environment-detail__notice {
+  margin: 5px 0 0;
+  color: var(--color-subtle-1);
+  font: var(--body-small);
+}
+
 .room-environment-detail__intervals {
   display: flex;
   flex-direction: column;

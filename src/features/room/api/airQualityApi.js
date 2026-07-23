@@ -17,3 +17,11 @@ export const getAirQualityHistory = ({ resolution, before, limit, signal }) => (
     signal,
   })
 );
+
+export const getAirQualityHistoryDefault = (signal) => (
+  apiClient.get('/air-quality/timeseries/history/default', { signal })
+);
+
+export const updateAirQualityHistoryDefault = (resolution) => (
+  apiClient.put('/air-quality/timeseries/history/default', { resolution })
+);

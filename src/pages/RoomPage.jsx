@@ -8,8 +8,8 @@ import MainPageFrame from '@/shared/components/layout/MainPageFrame';
 import './RoomPage.css';
 
 const RoomPage = () => {
-  const { defaultIntervals } = useRoomIntervals();
-  const roomMetrics = useRoomOverviewData(defaultIntervals);
+  const { defaultInterval } = useRoomIntervals();
+  const roomMetrics = useRoomOverviewData(defaultInterval);
   const [isDoorbellNoticeOpen, setIsDoorbellNoticeOpen] = useState(false);
   const doorbellButtonRef = useRef(null);
 

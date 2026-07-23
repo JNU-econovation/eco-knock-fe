@@ -11,7 +11,11 @@ import './RoomEnvironmentDetailPage.css';
 
 const RoomEnvironmentDetailPage = ({ metricId }) => {
   const metric = getRoomMetric(metricId);
-  const { defaultIntervals, setDefaultInterval } = useRoomIntervals();
+  const {
+    defaultInterval,
+    pendingDefaultInterval,
+    setDefaultInterval,
+  } = useRoomIntervals();
   const { displayMetric, histories } = useRoomMetricDetail(metric);
 
   return (
@@ -20,6 +24,11 @@ const RoomEnvironmentDetailPage = ({ metricId }) => {
         <p className="room-environment-detail__description">
           {metric.description}
         </p>
+        {metric.detailNotice && (
+          <p className="room-environment-detail__notice">
+            {metric.detailNotice}
+          </p>
+        )}
 
         <RoomMetricHero metric={displayMetric} />
 
@@ -30,8 +39,13 @@ const RoomEnvironmentDetailPage = ({ metricId }) => {
               interval={interval}
               readings={histories[interval.id] ?? []}
               metricType={metric.type}
-              isDefault={defaultIntervals[metric.id] === interval.id}
-              onSetDefault={() => setDefaultInterval(metric.id, interval.id)}
+              isDefault={defaultInterval === interval.id}
+              isDefaultUpdatePending={pendingDefaultInterval === interval.id}
+              isDefaultUpdateDisabled={
+                pendingDefaultInterval !== null ||
+                defaultInterval === interval.id
+              }
+              onSetDefault={() => setDefaultInterval(interval.id)}
             />
           ))}
         </div>

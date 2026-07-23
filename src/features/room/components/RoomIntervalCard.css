@@ -22,9 +22,12 @@
 }
 
 .room-interval-card__default-button {
+  display: inline-flex;
   min-width: 39px;
   height: 21px;
   padding: 0 8px;
+  align-items: center;
+  justify-content: center;
   border: 1px solid rgba(175, 177, 182, 0.3);
   border-radius: 999px;
   background: transparent;
@@ -33,6 +36,15 @@
   cursor: pointer;
   appearance: none;
   -webkit-tap-highlight-color: transparent;
+}
+
+.room-interval-card__default-button:disabled {
+  cursor: default;
+}
+
+.room-interval-card__default-spinner {
+  width: 12px;
+  height: 12px;
 }
 
 .room-interval-card__default-button--active {

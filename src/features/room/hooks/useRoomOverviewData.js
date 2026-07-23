@@ -15,7 +15,7 @@ const INTERVAL_MINUTES = Object.fromEntries(
   ROOM_INTERVALS.map(({ id, minutes }) => [id, minutes]),
 );
 
-export const useRoomOverviewData = (defaultIntervals) => {
+export const useRoomOverviewData = (defaultInterval) => {
   const [readingsByMetric, setReadingsByMetric] = useState({});
   const isRequestPendingRef = useRef(false);
   const requestIdRef = useRef(0);
@@ -29,53 +29,37 @@ export const useRoomOverviewData = (defaultIntervals) => {
       if (isRequestPendingRef.current) return;
 
       isRequestPendingRef.current = true;
-      const resolutions = [...new Set(ROOM_METRICS.map(
-        (metric) => defaultIntervals[metric.id],
-      ))];
       const to = new Date();
-      const requests = resolutions.map((resolution) => {
-        const minutes = INTERVAL_MINUTES[resolution] * ROOM_READING_COUNT;
-        const from = new Date(to.getTime() - minutes * 60_000);
+      const minutes = INTERVAL_MINUTES[defaultInterval] * ROOM_READING_COUNT;
+      const from = new Date(to.getTime() - minutes * 60_000);
 
-        return getAirQualityTimeseries({
-          resolution,
+      try {
+        const response = await getAirQualityTimeseries({
+          resolution: defaultInterval,
           from: from.toISOString(),
           to: to.toISOString(),
           signal: controller.signal,
         });
-      });
-
-      try {
-        const results = await Promise.allSettled(requests);
 
         if (!isActive) return;
 
-        const pointsByResolution = Object.fromEntries(
-          results.flatMap((result, index) => (
-            result.status === 'fulfilled'
-              ? [[resolutions[index], result.value.data.result?.content ?? []]]
-              : []
-          )),
-        );
+        const points = response.data.result?.content ?? [];
 
         setReadingsByMetric((current) => {
           const next = { ...current };
 
           ROOM_METRICS.forEach((metric) => {
-            const resolution = defaultIntervals[metric.id];
-            const points = pointsByResolution[resolution];
-
-            if (points) {
-              next[metric.id] = mapAirQualityReadings(
-                points.slice(-ROOM_READING_COUNT),
-                metric,
-                resolution,
-              );
-            }
+            next[metric.id] = mapAirQualityReadings(
+              points.slice(-ROOM_READING_COUNT),
+              metric,
+              defaultInterval,
+            );
           });
 
           return next;
         });
+      } catch {
+        // The shared API client handles the error; retain the previous readings.
       } finally {
         if (requestIdRef.current === requestId) {
           isRequestPendingRef.current = false;
@@ -95,7 +79,7 @@ export const useRoomOverviewData = (defaultIntervals) => {
         isRequestPendingRef.current = false;
       }
     };
-  }, [defaultIntervals]);
+  }, [defaultInterval]);
 
   return useMemo(() => ROOM_METRICS.map((metric) => (
     withRoomMetricReadings(metric, readingsByMetric[metric.id])

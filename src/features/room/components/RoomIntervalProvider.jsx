@@ -1,28 +1,26 @@
-import { useCallback, useMemo, useState } from 'react';
-import {
-  DEFAULT_ROOM_INTERVAL,
-  ROOM_METRICS,
-} from '../constants/roomEnvironment';
+import { useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
+import { ROUTES } from '@/shared/constants/routes';
 import { RoomIntervalContext } from '../contexts/RoomIntervalContext';
-
-const INITIAL_INTERVALS = Object.fromEntries(
-  ROOM_METRICS.map((metric) => [metric.id, DEFAULT_ROOM_INTERVAL]),
-);
+import { useRoomIntervalSetting } from '../hooks/useRoomIntervalSetting';
 
 const RoomIntervalProvider = ({ children }) => {
-  const [defaultIntervals, setDefaultIntervals] = useState(INITIAL_INTERVALS);
-
-  const setDefaultInterval = useCallback((metricId, intervalId) => {
-    setDefaultIntervals((currentIntervals) => ({
-      ...currentIntervals,
-      [metricId]: intervalId,
-    }));
-  }, []);
+  const { pathname } = useLocation();
+  const isRoomRoute = (
+    pathname === ROUTES.ROOM ||
+    pathname.startsWith(`${ROUTES.ROOM}/`)
+  );
+  const {
+    defaultInterval,
+    pendingDefaultInterval,
+    setDefaultInterval,
+  } = useRoomIntervalSetting(isRoomRoute);
 
   const contextValue = useMemo(() => ({
-    defaultIntervals,
+    defaultInterval,
+    pendingDefaultInterval,
     setDefaultInterval,
-  }), [defaultIntervals, setDefaultInterval]);
+  }), [defaultInterval, pendingDefaultInterval, setDefaultInterval]);
 
   return (
     <RoomIntervalContext.Provider value={contextValue}>
