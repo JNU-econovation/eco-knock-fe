@@ -16,7 +16,7 @@ export const ROUTES = {
   ROOM_AIR_QUALITY: '/room/air-quality',
 
   
-  RECRUIT:    '/recruit',      // 부서모집
+  GROUPS:     '/groups',       // 그룹
 
   
   MYPAGE:     '/mypage',       // 마이페이지

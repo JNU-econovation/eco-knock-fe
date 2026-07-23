@@ -8,6 +8,7 @@ import MyPage from '@/pages/MyPage';
 import LoginPage from '@/pages/LoginPage';
 import RoomPage from '@/pages/RoomPage';
 import RoomEnvironmentDetailPage from '@/pages/RoomEnvironmentDetailPage';
+import GroupsPage from '@/pages/GroupsPage';
 import AppLayout from '@/shared/components/layout/AppLayout';
 import DetailLayout from '@/shared/components/layout/DetailLayout';
 
@@ -20,7 +21,7 @@ export default function AppRouter() {
         <Route path={ROUTES.HOME} element={<CollectionPage />} />
         <Route path={ROUTES.COLLECTION} element={<CollectionPage />} />
         <Route path={ROUTES.ROOM} element={<RoomPage />} />
-        <Route path={ROUTES.RECRUIT} element={<CollectionPage />} />
+        <Route path={ROUTES.GROUPS} element={<GroupsPage />} />
         <Route path={ROUTES.MYPAGE} element={<MyPage />} />
       </Route>
 
