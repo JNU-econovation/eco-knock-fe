@@ -1,0 +1,49 @@
+.group-settings-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.group-settings-menu h2 {
+  margin-bottom: 15px;
+  color: var(--color-primary-dark);
+  font: var(--label-large);
+  font-weight: 700;
+}
+
+.group-settings-menu__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.group-settings-menu__row,
+.group-settings-menu__delete {
+  min-height: 38px;
+  padding: 8px 13px;
+  border: 0;
+  border-radius: 20px;
+  background: var(--color-surface);
+  color: var(--color-subtle-1);
+  font: var(--body-medium);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.group-settings-menu__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.group-settings-menu__value {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.group-settings-menu__delete {
+  color: var(--color-redred);
+  text-align: left;
+  cursor: pointer;
+}

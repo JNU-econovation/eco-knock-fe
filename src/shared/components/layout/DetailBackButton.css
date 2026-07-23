@@ -21,3 +21,11 @@
   outline: 3px solid var(--color-primary);
   outline-offset: 2px;
 }
+
+.detail-back-button--primary-light {
+  width: 24px;
+  height: 24px;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}

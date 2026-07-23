@@ -47,7 +47,7 @@ export const RoomFilledIcon = () => (
 );
 
 // -- 부서모집 페이지용 아이콘
-export const RecruitOutlineIcon = () => (
+export const GroupsOutlineIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
     <path d="M20.8334 12.5V5.98809C20.8334 5.82233 20.7676 5.66336 20.6504 5.54614L17.3706 2.26644C17.2534 2.14922 17.0945 2.08337 16.9287 2.08337H4.79175C4.44657 2.08337 4.16675 2.3632 4.16675 2.70837V22.2917C4.16675 22.6369 4.44657 22.9167 4.79175 22.9167H11.4584" stroke="#2254B0" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
     <path d="M8.33325 14.5833H11.4583M8.33325 10.4167H16.6666H8.33325ZM8.33325 6.25H12.4999H8.33325Z" stroke="#2254B0" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -55,7 +55,7 @@ export const RecruitOutlineIcon = () => (
     <path d="M20.354 19.2971L17.2382 22.4129C17.0821 22.569 16.8804 22.6715 16.6622 22.7056L15.041 22.9583L15.2938 21.337C15.3278 21.1189 15.4303 20.9171 15.5864 20.761L18.7022 17.6453L19.7438 16.6036C20.2 16.1474 20.9396 16.1474 21.3957 16.6036C21.8518 17.0597 21.8518 17.7993 21.3957 18.2555L20.354 19.2971ZM18.7022 17.6453L20.354 19.2971" stroke="#2254B0" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
-export const RecruitFilledIcon = () => (
+export const GroupsFilledIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="var(--color-primary-dark)">
     <path d="M20.8334 12.5V5.98809C20.8334 5.82233 20.7676 5.66336 20.6504 5.54614L17.3706 2.26644C17.2534 2.14922 17.0945 2.08337 16.9287 2.08337H4.79175C4.44657 2.08337 4.16675 2.3632 4.16675 2.70837V22.2917C4.16675 22.6369 4.44657 22.9167 4.79175 22.9167H11.4584" stroke="#2254B0" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
     <path d="M8.33325 14.5833H11.4583M8.33325 10.4167H16.6666H8.33325ZM8.33325 6.25H12.4999H8.33325Z" stroke="#FAFAFB" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>

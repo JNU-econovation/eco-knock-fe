@@ -3,7 +3,7 @@ import { ROUTES } from "./routes";
 import {
   CollectionOutlineIcon, CollectionFilledIcon,
   RoomOutlineIcon, RoomFilledIcon,
-  RecruitOutlineIcon, RecruitFilledIcon,
+  GroupsOutlineIcon, GroupsFilledIcon,
   MypageOutlineIcon, MypageFilledIcon,
   ChatOutlineIcon, ChatFilledIcon,
 } from "@/assets/icons/BottomNavIcons";
@@ -42,10 +42,10 @@ export const NAV_ITEMS = [
     filledIcon: RoomFilledIcon,
   },
   {
-    route: ROUTES.RECRUIT,
-    label: '부서모집',
-    outlineIcon: RecruitOutlineIcon,
-    filledIcon: RecruitFilledIcon,
+    route: ROUTES.GROUPS,
+    label: '그룹',
+    outlineIcon: GroupsOutlineIcon,
+    filledIcon: GroupsFilledIcon,
   },
   {
     route: ROUTES.MYPAGE,

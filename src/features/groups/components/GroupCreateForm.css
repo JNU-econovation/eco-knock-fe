@@ -1,0 +1,105 @@
+.group-create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 46px;
+}
+
+.group-create-form__field {
+  display: flex;
+  min-width: 0;
+  border: 0;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.group-create-form__field > span,
+.group-create-form__field legend {
+  color: var(--color-primary-dark);
+  font: var(--label-large);
+  font-weight: 700;
+}
+
+.group-create-form input,
+.group-create-form textarea {
+  width: 100%;
+  border: 1px solid rgba(209, 213, 219, 0.55);
+  border-radius: 22px;
+  background: var(--color-surface);
+  color: var(--color-subtle-1);
+  font: var(--body-medium);
+  font-size: 16px;
+}
+
+.group-create-form input {
+  height: 40px;
+  padding: 8px 14px;
+}
+
+.group-create-form textarea {
+  min-height: 66px;
+  padding: 12px 14px;
+  resize: vertical;
+}
+
+.group-create-form__category-toggle {
+  display: flex;
+}
+
+.group-create-form__category-toggle button {
+  min-width: 82px;
+  height: 40px;
+  border: 1px solid var(--color-text-sub);
+  background: var(--color-surface);
+  color: var(--color-subtle-1);
+  font: var(--body-large);
+  cursor: pointer;
+}
+
+.group-create-form__category-toggle button:first-child {
+  border-radius: 20px 0 0 20px;
+}
+
+.group-create-form__category-toggle button:last-child {
+  border-left: 0;
+  border-radius: 0 20px 20px 0;
+}
+
+.group-create-form__category-toggle button.active {
+  background: var(--color-primary-light);
+}
+
+.group-create-form__dates {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 6px;
+}
+
+.group-create-form__dates input {
+  min-width: 0;
+  padding-inline: 8px;
+  font-size: 13px;
+}
+
+.group-create-form__submit {
+  align-self: flex-end;
+  height: 40px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 22px;
+  background: var(--color-primary-dark);
+  color: var(--color-surface);
+  font: var(--body-medium);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 360px) {
+  .group-create-form {
+    gap: 36px;
+  }
+
+  .group-create-form__dates input {
+    font-size: 11px;
+  }
+}

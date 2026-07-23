@@ -17,6 +17,11 @@
   z-index: 10;
 }
 
+.detail-layout--primary-light .detail-layout__back-button {
+  top: max(24px, calc(env(safe-area-inset-top) + 12px));
+  left: 16px;
+}
+
 @media (max-width: 360px) {
   .detail-layout__back-button {
     left: 28px;
