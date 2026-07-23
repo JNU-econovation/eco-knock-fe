@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { SettingsIcon } from '@/assets/icons/MyPageIcons';
 import { logout } from '@/features/auth/api/authApi';
 import CoinRecordCard from '@/features/coin/components/CoinRecordCard';
-import { MOCK_COIN_DETAIL } from '@/features/coin/constants/mockCoinDetail';
+import { useWalletBalance } from '@/features/coin/hooks/useWalletBalance';
 import AccountActions from '@/features/mypage/components/AccountActions';
 import UserProfileCard from '@/features/mypage/components/UserProfileCard';
 import { MOCK_USER } from '@/features/mypage/constants/mockUser';
@@ -10,8 +10,9 @@ import MainPageFrame from '@/shared/components/layout/MainPageFrame';
 import { ROUTES } from '@/shared/constants/routes';
 import './MyPage.css';
 
-const MyPage = ({ userData, coinRecords = MOCK_COIN_DETAIL.coinRecords }) => {
+const MyPage = ({ userData }) => {
   const navigate = useNavigate();
+  const wallet = useWalletBalance();
   const user = userData ?? MOCK_USER;
 
   const handleLogout = async () => {

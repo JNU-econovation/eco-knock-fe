@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CoinIcon } from '@/assets/icons/MyPageIcons';
-import coinImage from '@/assets/img/coin.png';
+import coinImage from '@/assets/img/ecnv-coin-krt.png';
 import { formatCoinAmount } from '../utils/formatCoinAmount';
 import CoinRecordItem from './CoinRecordItem';
 import './CoinRecordCard.css';
 
-const CoinRecordCardContent = ({ coinBalance, coinRecords, limit }) => {
+const CoinRecordCardContent = ({
+  balance,
+  symbol,
+  coinRecords,
+  limit,
+}) => {
   const [hasCoinImageError, setHasCoinImageError] = useState(false);
   const visibleRecords = Number.isInteger(limit)
     ? coinRecords.slice(0, limit)
@@ -18,7 +23,7 @@ const CoinRecordCardContent = ({ coinBalance, coinRecords, limit }) => {
         <span className="coin-record-card__balance-content">
           <span className="coin-record-card__label">MY COIN</span>
           <strong className="coin-record-card__balance">
-            {formatCoinAmount(coinBalance)} COIN
+            {formatCoinAmount(balance)} {symbol}
           </strong>
         </span>
         <span className="coin-record-card__coin-image" aria-hidden="true">
@@ -50,14 +55,16 @@ const CoinRecordCardContent = ({ coinBalance, coinRecords, limit }) => {
 };
 
 const CoinRecordCard = ({
-  coinBalance,
+  balance,
+  symbol = 'KRT',
   coinRecords = [],
   limit,
   to,
 }) => {
   const content = (
     <CoinRecordCardContent
-      coinBalance={coinBalance}
+      balance={balance}
+      symbol={symbol}
       coinRecords={coinRecords}
       limit={limit}
     />

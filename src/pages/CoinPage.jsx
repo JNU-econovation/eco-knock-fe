@@ -1,23 +1,24 @@
 import CoinLogPreview from '@/features/coin/components/CoinLogPreview';
 import CoinRecordSection from '@/features/coin/components/CoinRecordSection';
 import CoinSummary from '@/features/coin/components/CoinSummary';
-import { MOCK_COIN_DETAIL } from '@/features/coin/constants/mockCoinDetail';
+import { useWalletBalance } from '@/features/coin/hooks/useWalletBalance';
 import DetailPageFrame from '@/shared/components/layout/DetailPageFrame';
 import { ROUTES } from '@/shared/constants/routes';
 
-const CoinPage = ({ coinDetailData }) => {
-  const coinDetail = coinDetailData ?? MOCK_COIN_DETAIL;
+const CoinPage = () => {
+  const wallet = useWalletBalance();
 
   return (
     <DetailPageFrame title="COIN" variant="plain">
-      <CoinSummary coinBalance={coinDetail.coinBalance} />
+      <CoinSummary balance={wallet?.balance} symbol={wallet?.symbol} />
       <CoinLogPreview
-        coinLogs={coinDetail.coinLogs ?? []}
+        coinLogs={[]}
         to={ROUTES.MYPAGE_COIN_LOG}
       />
       <CoinRecordSection
-        coinBalance={coinDetail.coinBalance}
-        coinRecords={coinDetail.coinRecords ?? []}
+        balance={wallet?.balance}
+        symbol={wallet?.symbol}
+        coinRecords={[]}
       />
     </DetailPageFrame>
   );
