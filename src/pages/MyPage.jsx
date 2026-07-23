@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { SettingsIcon } from '@/assets/icons/MyPageIcons';
 import { logout } from '@/features/auth/api/authApi';
 import CoinRecordCard from '@/features/coin/components/CoinRecordCard';
-import { MOCK_COIN_DETAIL } from '@/features/coin/constants/mockCoinDetail';
+import { useWalletBalance } from '@/features/coin/hooks/useWalletBalance';
 import AccountActions from '@/features/mypage/components/AccountActions';
 import UserProfileCard from '@/features/mypage/components/UserProfileCard';
 import { MOCK_USER } from '@/features/mypage/constants/mockUser';
@@ -10,17 +10,14 @@ import MainPageFrame from '@/shared/components/layout/MainPageFrame';
 import { ROUTES } from '@/shared/constants/routes';
 import './MyPage.css';
 
-const MyPage = ({ userData, coinRecords = MOCK_COIN_DETAIL.coinRecords }) => {
+const MyPage = ({ userData }) => {
   const navigate = useNavigate();
+  const wallet = useWalletBalance();
   const user = userData ?? MOCK_USER;
 
   const handleLogout = async () => {
     await logout();
     navigate(ROUTES.LOGIN, { replace: true });
-  };
-
-  const handleWithdraw = () => {
-    // TODO: 회원 탈퇴 API 계약이 확정되면 연결합니다.
   };
 
   return (
@@ -50,17 +47,15 @@ const MyPage = ({ userData, coinRecords = MOCK_COIN_DETAIL.coinRecords }) => {
             coin
           </h2>
           <CoinRecordCard
-            coinBalance={user.coinBalance}
-            coinRecords={coinRecords ?? []}
+            balance={wallet?.balance}
+            symbol={wallet?.symbol}
+            coinRecords={[]}
             limit={3}
             to={ROUTES.MYPAGE_COIN}
           />
         </section>
 
-        <AccountActions
-          onLogout={handleLogout}
-          onWithdraw={handleWithdraw}
-        />
+        <AccountActions onLogout={handleLogout} />
       </div>
     </MainPageFrame>
   );

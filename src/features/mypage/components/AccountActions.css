@@ -21,3 +21,16 @@
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
+
+.account-actions__withdraw-area {
+  position: relative;
+}
+
+.account-actions__withdraw-notice {
+  --development-notice-transform-origin: bottom center;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  z-index: 2;
+  transform: translateX(-50%);
+}

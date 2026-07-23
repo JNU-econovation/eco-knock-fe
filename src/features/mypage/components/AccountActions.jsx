@@ -1,29 +1,33 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import ConfirmModal from '@/shared/components/confirm-modal/ConfirmModal';
+import DevelopmentNotice from '@/shared/components/development-notice/DevelopmentNotice';
 import { ACCOUNT_CONFIRMATIONS } from '../constants/accountConfirmations';
 import './AccountActions.css';
 
-const AccountActions = ({ onLogout, onWithdraw }) => {
-  const [pendingAction, setPendingAction] = useState(null);
+const AccountActions = ({ onLogout }) => {
+  const [isLogoutConfirmationOpen, setIsLogoutConfirmationOpen] = useState(false);
+  const [isWithdrawNoticeOpen, setIsWithdrawNoticeOpen] = useState(false);
   const [isActionPending, setIsActionPending] = useState(false);
-  const confirmation = pendingAction
-    ? ACCOUNT_CONFIRMATIONS[pendingAction]
-    : null;
+  const withdrawButtonRef = useRef(null);
 
-  const handleConfirm = async () => {
+  const handleConfirmLogout = async () => {
     if (isActionPending) return;
 
     setIsActionPending(true);
 
     try {
-      if (pendingAction === 'logout') await onLogout();
-      if (pendingAction === 'withdraw') await onWithdraw();
+      await onLogout();
     } catch {
       // API 오류는 공통 Axios 인터셉터가 표시합니다.
     } finally {
       setIsActionPending(false);
-      setPendingAction(null);
+      setIsLogoutConfirmationOpen(false);
     }
+  };
+
+  const handleConfirmWithdrawNotice = () => {
+    setIsWithdrawNoticeOpen(false);
+    withdrawButtonRef.current?.focus();
   };
 
   return (
@@ -32,26 +36,36 @@ const AccountActions = ({ onLogout, onWithdraw }) => {
         <button
           className="account-actions__button"
           type="button"
-          onClick={() => setPendingAction('logout')}
+          onClick={() => setIsLogoutConfirmationOpen(true)}
         >
           로그아웃
         </button>
-        <button
-          className="account-actions__button"
-          type="button"
-          onClick={() => setPendingAction('withdraw')}
-        >
-          회원 탈퇴
-        </button>
+        <div className="account-actions__withdraw-area">
+          {isWithdrawNoticeOpen && (
+            <div className="account-actions__withdraw-notice">
+              <DevelopmentNotice onConfirm={handleConfirmWithdrawNotice} />
+            </div>
+          )}
+          <button
+            ref={withdrawButtonRef}
+            className="account-actions__button"
+            type="button"
+            aria-haspopup="dialog"
+            aria-expanded={isWithdrawNoticeOpen}
+            onClick={() => setIsWithdrawNoticeOpen(true)}
+          >
+            회원 탈퇴
+          </button>
+        </div>
       </div>
 
-      {confirmation && (
+      {isLogoutConfirmationOpen && (
         <ConfirmModal
-          message={confirmation.message}
-          confirmLabel="네"
+          message={ACCOUNT_CONFIRMATIONS.logout.message}
+          confirmLabel="예"
           cancelLabel="취소"
-          onConfirm={handleConfirm}
-          onCancel={() => setPendingAction(null)}
+          onConfirm={handleConfirmLogout}
+          onCancel={() => setIsLogoutConfirmationOpen(false)}
           isPending={isActionPending}
         />
       )}
